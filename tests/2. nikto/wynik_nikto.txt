@@ -1,0 +1,8 @@
+- Nikto v2.5.0/
+- Nikto v2.5.0/
++ Target Host: localhost
++ Target Port: 8080
++ GET /krljihnV.exe|dir: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/: 
++ OPTIONS OPTIONS: Allowed HTTP Methods: GET, HEAD, POST, PUT, DELETE, OPTIONS .
++ GET HTTP method ('Allow' Header): 'PUT' method could allow clients to save files on the web server.
++ GET HTTP method ('Allow' Header): 'DELETE' may allow clients to remove files on the web server.
