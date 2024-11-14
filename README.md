@@ -1,6 +1,3 @@
-### Warsaw University of Technology - Cyber security engineering
-[ICYB_PW](https://icyb.tele.pw.edu.pl/)
-
 This is a public repository where I will post code for the purpose of learning cyber security. 
 
 ### Supporting applications and code for testing.
