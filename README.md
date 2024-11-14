@@ -11,7 +11,7 @@ This is a public repository where I will post code for the purpose of learning c
 ### Web application testing
 1. [Hydra](https://github.com/lukaszFD/ICYB_PW/tree/main/tests/1.%20hydra): Brute Force Attack. 
 2. [Nikto](https://github.com/lukaszFD/ICYB_PW/tree/main/tests/2.%20nikto): A web application scanner that identifies potential security vulnerabilities.
-3. [Haping3](https://github.com/lukaszFD/ICYB_PW/tree/main/tests/3.%20hping3): Web server DDoS attack using hping3. 
+3. [Hping3](https://github.com/lukaszFD/ICYB_PW/tree/main/tests/3.%20hping3): Web server DDoS attack using hping3. 
 
 ### Network scanning and mapping
 1. [Wireshark](https://github.com/lukaszFD/ICYB_PW/tree/main/tests/4.%20wireshark): Enables analysis of network traffic and identification of potential threats.
