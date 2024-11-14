@@ -3,6 +3,8 @@ This is a public repository where I will post code for the purpose of learning c
 
 [Java Spring Boot API for testing in Kali Linux](https://github.com/lukaszFD/SpringBoot/tree/main/SpringBoot.ICYB_PW_API) 
 
+[Password/hash cracking using Python](https://github.com/lukaszFD/python/tree/main/password_cracking)
+
 # 1. Kryptografia i szyfrowanie
 GnuPG: Narzędzie do szyfrowania wiadomości i plików.
 John the Ripper: Narzędzie do łamania haseł.
