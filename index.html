@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
- <!-- Google Translate Button -->
-    <div id="google_translate_element" style="position: fixed; top: 10px; right: 10px; z-index: 1000;"></div>
+	<!-- Google Translate Button -->
+	<div id="google_translate_element"></div>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
-                pageLanguage: 'en',  // Język strony
-                includedLanguages: 'pl',  // Tylko Polski
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                pageLanguage: 'en',
+				includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false // Ustawienie, żeby pasek nie był wyświetlany
             }, 'google_translate_element');
         }
     </script>

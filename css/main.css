@@ -87,13 +87,16 @@ footer {
     padding: 5px 10px;  /* Dodatkowe przestrzenie wokół przycisku */
     border-radius: 5px; /* Zaokrąglone rogi */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cień wokół przycisku */
+    font-size: 12px;    /* Mniejsza czcionka */
 }
 
 #google_translate_element select {
     background-color: #fff; /* Kolor tła rozwijanego menu */
     color: #333;            /* Kolor tekstu */
     border: 1px solid #ccc; /* Obramowanie */
-    padding: 5px;           /* Wewnętrzny odstęp */
+    padding: 3px;           /* Mniejsze przestrzenie */
     border-radius: 5px;     /* Zaokrąglone rogi */
-    font-size: 14px;        /* Rozmiar czcionki */
+    font-size: 12px;        /* Mniejsza czcionka */
+}
+
 }
