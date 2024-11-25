@@ -11,7 +11,7 @@ body {
 /* Header */
 header {
     background: url('../assets/professional_banner.png') no-repeat center center/cover;
-    height: 40vh;
+    height: 25vh;
     color: white;
     text-align: center;
     display: flex;
