@@ -53,7 +53,24 @@ header h1 {
     transition: background 0.3s;
 }
 
+.github-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #0078D7;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
 .linkedin-link:hover {
+    background: #005bb5;
+}
+
+.github-link:hover {
     background: #005bb5;
 }
 
