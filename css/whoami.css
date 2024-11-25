@@ -74,3 +74,24 @@ header h1 {
 .back-button:hover {
     background: #555;
 }
+
+#google_translate_element {
+    position: fixed;    /* Stała pozycja */
+    top: 10px;          /* Odstęp od góry */
+    right: 10px;        /* Odstęp od prawej */
+    z-index: 1000;      /* Wysoki priorytet wyświetlania */
+    background: rgba(255, 255, 255, 0.8); /* Delikatne tło */
+    padding: 5px 10px;  /* Dodatkowe przestrzenie wokół przycisku */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cień wokół przycisku */
+    font-size: 12px;    /* Mniejsza czcionka */
+}
+
+#google_translate_element select {
+    background-color: #fff; /* Kolor tła rozwijanego menu */
+    color: #333;            /* Kolor tekstu */
+    border: 1px solid #ccc; /* Obramowanie */
+    padding: 3px;           /* Mniejsze przestrzenie */
+    border-radius: 5px;     /* Zaokrąglone rogi */
+    font-size: 12px;        /* Mniejsza czcionka */
+}
