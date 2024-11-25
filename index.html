@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+ <!-- Google Translate Button -->
+    <div id="google_translate_element" style="position: fixed; top: 10px; right: 10px; z-index: 1000;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',  // Język strony
+                includedLanguages: 'pl',  // Tylko Polski
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	
     <header>
         <h1>Cybersecurity Project</h1>
         <p>Learning, Testing, and Improving Skills</p>
