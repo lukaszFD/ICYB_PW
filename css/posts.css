@@ -26,71 +26,64 @@ ul {
 
 li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    max-width: 600px;
-    margin: 0 auto 1.5rem auto; /* Wyśrodkowanie każdego artykułu */
+    padding: 10px;
+}
+
+a {
+    display: flex;
+    align-items: flex-start;
+    color: #333;
+    text-decoration: none;
+    width: 100%;
 }
 
 img {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    margin-right: 1rem; /* Odstęp między obrazkiem a tekstem */
-    border-radius: 8px;
-    flex-shrink: 0; /* Zapobieganie zmniejszaniu obrazu */
-}
-
-a {
-    color: #333;
-    text-decoration: none;
-    text-align: left; /* Tekst po lewej stronie */
-    display: inline-block; /* Aby ograniczyć szerokość */
-    max-width: 100%;
-    white-space: nowrap; /* Zapobieganie zawijaniu tekstu */
-    overflow: hidden; /* Ukrycie nadmiaru tekstu */
-    text-overflow: ellipsis; /* Trzy kropki dla zbyt długiego tekstu */
-}
-
-a:hover {
-    background-color: #f9f9f9;
-}
-
-span {
-    font-size: 1rem;
-    color: #0078D7;
-}
-
-/* Przycisk powrotu */
-.back-button {
-    display: inline-block;
-    margin: 20px 0; /* Odstęp tylko w pionie */
-    padding: 10px 20px;
-    background: #333;
-    color: white;
-    text-decoration: none;
+    margin-right: 10px;
     border-radius: 5px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
-    text-align: center;
-    float: left; /* Przycisk po lewej stronie */
-    clear: both; /* Uniknięcie konfliktów z innymi elementami */
 }
 
-.back-button:hover {
-    background: #555;
+.text {
+    display: inline-block;
+    word-wrap: break-word; /* Łamie długie słowa */
+    max-width: calc(100% - 110px); /* Unika nachodzenia na obrazek */
+    white-space: pre-wrap; /* Pozwala na przejście do nowej linii */
+    line-height: 1.5;
 }
 
 footer {
-    text-align: center; /* Wyśrodkowanie stopki */
+    text-align: center; /* Wycentrowanie przycisku w stopce */
     padding: 1rem;
     background-color: #f1f1f1;
     margin-top: 2rem;
 }
+
+/* Back to Main Page Button */
+.back-button {
+    display: inline-block;
+    margin: 20px auto; /* Wyśrodkowanie przycisku */
+    text-align: center;
+    padding: 10px 20px;
+    background: #333; /* Ciemnoszare tło */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Cień wokół przycisku */
+    transition: background 0.3s; /* Płynne przejście dla tła */
+}
+
+.back-button:hover {
+    background: #555; /* Ciemniejszy odcień przycisku na hover */
+}
+
+
