@@ -80,7 +80,7 @@ footer {
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Cień wokół przycisku */
     transition: background 0.3s; /* Płynne przejście dla tła */
-    width: auto; /* Automatyczna szerokość przycisku */
+    width: 150px; 
 }
 
 .back-button:hover {
