@@ -70,7 +70,7 @@ footer {
 /* Back to Main Page Button */
 .back-button {
     display: inline-block;
-    margin: 20px auto; /* Wyśrodkowanie przycisku */
+    margin: 20px 0; /* Wyśrodkowanie przycisku w stopce */
     text-align: center;
     padding: 10px 20px;
     background: #333; /* Ciemnoszare tło */
@@ -80,10 +80,9 @@ footer {
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Cień wokół przycisku */
     transition: background 0.3s; /* Płynne przejście dla tła */
+    width: auto; /* Automatyczna szerokość przycisku */
 }
 
 .back-button:hover {
     background: #555; /* Ciemniejszy odcień przycisku na hover */
 }
-
-
