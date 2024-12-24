@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Łukasz's Cybersecurity Project</title>
     <link rel="stylesheet" href="css/main.css">
-	
-	<!-- Open Graph Metadata -->
+    <!-- Open Graph Metadata -->
     <meta property="og:title" content="Łukasz's Cybersecurity Project" />
     <meta property="og:description" content="Explore my cybersecurity project, tests, and tools to learn ethical hacking and penetration testing." />
     <meta property="og:image" content="https://lukaszfd.github.io/ICYB_PW/assets/thumbnail.jpg" />
@@ -15,42 +14,62 @@
     <meta property="og:locale" content="en_US" />
 </head>
 <body>
-	<!-- Google Translate Button -->
-	<div id="google_translate_element"></div>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-				includedLanguages: 'pl',
+                includedLanguages: 'pl',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false // Ustawienie, żeby pasek nie był wyświetlany
             }, 'google_translate_element');
         }
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-	
+    
     <header>
         <h1>Cybersecurity Project</h1>
         <p>Learning, Testing, and Improving Skills</p>
     </header>
     <nav>
-		<a href="pages/whoami.html" class="whoami-button">{whoami}</a>
-		<a href="pages/tests.html" class="tests-button">{tests}</a>
+        <a href="pages/whoami.html" class="whoami-button">{whoami}</a>
+        <a href="pages/tests.html" class="tests-button">{tests}</a>
         <a href="https://github.com/lukaszFD/ICYB_PW">{github}</a>
-		<a href="pages/blog.html" class="posts-button">{cyber posts}</a>
-       <!--  <a href="#malware">Malware</a>-->
-       <!--  <a href="#web-testing">Web Testing</a>-->
-       <!--  <a href="#network-scanning">Network Scanning</a>-->
+        <a href="pages/blog.html" class="posts-button">{cyber posts}</a>
     </nav>
     <main>
-		<section id="about">
-			<h2>About This Project</h2>
-			<p>This project was created as a result of my decision to start postgraduate studies in <a href="https://icyb.tele.pw.edu.pl/" target="_blank">"Cybersecurity Engineering"</a> at the Warsaw University of Technology, where I am deepening my knowledge in the field of cybersecurity. The goal of the project is to develop skills related to ethical hacking, penetration testing, and modern security practices, which will allow me to effectively counter digital threats.</p>
-			<p>On this site, I will be publishing the results of my tests as well as code that will be useful in the field of cybersecurity. These materials will be available to anyone who wants to expand their knowledge in this area and for those looking for tools to test and improve the security of their systems.</p>
-		</section>
+        <section id="about">
+            <h2>About This Project</h2>
+            <p>This project was created as a result of my decision to start postgraduate studies in <a href="https://icyb.tele.pw.edu.pl/" target="_blank">"Cybersecurity Engineering"</a> at the Warsaw University of Technology, where I am deepening my knowledge in the field of cybersecurity. The goal of the project is to develop skills related to ethical hacking, penetration testing, and modern security practices, which will allow me to effectively counter digital threats.</p>
+            <p>On this site, I will be publishing the results of my tests as well as code that will be useful in the field of cybersecurity. These materials will be available to anyone who wants to expand their knowledge in this area and for those looking for tools to test and improve the security of their systems.</p>
+        </section>
+
+        <section id="recent-updates">
+            <h2>Recent Updates</h2>
+            <ul id="update-list">
+                <li>
+					<strong>Date:</strong> 23/12/2024 - 
+					<a href="pages/tshark.html">[Link to TShark analysis]</a>: Added new TShark analysis.
+				</li>
+                <li class="hidden-item">Last updated on December 19, 2024: Test.</li>
+            </ul>
+            <button id="show-more-btn">Show More</button>
+        </section>
     </main>
+
     <footer>
         <p>&copy;Łukasz's Cybersecurity Project 2024</p>
     </footer>
+
+    <script>
+        document.getElementById('show-more-btn').addEventListener('click', function() {
+            var hiddenItems = document.querySelectorAll('.hidden-item');
+            hiddenItems.forEach(function(item) {
+                item.style.display = 'list-item';
+            });
+            this.style.display = 'none';
+        });
+    </script>
 </body>
 </html>

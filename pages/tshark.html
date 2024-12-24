@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireshark Analysis</title>
+    <link rel="stylesheet" href="../css/tshark_style.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>Tshark Analysis</h1>
+    </header>
+    <main>
+        <!-- Tshark Explanation Section -->
+        <section class="content-section">
+            <h2>What is Tshark?</h2>
+            <p>
+                <strong>Tshark.exe</strong> is the command-line version of Wireshark, a popular network protocol analyzer. It is used to capture and analyze network traffic directly from the terminal or command prompt. Tshark allows users to apply filters, extract specific fields, and generate detailed reports about captured network data. In this example, Tshark is employed to analyze HTTP and HTTPS traffic, focusing on attributes such as source and destination IP addresses, ports, HTTP headers, and TLS handshake information.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h3>Basic Authentication Traffic Analysis</h3>
+            <pre class="cmd-command"><code>"C:\Program Files\Wireshark\tshark.exe" -i "Ethernet 3" -Y "http.authbasic" -T fields -e tcp.port -e ip.src -e ip.dst -e http.host -e http.request.uri -e http.request.method -e http.authorization -e http.user_agent -e http.referer -e http.cookie -e tls.handshake.type -e tls.handshake.version -e tls.record.version</code></pre>
+            <div class="result-window">
+                <h4>Example Output:</h4>
+                <pre><code>Capturing on 'Ethernet 3'
+50518,80        192.168.56.1    192.168.56.101  192.168.56.101:80       /users  POST    Basic YWRtaW46cGFzc3dvcmQ=      PostmanRuntime/7.43.0
+50522,80        192.168.56.1    192.168.56.101  192.168.56.101:80       /users  GET     Basic YWRtaW46cGFzc3dvcmQ=      PostmanRuntime/7.43.0
+2 packets captured</code></pre>
+            </div>
+
+            <h4>Attribute Legend:</h4>
+            <ul>
+                <li><strong>-i</strong>: Interface to capture traffic on (e.g., Ethernet 3).</li>
+                <li><strong>-Y</strong>: Display filter to apply during capture.</li>
+                <li><strong>-T</strong>: Output format type (fields in this case).</li>
+                <li><strong>-e</strong>: Specifies fields to extract.</li>
+                <li><strong>tcp.port</strong>: The TCP port used in the communication.</li>
+                <li><strong>ip.src</strong>: Source IP address of the packet.</li>
+                <li><strong>ip.dst</strong>: Destination IP address of the packet.</li>
+                <li><strong>http.host</strong>: Host header in the HTTP request.</li>
+                <li><strong>http.request.uri</strong>: The URI of the HTTP request.</li>
+                <li><strong>http.request.method</strong>: HTTP request method (e.g., GET, POST).</li>
+                <li><strong>http.authorization</strong>: Authorization header in the HTTP request.</li>
+                <li><strong>http.user_agent</strong>: User-Agent string from the HTTP request.</li>
+                <li><strong>http.referer</strong>: Referer header in the HTTP request.</li>
+                <li><strong>http.cookie</strong>: Cookie data in the HTTP request.</li>
+                <li><strong>tls.handshake.type</strong>: Type of TLS handshake message.</li>
+                <li><strong>tls.handshake.version</strong>: Version of the TLS handshake protocol.</li>
+                <li><strong>tls.record.version</strong>: Version of the TLS record protocol.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h3>HTTPS Traffic Analysis</h3>
+            <pre class="cmd-command"><code>"C:\Program Files\Wireshark\tshark.exe" -i "Ethernet 3" -Y "tcp.port == 443" -T fields -e ip.src -e ip.dst -e tcp.port -e http.host -e http.request.uri -e http.request.method -e http.user_agent -e http.referer -e http.cookie -e tls.handshake.type -e tls.handshake.version -e tls.record.version</code></pre>
+            <div class="result-window">
+                <h4>Example Output:</h4>
+                <pre><code>Capturing on 'Ethernet 3'
+192.168.56.1    192.168.56.101  50546,443
+192.168.56.101  192.168.56.1    443,50546
+192.168.56.1    192.168.56.101  50546,443
+192.168.56.1    192.168.56.101  50546,443                                                       1       0x0303  0x0301
+192.168.56.101  192.168.56.1    443,50546
+192.168.56.101  192.168.56.1    443,50546                                                       2       0x0303  0x0303,0x0303,0x0303,0x0303
+192.168.56.1    192.168.56.101  50546,443                                                                       0x0303,0x0303,0x0303
+192.168.56.101  192.168.56.1    443,50546                                                                       0x0303
+192.168.56.1    192.168.56.101  50546,443
+192.168.56.101  192.168.56.1    443,50546                                                                       0x0303,0x0303
+192.168.56.1    192.168.56.101  50546,443                                                                       0x0303
+192.168.56.1    192.168.56.101  50546,443
+192.168.56.101  192.168.56.1    443,50546
+192.168.56.1    192.168.56.101  50546,443
+192.168.56.101  192.168.56.1    443,50546
+15 packets captured</code></pre>
+            </div>
+
+            <h4>Attribute Legend:</h4>
+            <ul>
+                <li><strong>-i</strong>: Interface to capture traffic on (e.g., Ethernet 3).</li>
+                <li><strong>-Y</strong>: Display filter to apply during capture.</li>
+                <li><strong>-T</strong>: Output format type (fields in this case).</li>
+                <li><strong>-e</strong>: Specifies fields to extract.</li>
+                <li><strong>ip.src</strong>: Source IP address of the packet.</li>
+                <li><strong>ip.dst</strong>: Destination IP address of the packet.</li>
+                <li><strong>tcp.port</strong>: The TCP port used in the communication.</li>
+                <li><strong>http.host</strong>: Host header in the HTTP request.</li>
+                <li><strong>http.request.uri</strong>: The URI of the HTTP request.</li>
+                <li><strong>http.request.method</strong>: HTTP request method (e.g., GET, POST).</li>
+                <li><strong>http.user_agent</strong>: User-Agent string from the HTTP request.</li>
+                <li><strong>http.referer</strong>: Referer header in the HTTP request.</li>
+                <li><strong>http.cookie</strong>: Cookie data in the HTTP request.</li>
+                <li><strong>tls.handshake.type</strong>: Type of TLS handshake message.</li>
+                <li><strong>tls.handshake.version</strong>: Version of the TLS handshake protocol.</li>
+                <li><strong>tls.record.version</strong>: Version of the TLS record protocol.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
