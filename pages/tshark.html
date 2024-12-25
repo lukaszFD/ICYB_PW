@@ -32,6 +32,50 @@
                 <strong>Tshark.exe</strong> is the command-line version of Wireshark, a popular network protocol analyzer. It is used to capture and analyze network traffic directly from the terminal or command prompt. Tshark allows users to apply filters, extract specific fields, and generate detailed reports about captured network data. In this example, Tshark is employed to analyze HTTP and HTTPS traffic, focusing on attributes such as source and destination IP addresses, ports, HTTP headers, and TLS handshake information.
             </p>
         </section>
+		
+        <!-- Http API Python Section -->
+        <section class="content-section">
+            <h2>HTTP API Python</h2>
+            <a href="https://github.com/lukaszFD/python/blob/main/api/API_TEST.postman_collection.json" target="_blank">Postman collection</a>
+            <pre id="http-api-code"><code>Loading code...</code></pre>
+            <button id="http-show-more-btn">Show more</button>
+        </section>
+
+        <script>
+            // Function to fetch and display code from GitHub
+            function fetchCode(fileUrl, codeElementId, buttonId) {
+                const codeElement = document.getElementById(codeElementId);
+                const showMoreBtn = document.getElementById(buttonId);
+                let fullCode = '';
+
+                fetch(fileUrl, {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    const decodedContent = atob(data.content);
+                    fullCode = decodedContent.split('\n');
+                    codeElement.textContent = fullCode.slice(0, 10).join('\n');
+                })
+                .catch(err => {
+                    codeElement.textContent = `Error: ${err.message}`;
+                    console.error(err);
+                });
+
+                showMoreBtn.addEventListener('click', () => {
+                    codeElement.textContent = fullCode.join('\n');
+                    showMoreBtn.style.display = 'none';
+                });
+            }
+
+            // URLs for Http and Https API
+            fetchCode('https://api.github.com/repos/lukaszFD/python/contents/api/http_api.py', 'http-api-code', 'http-show-more-btn');
+            fetchCode('https://api.github.com/repos/lukaszFD/python/contents/api/https_api.py', 'https-api-code', 'https-show-more-btn');
+        </script>
+
 
         <section class="content-section">
             <h3>Basic Authentication Traffic Analysis</h3>
@@ -64,6 +108,14 @@
                 <li><strong>tls.handshake.version</strong>: Version of the TLS handshake protocol.</li>
                 <li><strong>tls.record.version</strong>: Version of the TLS record protocol.</li>
             </ul>
+        </section>
+		
+		<!-- Https API Python Section -->
+        <section class="content-section">
+            <h2>HTTPS API Python</h2>
+            <a href="https://github.com/lukaszFD/python/blob/main/api/API_TEST.postman_collection.json" target="_blank">Postman collection</a>
+            <pre id="https-api-code"><code>Loading code...</code></pre>
+            <button id="https-show-more-btn">Show more</button>
         </section>
 
         <section class="content-section">
