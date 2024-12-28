@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scapy Analysis</title>
+    <link rel="stylesheet" href="../css/scapy_tls.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>TLS Packet Analysis</h1>
+    </header>
+    <main>
+        <!-- Scapy Explanation Section -->
+        <section class="content-section">
+            <h2>What is TLS Packet Analysis with Scapy?</h2>
+            <p>
+                <strong>Scapy</strong> is a powerful interactive packet manipulation tool written in Python. It allows users to send, receive, and analyze network packets at a high level. In this example, Scapy is used to capture and analyze TLS traffic, focusing on several key aspects of the protocol. 
+            </p>
+            <p>
+                TLS (Transport Layer Security) is a protocol used to secure communications over a network, providing encryption, authentication, and data integrity. Scapy allows us to inspect TLS handshake messages, including <code>ClientHello</code> and <code>ServerHello</code> packets, to understand the negotiation process between the client and the server.
+            </p>
+            <p>
+                Specifically, Scapy is used here to:
+            </p>
+            <ul>
+                <li><strong>Analyze TLS Handshakes:</strong> Capture <code>ClientHello</code> and <code>ServerHello</code> messages to identify supported cipher suites, TLS version, and other important metadata.</li>
+                <li><strong>Extract SNI (Server Name Indication):</strong> Retrieve the SNI field from the <code>ClientHello</code> to determine which server the client is attempting to connect to, especially useful in environments with virtual hosting.</li>
+                <li><strong>Identify TLS Versions:</strong> Detect the specific version of the TLS protocol being used, such as TLS 1.0, 1.2, or 1.3, to ensure secure communication standards are met.</li>
+                <li><strong>Verify Cipher Suites:</strong> Analyze the cipher suites proposed during the handshake to ensure that secure cryptographic algorithms are used in the session.</li>
+            </ul>
+            <p>
+                This type of analysis helps network administrators and security professionals understand the security posture of TLS traffic, detect potential misconfigurations, and ensure secure encryption practices are in place.
+            </p>
+        </section>
+
+        <!-- Scapy TLS Traffic Analysis -->
+        <section class="content-section">
+            <h2>TLS Traffic Analysis with Scapy</h2>
+            <a href="https://github.com/lukaszFD/python/blob/main/scan_network/scapy_packet_scan_tls_traffic.py" target="_blank">Scapy TLS</a>
+            <pre id="tls-code"><code>Loading code...</code></pre>
+            <button id="tls-show-more-btn">Show more</button>
+        </section>
+
+        <script>
+            // Function to fetch and display code from GitHub
+            function fetchCode(fileUrl, codeElementId, buttonId) {
+                const codeElement = document.getElementById(codeElementId);
+                const showMoreBtn = document.getElementById(buttonId);
+                let fullCode = '';
+
+                fetch(fileUrl, {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    const decodedContent = atob(data.content);  // Decode the base64 content
+                    fullCode = decodedContent.split('\n');
+                    codeElement.textContent = fullCode.slice(0, 10).join('\n');
+                })
+                .catch(err => {
+                    codeElement.textContent = `Error: ${err.message}`;
+                    console.error(err);
+                });
+
+                showMoreBtn.addEventListener('click', () => {
+                    codeElement.textContent = fullCode.join('\n');
+                    showMoreBtn.style.display = 'none';
+                });
+            }
+
+            // Fetch code from GitHub and display in the pre element
+            fetchCode('https://api.github.com/repos/lukaszFD/python/contents/scan_network/scapy_packet_scan_tls_traffic.py', 'tls-code', 'tls-show-more-btn');
+        </script>
+		
+		<!-- TLS Packet Details Section with added CSS class for border -->
+		<section class="content-section tls-packet-details">
+		<h2>TLS Packet Details</h2>
+		
+		<div class="result-window">
+			<h4>Example Output:</h4>
+			<pre><code>Starting packet capture on port 443... Press Ctrl+C to stop.
+[+] TLS Packet Detected:
+Source IP: 192.168.56.1
+Destination IP: 192.168.56.101
+Port: 55418
+TLS Version: TLS 1.0
+--------------------------------------------------
+
+[+] TLS Packet Detected:
+Source IP: 192.168.56.1
+Destination IP: 192.168.56.101
+Port: 443
+Available Fields in ClientHello: {'msgtype': 1, 'msglen': 225, 'version': 771, 'gmt_unix_time': 3253133420, 'random_bytes': b'0@\x15vw\xba\xa3\x03A\x0e\x16\xd2t\xa4\xd9\x7f\x86~(\x1e\xa5\x85\xfa\x93\x07\x83\x94\x89', 'sidlen': 32, 'sid': b'4\xbb\xa2\x1f\xa0gy\xad\xf4\x08\xdd\xbfw\xaf\xc4\x93rM\x80\xa0\xe4\xa4\xfd`Z`\xeb9\t\xf2\x03\x06', 'cipherslen': 36, 'ciphers': [4865, 4866, 4867, 49199, 49195, 49200, 49196, 49191, 52393, 52392, 49161, 49171, 49162, 49172, 156, 157, 47, 53], 'complen': 1, 'comp': [0], 'extlen': 116, 'ext': [<TLS_Ext_ExtendedMasterSecret  type=extended_master_secret len=0 |>, <TLS_Ext_RenegotiationInfo  type=renegotiation_info len=1 reneg_conn_len=0 renegotiated_connection=b'' |>, <TLS_Ext_SupportedGroups  type=supported_groups len=8 groupslen=6 groups=[x25519, secp256r1, secp384r1] |>, <TLS_Ext_SupportedPointFormat  type=ec_point_formats len=2 ecpllen=1 ecpl=[uncompressed] |>, <TLS_Ext_SessionTicket  type=session_ticket len=0 ticket=b'' |>, <TLS_Ext_SignatureAlgorithms  type=signature_algorithms len=20 sig_algs_len=18 sig_algs=[sha256+ecdsa, sha256+rsaepss, sha256+rsa, sha384+ecdsa, sha384+rsaepss, sha384+rsa, sha512+rsaepss, sha512+rsa, sha1+rsa] |>, <TLS_Ext_KeyShare_CH  type=key_share len=38 client_shares_len=36 client_shares=[<KeyShareEntry  group=x25519 kxlen=32 key_exchange=4c05f9cc11c542613aab7a1fc15b56a40059d6cccff8243e0d460a0f52a3290f |>] |>, <TLS_Ext_PSKKeyExchangeModes  type=psk_key_exchange_modes len=2 kxmodeslen=1 kxmodes=[psk_dhe_ke] |>, <TLS_Ext_SupportedVersion_CH  type=supported_versions len=9 versionslen=8 versions=[TLS 1.3, TLS 1.2, TLS 1.1, TLS 1.0] |>]}
+No SNI detected.
+TLS Version: TLS 1.2
+Cipher Suites: [4865, 4866, 4867, 49199, 49195, 49200, 49196, 49191, 52393, 52392, 49161, 49171, 49162, 49172, 156, 157, 47, 53]</code></pre>
+		</div>
+
+		<h3>Packet Information</h3>
+		<ul>
+			<li><strong>Source IP:</strong> 192.168.56.1</li>
+			<li><strong>Destination IP:</strong> 192.168.56.101</li>
+			<li><strong>Port:</strong> 443</li>
+			<li><strong>TLS Version:</strong> TLS 1.0</li>
+		</ul>
+
+		<h3>ClientHello Fields</h3>
+		<ul>
+			<li><strong>msgtype:</strong> 1</li>
+			<li><strong>msglen:</strong> 225</li>
+			<li><strong>version:</strong> 771</li>
+			<li><strong>gmt_unix_time:</strong> 3253133420</li>
+			<li><strong>random_bytes:</strong> b'0@\\x15vw\\xba\\xa3\\x03A\\x0e\\x16\\xd2t\\xa4\\xd9\\x7f\\x86~(\\x1e\\xa5\\x85\\xfa\\x93\\x07\\x83\\x94\\x89'</li>
+			<li><strong>sidlen:</strong> 32</li>
+			<li><strong>sid:</strong> b'4\\xbb\\xa2\\x1f\\xa0gy\\xad\\xf4\\x08\\xdd\\xbfw\\xaf\\xc4\\x93rM\\x80\\xa0\\xe4\\xa4\\xfd`Z`\\xeb9\\t\\xf2\\x03\\x06'</li>
+			<li><strong>cipherslen:</strong> 36</li>
+			<li><strong>ciphers:</strong> [4865, 4866, 4867, 49199, 49195, 49200, 49196, 49191, 52393, 52392, 49161, 49171, 49162, 49172, 156, 157, 47, 53]</li>
+			<li><strong>complen:</strong> 1</li>
+			<li><strong>comp:</strong> [0]</li>
+			<li><strong>extlen:</strong> 116</li>
+			<li><strong>ext:</strong> 
+				<ul>
+					<li><strong>ExtendedMasterSecret:</strong> Present</li>
+					<li><strong>RenegotiationInfo:</strong> renegotiated_connection = b''</li>
+					<li><strong>SupportedGroups:</strong> [x25519, secp256r1, secp384r1]</li>
+					<li><strong>SupportedPointFormat:</strong> [uncompressed]</li>
+					<li><strong>SessionTicket:</strong> b''</li>
+					<li><strong>SignatureAlgorithms:</strong> [sha256+ecdsa, sha256+rsaepss, sha256+rsa, sha384+ecdsa, sha384+rsaepss, sha384+rsa, sha512+rsaepss, sha512+rsa, sha1+rsa]</li>
+					<li><strong>KeyShare:</strong> x25519</li>
+					<li><strong>PSKKeyExchangeModes:</strong> psk_dhe_ke</li>
+					<li><strong>SupportedVersion:</strong> [TLS 1.3, TLS 1.2, TLS 1.1, TLS 1.0]</li>
+				</ul>
+			</li>
+		</ul>
+
+		<h3>Additional Information</h3>
+		<ul>
+			<li><strong>No SNI Detected</strong></li>
+			<li><strong>TLS Version:</strong> TLS 1.2</li>
+			<li><strong>Cipher Suites:</strong> [4865, 4866, 4867, 49199, 49195, 49200, 49196, 49191, 52393, 52392, 49161, 49171, 49162, 49172, 156, 157, 47, 53]</li>
+		</ul>
+	</section>
+
+
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
