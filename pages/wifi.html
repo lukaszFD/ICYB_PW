@@ -62,6 +62,11 @@
 			<h3>Command: sudo aireplay-ng --test lanbergwifi</h3>
 			<pre class="cmd-command"><code>kali@kali ~> sudo aireplay-ng --test lanbergwifi</code></pre>
 
+			<h4>Purpose of the Command:</h4>
+			<p>
+				This command is used to test whether the wireless card (`lanbergwifi`) supports packet injection. Packet injection is a critical feature for certain WiFi penetration testing tasks, such as deauthentication attacks, capturing handshake packets, or other advanced techniques. Ensuring that the card can inject packets confirms its capability to interact with networks beyond just passive monitoring.
+			</p>
+
 			<h4>Example Output:</h4>
 			<pre><code>
 			15:45:24  Trying broadcast probe requests...
@@ -95,12 +100,67 @@
 
 			<p>The command also successfully detects two access points (APs) in the vicinity and tests the card's ability to communicate with these APs. The ping times indicate the latency when communicating with these APs, while the signal strength shows the power of the connection, with stronger signals making the connection more stable.</p>
 		</section>
+
 		
-		<!-- Command Explanation Section -->
+				<!-- Command Explanation Section -->
 		<section class="content-section">
-			<h3>Command: iwconfig lanbergwifi mode monitor</h3>
-			<pre class="cmd-command"><code>kali@kali ~> sudo iwconfig lanbergwifi mode monitor</code></pre>
+			<h3>Command: Managing Wireless Connections with nmcli</h3>
 			
+			<h4>Disconnecting from a Wireless Network</h4>
+			<pre class="cmd-command"><code>kali@kali ~> nmcli device disconnect lanbergwifi</code></pre>
+			<p>
+				This command is used to disconnect the specified wireless device (in this case, `lanbergwifi`) from its current network.
+				This is useful if the wireless device is already connected to a network and you need to switch it to a different mode or network.
+			</p>
+			
+			<h4>Connecting to a Wireless Network</h4>
+			<pre class="cmd-command"><code>kali@kali ~> nmcli device connect lanbergwifi</code></pre>
+			<p>
+				This command reconnects the specified wireless device to its assigned network or a previously known connection.
+				It ensures that the device resumes normal functionality after being disconnected.
+			</p>
+			
+			<h4>Configuring a Wireless Network from the Command Line</h4>
+			<pre class="cmd-command"><code>kali@kali ~> nmcli dev wifi connect "Your_SSID" password "Your_Password"</code></pre>
+			<p>
+				Use this command to connect to a specific wireless network by providing the SSID (network name) and the password.
+				Replace <code>Your_SSID</code> with the name of the wireless network and <code>Your_Password</code> with the corresponding password.
+			</p>
+
+			<h4>Preliminary Steps Before Changing Modes</h4>
+			<p>
+				If you need to switch your wireless device between <strong>monitor</strong> and <strong>managed</strong> modes, ensure the following steps:
+			</p>
+			<ul>
+				<li>Bring the interface down before making changes:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi down</code></pre>
+				</li>
+				<li>After making changes, bring the interface back up:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi up</code></pre>
+				</li>
+			</ul>
+			
+			<h4>Attribute Legend</h4>
+			<ul>
+				<li><strong>nmcli</strong>: A command-line interface for NetworkManager, used to manage network connections in Linux.</li>
+				<li><strong>device</strong>: Specifies that the following action will apply to a network device.</li>
+				<li><strong>disconnect</strong>: Disconnects the specified device from its current network.</li>
+				<li><strong>connect</strong>: Reconnects the specified device to a network.</li>
+				<li><strong>dev wifi connect</strong>: Command to connect a wireless device to a specific network using the SSID and password.</li>
+				<li><strong>lanbergwifi</strong>: The name of the wireless device you are managing (interface name).</li>
+				<li><strong>sudo ip link</strong>: Used to bring the wireless interface up or down for mode changes or troubleshooting.</li>
+			</ul>
+		</section>
+
+		
+		<!-- Wireless Interface Mode Configuration -->
+		<section class="content-section">
+			<h2>Configuring Wireless Interface Modes: Monitor and Managed</h2>
+
+			<!-- Monitor Mode Configuration -->
+			<h3>Command: sudo iwconfig lanbergwifi mode monitor</h3>
+			<pre class="cmd-command"><code>kali@kali ~> sudo iwconfig lanbergwifi mode monitor</code></pre>
+
 			<h4>What is Monitor Mode?</h4>
 			<p>
 				Monitor mode allows a wireless interface to capture all wireless traffic in the area, regardless of the intended recipient. 
@@ -108,7 +168,17 @@
 				listens to all packets in the air, including management, control, and data frames. This allows you to observe and analyze 
 				network traffic, detect vulnerabilities, and perform attacks such as packet sniffing or injecting packets.
 			</p>
-			
+
+			<h4>Preliminary Steps Before Changing to Monitor Mode:</h4>
+			<ul>
+				<li>Before switching to monitor mode, ensure the interface is brought down by running:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi down</code></pre>
+				</li>
+				<li>After changing the mode, bring the interface back up by running:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi up</code></pre>
+				</li>
+			</ul>
+
 			<h4>Attribute Legend:</h4>
 			<ul>
 				<li><strong>sudo</strong>: The command is run with superuser privileges, required for changing network configurations.</li>
@@ -116,13 +186,11 @@
 				<li><strong>lanbergwifi</strong>: The name of the wireless interface you are configuring (in this case, the interface is called `lanbergwifi`).</li>
 				<li><strong>mode monitor</strong>: This sets the wireless interface to monitor mode, enabling it to capture all wireless traffic in the vicinity, not just the traffic intended for it.</li>
 			</ul>
-		</section>
-		
-		<!-- Command Explanation Section -->
-		<section class="content-section">
-			<h3>Command: iwconfig lanbergwifi mode managed</h3>
+
+			<!-- Managed Mode Configuration -->
+			<h3>Command: sudo iwconfig lanbergwifi mode managed</h3>
 			<pre class="cmd-command"><code>kali@kali ~> sudo iwconfig lanbergwifi mode managed</code></pre>
-			
+
 			<h4>Why Switch Back to Managed Mode?</h4>
 			<p>
 				After completing testing or analysis in monitor mode, it is important to switch the wireless interface back to managed mode. 
@@ -132,7 +200,17 @@
 				Leaving the card in monitor mode could interfere with normal network functionality, as the card will no longer be able to connect to 
 				your wireless network.
 			</p>
-			
+
+			<h4>Preliminary Steps Before Changing Back to Managed Mode:</h4>
+			<ul>
+				<li>Before switching back to managed mode, ensure the interface is brought down by running:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi down</code></pre>
+				</li>
+				<li>After changing the mode, bring the interface back up by running:
+					<pre><code>kali@kali ~> sudo ip link set lanbergwifi up</code></pre>
+				</li>
+			</ul>
+
 			<h4>Attribute Legend:</h4>
 			<ul>
 				<li><strong>sudo</strong>: The command is run with superuser privileges, required for changing network configurations.</li>
@@ -141,67 +219,47 @@
 				<li><strong>mode managed</strong>: This sets the wireless interface back to managed mode, enabling it to connect to a wireless network (SSID) and perform regular network communication.</li>
 			</ul>
 		</section>
+				
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h2>Inspecting Wireless Devices with iw</h2>
+			<p>The <code>iw dev</code> command provides detailed information about wireless devices and their configurations. This is particularly useful for verifying the current state of wireless interfaces, such as their operational mode, MAC address, and transmission power.</p>
+
+			<h3>Command: iw dev</h3>
+			<pre class="cmd-command"><code>kali@kali ~> iw dev</code></pre>
+
+			<p>The purpose of running this command is to verify the configuration and operational state of the wireless interface. For example, you can confirm whether the interface is in monitor or managed mode, check its transmission power, or identify its MAC address.</p>
+
+			<div class="result-window">
+				<h4>Example Output:</h4>
+				<pre><code>phy#0
+		Interface lanbergwifi
+			ifindex 5
+			wdev 0x200000001
+			addr xx:xx:xx:xx:xx:xx
+			type monitor
+			txpower 20.00 dBm</code></pre>
+			</div>
+
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>iw</strong>: Command-line tool for managing wireless interfaces.</li>
+				<li><strong>dev</strong>: Specifies the wireless device to operate on.</li>
+				<li><strong>phy#</strong>: Identifier for the physical wireless hardware.</li>
+				<li><strong>Interface</strong>: Name of the wireless interface (e.g., wlan0).</li>
+				<li><strong>ifindex</strong>: System index for the interface.</li>
+				<li><strong>wdev</strong>: Wireless device identifier.</li>
+				<li><strong>addr</strong>: MAC address of the interface.</li>
+				<li><strong>type</strong>: Operational mode of the interface (e.g., managed or monitor).</li>
+				<li><strong>txpower</strong>: Transmission power in dBm.</li>
+			</ul>
+		</section>
 		
 		<!-- Command Explanation Section -->
 		<section class="content-section">
-			<h3>Command: nmcli device disconnect lanbergwifi</h3>
-			<pre class="cmd-command"><code>kali@kali ~> nmcli device disconnect lanbergwifi</code></pre>
-			
-			<h4>Attribute Legend:</h4>
-			<ul>
-				<li><strong>nmcli</strong>: A command-line interface for NetworkManager, used to manage network connections in Linux.</li>
-				<li><strong>device</strong>: Specifies that the following action will apply to a network device.</li>
-				<li><strong>disconnect</strong>: This disconnects the specified network device (in this case, `lanbergwifi`) from its current network.</li>
-				<li><strong>lanbergwifi</strong>: The name of the wireless device you are disconnecting. In this case, it's the interface named `lanbergwifi`.</li>
-			</ul>
-		</section>
+			<h3>Analyze Wireless Networks and Connected Devices: sudo airodump-ng lanbergwifi</h3>
+			<p>The command <code>sudo airodump-ng lanbergwifi</code> is used to monitor wireless networks and their connected devices. It provides detailed information about access points (APs), signal strength, encryption, and associated clients. This is essential for network diagnostics and security assessments.</p>
 
-		<!-- Command Explanation Section -->
-		<section class="content-section">
-			<h3>Command: nmcli device connect lanbergwifi</h3>
-			<pre class="cmd-command"><code>kali@kali ~> nmcli device connect lanbergwifi</code></pre>
-			
-			<h4>Attribute Legend:</h4>
-			<ul>
-				<li><strong>nmcli</strong>: A command-line interface for NetworkManager, used to manage network connections in Linux.</li>
-				<li><strong>device</strong>: Specifies that the following action will apply to a network device.</li>
-				<li><strong>connect</strong>: This connects the specified network device (in this case, `lanbergwifi`) to a wireless network.</li>
-				<li><strong>lanbergwifi</strong>: The name of the wireless device you are connecting. In this case, it's the interface named `lanbergwifi`.</li>
-			</ul>
-		</section>
-
-        <!-- Command Explanation Section -->
-        <section class="content-section">
-            <h3>Command: iw dev</h3>
-            <pre class="cmd-command"><code>kali@kali ~> iw dev</code></pre>
-            <div class="result-window">
-                <h4>Example Output:</h4>
-                <pre><code>phy#0
-	Interface lanbergwifi
-		ifindex 5
-		wdev 0x200000001
-		addr xx:xx:xx:xx:xx:xx
-		type monitor
-		txpower 20.00 dBm</code></pre>
-            </div>
-
-            <h4>Attribute Legend:</h4>
-            <ul>
-                <li><strong>iw</strong>: Command-line tool for managing wireless interfaces.</li>
-                <li><strong>dev</strong>: Specifies the wireless device to operate on.</li>
-                <li><strong>phy#</strong>: Identifier for the physical wireless hardware.</li>
-                <li><strong>Interface</strong>: Name of the wireless interface (e.g., wlan0).</li>
-                <li><strong>ifindex</strong>: System index for the interface.</li>
-                <li><strong>wdev</strong>: Wireless device identifier.</li>
-                <li><strong>addr</strong>: MAC address of the interface.</li>
-                <li><strong>type</strong>: Operational mode of the interface (e.g., managed).</li>
-                <li><strong>txpower</strong>: Transmission power in dBm.</li>
-            </ul>
-        </section>
-		
-		<!-- Command Explanation Section -->
-		<section class="content-section">
-			<h3>Command: sudo airodump-ng lanbergwifi</h3>
 			<pre class="cmd-command"><code>kali@kali ~> sudo airodump-ng lanbergwifi</code></pre>
 
 			<h4>Example Output:</h4>
@@ -244,8 +302,9 @@
 			</ul>
 
 			<h4>Conclusion:</h4>
-			<p>The command `sudo airodump-ng lanbergwifi` is used to capture and display information about the nearby wireless networks and connected devices. From the output, we can identify the APs in the vicinity, their signal strength (PWR), the encryption used (e.g., WPA2), and the devices connected to these networks. The list also shows the channels these APs are operating on and how much data is being transmitted. This information can be useful for network analysis, troubleshooting, and security auditing.</p>
+			<p>The command <code>sudo airodump-ng lanbergwifi</code> is useful for gathering information about nearby wireless networks and devices. It helps identify potential issues, analyze network usage, and check for unauthorized devices.</p>
 		</section>
+
 		
 		<!-- WPA Handshake Capture Section -->
 		<section class="content-section">
@@ -299,8 +358,6 @@
 
 			<p><strong>Conclusion:</strong> The WPA handshake capture indicates that the handshake has been successfully collected for the network. This captured handshake can be used in further steps for password cracking, where tools like Hashcat can be employed to attempt to decrypt the password using methods such as dictionary or brute-force attacks. The next section will cover how to proceed with cracking the captured WPA handshake.</p>
 		</section>
-
-
 
     </main>
 
