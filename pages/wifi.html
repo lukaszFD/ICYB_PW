@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Security Testing</title>
+    <link rel="stylesheet" href="../css/wifi.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>Wi-Fi Security Testing</h1>
+    </header>
+    <main>
+        <!-- Wi-Fi Testing Explanation Section -->
+        <section class="content-section">
+            <h2>About Wi-Fi Security Testing</h2>
+            <p>
+                This page focuses on testing the security of Wi-Fi networks using the 
+                <a href="https://pl.lanberg.eu/produkt/bezprzewodowa-karta-sieciowa-wifi-lanberg-nc-0300-wi-usb-2-0-n300-2-wewnetrzne-anteny" target="_blank">
+                Lanberg NC-0300-WI wireless card</a> with a Realtek chipset. 
+                The tests are performed to identify vulnerabilities in personal Wi-Fi networks and improve their security.
+            </p>
+            <p>
+                For testing purposes, the wireless card must support specific chipsets and be capable of entering monitor mode. 
+                All captured traffic during the tests is analyzed and observed using Wireshark, a powerful network protocol analyzer.
+            </p>
+            <p>
+                It is fascinating (and slightly ironic) that a card costing around 35 PLN (~8-9 dollars/euros) offers the capability to analyze and even attempt to hack various Wi-Fi networks.
+            </p>
+            <p>
+                WPA2 and WPA3 are the most common encryption protocols used to secure Wi-Fi networks:
+            </p>
+            <ul>
+                <li><strong>WPA2:</strong> Based on the AES encryption standard, WPA2 provides strong security but is vulnerable to brute-force attacks, especially if weak passwords are used.</li>
+                <li><strong>WPA3:</strong> Introduces Simultaneous Authentication of Equals (SAE), which protects against offline password attacks, and offers improved encryption for open networks (e.g., public Wi-Fi).</li>
+            </ul>
+            <p>
+                The primary difference between WPA2 and WPA3 lies in enhanced security measures. WPA3 uses SAE for secure key exchanges and improves resistance against dictionary attacks. 
+                Moreover, it supports 192-bit encryption in enterprise mode, compared to WPA2's 128-bit encryption.
+            </p>
+            <p>
+                Securing Wi-Fi networks with these protocols and using strong, unique passwords is crucial to prevent unauthorized access and data breaches.
+            </p>
+        </section>
+		
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: sudo aireplay-ng --test lanbergwifi</h3>
+			<pre class="cmd-command"><code>kali@kali ~> sudo aireplay-ng --test lanbergwifi</code></pre>
+
+			<h4>Example Output:</h4>
+			<pre><code>
+			15:45:24  Trying broadcast probe requests...
+			15:45:25  Injection is working!
+			15:45:26  Found 2 APs
+
+			15:45:26  Trying directed probe requests...
+			15:45:26  xx:xx:xx:xx:xx:xx - channel: 1 - 'kali_xx'
+			15:45:26  Ping (min/avg/max): 1.483ms/4.968ms/21.638ms Power: -65.13
+			15:45:26  30/30: 100%
+
+			15:45:26  xx:xx:xx:xx:xx:xx - channel: 1 - 'xxxxxx'
+			15:45:26  Ping (min/avg/max): 2.270ms/7.646ms/25.232ms Power: -79.00
+			15:45:26  30/30: 100%
+			</code></pre>
+
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>sudo aireplay-ng --test lanbergwifi</strong>: Command used to test the wireless card's packet injection capability on the specified interface (`lanbergwifi`).</li>
+				<li><strong>Trying broadcast probe requests...</strong>: The tool begins sending broadcast probe requests to all nearby access points to check for injection success.</li>
+				<li><strong>Injection is working!</strong>: Confirmation that the packet injection functionality of the wireless card is operational.</li>
+				<li><strong>Found 2 APs</strong>: Two access points were detected during the test, showing available networks in the area.</li>
+				<li><strong>Trying directed probe requests...</strong>: The tool sends directed probe requests to specific access points to test if the card can successfully communicate with individual networks.</li>
+				<li><strong>Ping (min/avg/max): 1.483ms/4.968ms/21.638ms</strong>: The round-trip latency in milliseconds for the communication with the AP. These values represent the minimum, average, and maximum response time.</li>
+				<li><strong>Power: -65.13</strong>: The signal strength of the access point in dBm. A less negative value indicates a stronger signal.</li>
+				<li><strong>30/30: 100%</strong>: The tool successfully sent and received 30 probe requests, indicating that the card is fully functional and able to interact with the AP.</li>
+			</ul>
+
+			<h4>Conclusion:</h4>
+			<p>The output from the `sudo aireplay-ng --test` command confirms that the wireless card is capable of injecting packets into the network. The message "Injection is working!" confirms that the card is ready for attacks that require packet injection, such as deauthentication attacks.</p>
+
+			<p>The command also successfully detects two access points (APs) in the vicinity and tests the card's ability to communicate with these APs. The ping times indicate the latency when communicating with these APs, while the signal strength shows the power of the connection, with stronger signals making the connection more stable.</p>
+		</section>
+		
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: iwconfig lanbergwifi mode monitor</h3>
+			<pre class="cmd-command"><code>kali@kali ~> sudo iwconfig lanbergwifi mode monitor</code></pre>
+			
+			<h4>What is Monitor Mode?</h4>
+			<p>
+				Monitor mode allows a wireless interface to capture all wireless traffic in the area, regardless of the intended recipient. 
+				This is crucial for network analysis, penetration testing, and debugging wireless networks. In monitor mode, the network card 
+				listens to all packets in the air, including management, control, and data frames. This allows you to observe and analyze 
+				network traffic, detect vulnerabilities, and perform attacks such as packet sniffing or injecting packets.
+			</p>
+			
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>sudo</strong>: The command is run with superuser privileges, required for changing network configurations.</li>
+				<li><strong>iwconfig</strong>: A command-line tool used for configuring wireless network interfaces in Linux.</li>
+				<li><strong>lanbergwifi</strong>: The name of the wireless interface you are configuring (in this case, the interface is called `lanbergwifi`).</li>
+				<li><strong>mode monitor</strong>: This sets the wireless interface to monitor mode, enabling it to capture all wireless traffic in the vicinity, not just the traffic intended for it.</li>
+			</ul>
+		</section>
+		
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: iwconfig lanbergwifi mode managed</h3>
+			<pre class="cmd-command"><code>kali@kali ~> sudo iwconfig lanbergwifi mode managed</code></pre>
+			
+			<h4>Why Switch Back to Managed Mode?</h4>
+			<p>
+				After completing testing or analysis in monitor mode, it is important to switch the wireless interface back to managed mode. 
+				Managed mode is the default operating mode for most wireless devices, where the interface connects to a specific wireless 
+				network (SSID) and communicates with other devices in that network. 
+				In this mode, the network card is associated with an access point, allowing it to transmit and receive data to/from other devices.
+				Leaving the card in monitor mode could interfere with normal network functionality, as the card will no longer be able to connect to 
+				your wireless network.
+			</p>
+			
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>sudo</strong>: The command is run with superuser privileges, required for changing network configurations.</li>
+				<li><strong>iwconfig</strong>: A command-line tool used for configuring wireless network interfaces in Linux.</li>
+				<li><strong>lanbergwifi</strong>: The name of the wireless interface you are configuring (in this case, the interface is called `lanbergwifi`).</li>
+				<li><strong>mode managed</strong>: This sets the wireless interface back to managed mode, enabling it to connect to a wireless network (SSID) and perform regular network communication.</li>
+			</ul>
+		</section>
+		
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: nmcli device disconnect lanbergwifi</h3>
+			<pre class="cmd-command"><code>kali@kali ~> nmcli device disconnect lanbergwifi</code></pre>
+			
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>nmcli</strong>: A command-line interface for NetworkManager, used to manage network connections in Linux.</li>
+				<li><strong>device</strong>: Specifies that the following action will apply to a network device.</li>
+				<li><strong>disconnect</strong>: This disconnects the specified network device (in this case, `lanbergwifi`) from its current network.</li>
+				<li><strong>lanbergwifi</strong>: The name of the wireless device you are disconnecting. In this case, it's the interface named `lanbergwifi`.</li>
+			</ul>
+		</section>
+
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: nmcli device connect lanbergwifi</h3>
+			<pre class="cmd-command"><code>kali@kali ~> nmcli device connect lanbergwifi</code></pre>
+			
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>nmcli</strong>: A command-line interface for NetworkManager, used to manage network connections in Linux.</li>
+				<li><strong>device</strong>: Specifies that the following action will apply to a network device.</li>
+				<li><strong>connect</strong>: This connects the specified network device (in this case, `lanbergwifi`) to a wireless network.</li>
+				<li><strong>lanbergwifi</strong>: The name of the wireless device you are connecting. In this case, it's the interface named `lanbergwifi`.</li>
+			</ul>
+		</section>
+
+        <!-- Command Explanation Section -->
+        <section class="content-section">
+            <h3>Command: iw dev</h3>
+            <pre class="cmd-command"><code>kali@kali ~> iw dev</code></pre>
+            <div class="result-window">
+                <h4>Example Output:</h4>
+                <pre><code>phy#0
+	Interface lanbergwifi
+		ifindex 5
+		wdev 0x200000001
+		addr xx:xx:xx:xx:xx:xx
+		type monitor
+		txpower 20.00 dBm</code></pre>
+            </div>
+
+            <h4>Attribute Legend:</h4>
+            <ul>
+                <li><strong>iw</strong>: Command-line tool for managing wireless interfaces.</li>
+                <li><strong>dev</strong>: Specifies the wireless device to operate on.</li>
+                <li><strong>phy#</strong>: Identifier for the physical wireless hardware.</li>
+                <li><strong>Interface</strong>: Name of the wireless interface (e.g., wlan0).</li>
+                <li><strong>ifindex</strong>: System index for the interface.</li>
+                <li><strong>wdev</strong>: Wireless device identifier.</li>
+                <li><strong>addr</strong>: MAC address of the interface.</li>
+                <li><strong>type</strong>: Operational mode of the interface (e.g., managed).</li>
+                <li><strong>txpower</strong>: Transmission power in dBm.</li>
+            </ul>
+        </section>
+		
+		<!-- Command Explanation Section -->
+		<section class="content-section">
+			<h3>Command: sudo airodump-ng lanbergwifi</h3>
+			<pre class="cmd-command"><code>kali@kali ~> sudo airodump-ng lanbergwifi</code></pre>
+
+			<h4>Example Output:</h4>
+			<pre><code>
+			CH  3 ][ Elapsed: 7 mins ][ 2024-12-31 15:32 
+
+			BSSID              PWR  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
+			xx:xx:xx:xx:xx:xx  -75        0        0    0   8   -1                    
+			xx:xx:xx:xx:xx:xx  -94       24        3    0   6  195   WPA2 CCMP   PSK  Orange_Swiatlowod_CB30
+			xx:xx:xx:xx:xx:xx  -94       62        6    0  11  130   WPA2 CCMP   PSK  Orange_Swiatlowod_3B10
+			xx:xx:xx:xx:xx:xx  -86      315        0    0  11  270   WPA2 CCMP   PSK  2.4G-Vectra-WiFi
+
+			BSSID              STATION            PWR    Rate    Lost   Frames  Notes  Probes
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -95    0 - 1e   180        6         Orange_Swiatlowod_CB30
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -75   54e- 1e     0       25         Orange_Swiatlowod_3B10
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -87    2e- 1e     0       68                                                 
+			(not associated)   xx:xx:xx:xx:xx:xx  -63    0 - 1     47       15                                                 
+			(not associated)   xx:xx:xx:xx:xx:xx  -79    0 - 1      0        1                                                 
+			(not associated)   xx:xx:xx:xx:xx:xx  -95    0 - 1      0        1
+			</code></pre>
+
+			<h4>Attribute Legend:</h4>
+			<ul>
+				<li><strong>BSSID</strong>: MAC address of the access point (AP). It is a unique identifier for each AP.</li>
+				<li><strong>PWR</strong>: Signal strength of the AP, measured in dBm. A higher (less negative) value indicates stronger signal.</li>
+				<li><strong>Beacons</strong>: Number of beacon frames transmitted by the AP. Beacon frames help devices identify the AP.</li>
+				<li><strong>#Data, #/s</strong>: Number of data packets and the data transmission rate per second.</li>
+				<li><strong>CH</strong>: Channel number on which the AP is broadcasting. Different channels allow separation of different networks in the same frequency band.</li>
+				<li><strong>MB</strong>: Maximum transmission rate supported by the AP, measured in Mbps.</li>
+				<li><strong>ENC</strong>: Encryption type used by the AP (e.g., WPA2). Encryption protects the data transmitted over the network.</li>
+				<li><strong>CIPHER</strong>: The encryption cipher used (e.g., CCMP). It defines how the data is encrypted.</li>
+				<li><strong>AUTH</strong>: Authentication method used by the AP (e.g., PSK - Pre-shared key). It defines how devices authenticate to the AP.</li>
+				<li><strong>ESSID</strong>: The name of the wireless network (SSID). It identifies the network.</li>
+				<li><strong>STATION</strong>: MAC address of a device (client) associated with the AP.</li>
+				<li><strong>Rate</strong>: The rate at which the device is transmitting data, expressed in Mbps.</li>
+				<li><strong>Lost</strong>: Number of lost frames between the AP and the device.</li>
+				<li><strong>Frames</strong>: The number of frames transmitted by the device.</li>
+				<li><strong>Notes</strong>: Additional information, such as network name or characteristics.</li>
+				<li><strong>Probes</strong>: The network names that a device has been probing for.</li>
+			</ul>
+
+			<h4>Conclusion:</h4>
+			<p>The command `sudo airodump-ng lanbergwifi` is used to capture and display information about the nearby wireless networks and connected devices. From the output, we can identify the APs in the vicinity, their signal strength (PWR), the encryption used (e.g., WPA2), and the devices connected to these networks. The list also shows the channels these APs are operating on and how much data is being transmitted. This information can be useful for network analysis, troubleshooting, and security auditing.</p>
+		</section>
+		
+		<!-- WPA Handshake Capture Section -->
+		<section class="content-section">
+			<h3>WPA Handshake Capture and Output Analysis</h3>
+
+			<p>The following command is used to capture a WPA handshake for a specific wireless network:</p>
+			<pre><code>kali@kali ~> sudo airodump-ng -c 1 --bssid xx:xx:xx:xx:xx:xx lanbergwifi -w /home/kali/airodump-ng/xx:xx:xx:xx:xx:xx</code></pre>
+
+			<p><strong>Explanation of the Command:</strong></p>
+			<p>The command <code>airodump-ng -c 1 --bssid -w</code> is used for capturing WPA handshakes from a specific wireless network. Here’s what each part of the command does:</p>
+			<ul>
+				<li><strong>airodump-ng:</strong> A tool used to monitor and capture packets from wireless networks.</li>
+				<li><strong>-c 1:</strong> Specifies the channel to monitor (in this case, channel 1).</li>
+				<li><strong>--bssid xx:xx:xx:xx:xx:xx:</strong> Indicates the BSSID (MAC address) of the access point to monitor. Replace it with the MAC address of the target AP.</li>
+				<li><strong>-w /home/kali/airodump-ng/xx:xx:xx:xx:xx:xx:</strong> Specifies the location where the captured data, including the WPA handshake, will be saved.</li>
+			</ul>
+			
+			<p>After running the command, the output shows details about the network and the captured handshake. Here’s a breakdown of the key elements of the output:</p>
+
+			<pre><code>
+			CH  1 ][ Elapsed: 3 mins ][ 2024-12-31 15:48 ][ WPA handshake: xx:xx:xx:xx:xx:xx 
+
+			BSSID              PWR RXQ  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
+			xx:xx:xx:xx:xx:xx  -59  78     1828      367    2   1  130   WPA2 CCMP   PSK  kali_24
+
+			BSSID              STATION            PWR    Rate    Lost   Frames  Notes  Probes
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -67    1e- 1e     0       22  EAPOL  kali_xx
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -61   24e- 1e     0      102  EAPOL
+			xx:xx:xx:xx:xx:xx  xx:xx:xx:xx:xx:xx  -63   24e- 1e     1      133  EAPOL  kali_xx
+			</code></pre>
+
+			<p><strong>Key Details:</strong></p>
+			<ul>
+				<li><strong>WPA Handshake:</strong> The message "WPA handshake: xx:xx:xx:xx:xx:xx" indicates that a WPA handshake has been successfully captured. This is essential for cracking the password later.</li>
+				<li><strong>Channel (CH):</strong> The network operates on channel 1, as indicated by the "CH 1" entry.</li>
+				<li><strong>BSSID:</strong> The unique identifier of the access point (AP) is listed as "xx:xx:xx:xx:xx:xx". This is the target AP for the attack.</li>
+				<li><strong>ESSID:</strong> The network name (SSID) is "kali_24". This helps to identify the specific wireless network being monitored.</li>
+				<li><strong>Encryption (ENC) and Cipher:</strong> The network uses WPA2 encryption with the CCMP cipher, which is common for secure WPA2 networks.</li>
+				<li><strong>Associated Stations:</strong> Multiple stations are associated with the AP, as shown by their respective BSSIDs and the number of frames sent/received.</li>
+			</ul>
+
+			<p><strong>Conclusion:</strong> The WPA handshake capture indicates that the handshake has been successfully collected for the network. This captured handshake can be used in further steps for password cracking, where tools like Hashcat can be employed to attempt to decrypt the password using methods such as dictionary or brute-force attacks. The next section will cover how to proceed with cracking the captured WPA handshake.</p>
+		</section>
+
+
+
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
