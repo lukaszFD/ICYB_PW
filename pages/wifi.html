@@ -358,6 +358,56 @@
 
 			<p><strong>Conclusion:</strong> The WPA handshake capture indicates that the handshake has been successfully collected for the network. This captured handshake can be used in further steps for password cracking, where tools like Hashcat can be employed to attempt to decrypt the password using methods such as dictionary or brute-force attacks. The next section will cover how to proceed with cracking the captured WPA handshake.</p>
 		</section>
+		
+		<section class="content-section">
+			<h3>Cracking WPA Handshake Using HCXPCAPNG Tool and Hashcat</h3>
+
+			<p>After capturing a WPA handshake, you can use <code>hcxpcapngtool</code> to convert the captured file into a format that can be used by <code>Hashcat</code> for password cracking. The following command demonstrates how to convert a WPA capture file to a <code>hc22000</code> hash format, which is compatible with Hashcat:</p>
+			<pre><code>kali@kali ~> hcxpcapngtool -o output.hc22000 xx:xx:xx:xx:xx:xx.cap</code></pre>
+
+			<p><strong>Explanation of the Command:</strong></p>
+			<ul>
+				<li><strong>hcxpcapngtool:</strong> A tool used to convert capture files (such as <code>.cap</code> or <code>.pcapng</code>) into hash formats that can be used for password cracking.</li>
+				<li><strong>-o output.hc22000:</strong> Specifies the output file name where the converted hash will be saved.</li>
+				<li><strong>xx:xx:xx:xx:xx:xx.cap:</strong> The input file containing the captured WPA handshake. Replace it with the path to your own capture file.</li>
+			</ul>
+
+			<p>Once the capture file is converted, you can use <code>Hashcat</code> to attempt to crack the password using a dictionary or brute-force attack. The following command demonstrates how to run <code>Hashcat</code> on the generated <code>output.hc22000</code> hash file:</p>
+			<pre><code>kali@kali ~> hashcat -m 22000 -a 3 output.hc22000 ?u?u?u?u?u?u?u?u?u?u?u?u?u?u?u</code></pre>
+
+			<p><strong>Explanation of the Command:</strong></p>
+			<ul>
+				<li><strong>hashcat:</strong> The password cracking tool used to perform dictionary, brute-force, or hybrid attacks on various types of hashes.</li>
+				<li><strong>-m 22000:</strong> Specifies the hash mode for WPA/WPA2 hashes. Mode 22000 is used for cracking WPA handshakes captured in the <code>hc22000</code> format.</li>
+				<li><strong>-a 3:</strong> Specifies the attack mode. In this case, mode 3 is for brute-force attacks, which will attempt all possible combinations of characters.</li>
+				<li><strong>output.hc22000:</strong> The file containing the captured WPA hash to be cracked.</li>
+				<li><strong>?u?u?u?u?u?u?u?u?u?u?u?u?u?u?u:</strong> The mask used for the brute-force attack. In this case, it attempts all uppercase letters in a 15-character password. You can adjust the mask to match the password complexity.</li>
+			</ul>
+
+			<p><strong>Example Output from Hashcat:</strong></p>
+			<pre><code>
+			...
+			[INFO] Hashcat v6.2.5 starting...
+
+			[INFO] Hashes: 1 total
+			[INFO] Attack: Brute-force
+			[INFO] Mask: ?u?u?u?u?u?u?u?u?u?u?u?u?u?u?u
+			[INFO] Time: 0 hours, 0 minutes, 2 seconds
+			[INFO] Found password: A1B2C3D4E5F6A1B
+			...
+			</code></pre>
+
+			<p><strong>Key Details of the Output:</strong></p>
+			<ul>
+				<li><strong>[INFO] Hashcat:</strong> Displays the version and information about the cracking attempt.</li>
+				<li><strong>Hash found:</strong> If successful, the cracked password will be displayed in the output. For example, <code>A1B2C3D4E5F6A1B</code> is the cracked WPA password.</li>
+				<li><strong>Time:</strong> The time taken for Hashcat to perform the cracking attempt. In this case, it took less than 3 seconds.</li>
+			</ul>
+
+			<p><strong>Conclusion:</strong> The above steps demonstrate how to capture a WPA handshake, convert it to a usable hash format using <code>hcxpcapngtool</code>, and then crack the password using <code>Hashcat</code>. By modifying the attack mode or mask, you can customize the brute-force process to fit different types of passwords. If you are using a more powerful machine than a virtual Kali Linux instance, you can install Hashcat for Windows and take advantage of the device's GPU for faster cracking performance. For more information and to download Hashcat, visit the official site at <a href="https://hashcat.net/hashcat/" target="_blank">https://hashcat.net/hashcat/</a>.</p>
+
+		</section>
+
 
     </main>
 
