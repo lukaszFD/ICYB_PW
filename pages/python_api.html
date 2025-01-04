@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python API</title>
+    <link rel="stylesheet" href="../css/python_style.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>Python API</h1>
+    </header>
+    <main>
+	
+		<section class="content-section">
+		<h2>Configuring HTTP API for Unix Server</h2>
+		<p>This section describes how to configure and manage a Flask API service on a Unix server using systemd.</p>
+		<pre>
+			<code>
+				# Create a systemd service file for your Flask API
+				sudo nano /etc/systemd/system/my_flask_api.service
+
+				[Unit]
+				Description=My Flask API Service
+
+				[Service]
+				ExecStart=/usr/bin/python3 /home/kali/test_api/Py_80/http_api.py
+				WorkingDirectory=/home/kali/test_api/Py_80
+				User=kali
+				Group=kali
+				Restart=always
+				Access=Internet
+
+				[Install]
+				WantedBy=multi-user.target
+
+				# Enable and start the service
+				sudo systemctl enable my_flask_api
+				sudo systemctl start my_flask_api
+
+				# Check the status of the service
+				sudo systemctl status my_flask_api
+			</code>
+		</pre>
+			<p>These commands will allow you to manage your Flask API as a system service, enabling it to start automatically at boot and be controlled using systemd commands.</p>
+		</section>
+
+		
+        <!-- Http API Python Section -->
+        <section class="content-section">
+            <h2>HTTP API Python</h2>
+            <p>
+                This section shows, Python code for HTTP APIs. You can use this code for various types of testing. This API runs on port number 80 and only requires a password and login. You can find examples in the Postman collection or in the CURL section below. 
+            </p>
+			
+			<div class="result-window">
+                <h4>Curl:</h4>
+                <pre><code>curl -X POST "http://192.168.56.101:80/users" \
+  -H "Content-Type: application/json" \
+  -u "admin:password" \
+  -d '{"name": "lukasz", "email": "lukasz@example.com"}'
+  
+curl -X GET "http://192.168.56.101:80/users" \
+-u "admin:password"</code></pre>
+            </div>
+            <br>
+			<p>For better convenience, you can use Postman, and here is the collection to import.</p>
+			<a href="https://github.com/lukaszFD/python/blob/main/api/API_TEST.postman_collection.json" target="_blank">Postman collection</a>
+			<br>
+            <pre id="http-api-code"><code>Loading code...</code></pre>
+            <button id="http-show-more-btn">Show more</button>
+        </section>
+		
+		<section class="content-section">
+			<h2>Configuring HTTPS API and Certificates for Unix Server</h2>
+			<p>This section describes how to configure a Flask API with HTTPS and SSL certificates on a Unix server using systemd.</p>
+			<pre>
+				<code>
+					# Create a systemd service file for your Flask HTTPS API
+					sudo nano /etc/systemd/system/my_https_flask_api.service
+
+					[Unit]
+					Description=Flask HTTPS API
+					After=network.target
+
+					[Service]
+					ExecStart=/usr/bin/python3 /home/kali/test_api/Py_443/https_api.py
+					WorkingDirectory=/home/kali/test_api/Py_443
+					Environment="PYTHONPATH=/home/kali/test_api/Py_443"
+					SSLContext=/home/kali/test_api/Py_443/cert.pem:/home/kali/test_api/Py_443/key.pem
+					StandardOutput=journal
+					StandardError=journal
+					Restart=always
+					User=kali
+					Group=kali
+
+					[Install]
+					WantedBy=multi-user.target
+
+					# Set permissions for SSL certificates
+					cd /home/kali/test_api/Py_443
+					sudo chmod 600 cert.pem key.pem
+
+					# Test the certificate and key files
+					sudo openssl x509 -in cert.pem -text -noout
+					sudo openssl rsa -in key.pem -check
+
+					# Adjust the service file permissions
+					sudo chmod 644 /etc/systemd/system/my_https_flask_api.service
+
+					# Enable and start the service
+					sudo systemctl start my_https_flask_api.service
+					sudo systemctl status my_https_flask_api.service
+					sudo systemctl enable my_https_flask_api.service
+				</code>
+			</pre>
+			<p>This configuration sets up your Flask API to use HTTPS with SSL certificates. The systemd service file specifies the paths to the certificate and key files, and ensures the API runs securely on your server.</p>
+		</section>
+
+		
+	    <!-- Https API Python Section -->
+        <section class="content-section">
+            <h2>HTTPS API Python</h2>
+            <p>
+                This section presents Python code for HTTPS APIs. This code can be used for various types of testing. This API runs on port number 443 and requires importing a <a href="https://github.com/lukaszFD/python/blob/main/api/certs_gen.txt" target="_blank">
+			certeficate</a> into Postman and using a password and login. Examples can be found in the Postman collection or in the CURL section below (this example omits using the certificate).
+            </p>
+			<div class="result-window">
+                <h4>Curl:</h4>
+                <pre><code>curl -X POST "https://192.168.56.101:443/users" \
+  -H "Content-Type: application/json" \
+  -u "admin:password" \
+  -d '{"name": "lukasz1", "email": "lukasz1@example.com"}' \
+  --insecure
+  
+curl -X GET "https://192.168.56.101:443/users" \
+  -u "admin:password" \
+  --insecure"</code></pre>
+            </div>
+            <br>
+			<p>For better convenience, you can use Postman, and here is the collection to import.</p>
+			<a href="https://github.com/lukaszFD/python/blob/main/api/API_TEST.postman_collection.json" target="_blank">Postman collection</a>
+			<br>
+            <pre id="https-api-code"><code>Loading code...</code></pre>
+            <button id="https-show-more-btn">Show more</button>
+        </section>
+
+        <script>
+            // Function to fetch and display code from GitHub
+            function fetchCode(fileUrl, codeElementId, buttonId) {
+                const codeElement = document.getElementById(codeElementId);
+                const showMoreBtn = document.getElementById(buttonId);
+                let fullCode = '';
+
+                fetch(fileUrl, {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    const decodedContent = atob(data.content);
+                    fullCode = decodedContent.split('\n');
+                    codeElement.textContent = fullCode.slice(0, 10).join('\n');
+                })
+                .catch(err => {
+                    codeElement.textContent = `Error: ${err.message}`;
+                    console.error(err);
+                });
+
+                showMoreBtn.addEventListener('click', () => {
+                    codeElement.textContent = fullCode.join('\n');
+                    showMoreBtn.style.display = 'none';
+                });
+            }
+
+            // URLs for Http and Https API
+            fetchCode('https://api.github.com/repos/lukaszFD/python/contents/api/http_api.py', 'http-api-code', 'http-show-more-btn');
+            fetchCode('https://api.github.com/repos/lukaszFD/python/contents/api/https_api.py', 'https-api-code', 'https-show-more-btn');
+        </script>
+
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>

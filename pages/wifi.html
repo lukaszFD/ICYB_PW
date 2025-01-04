@@ -26,36 +26,47 @@
     </header>
     <main>
         <!-- Wi-Fi Testing Explanation Section -->
-        <section class="content-section">
-            <h2>About Wi-Fi Security Testing</h2>
-            <p>
-                This page focuses on testing the security of Wi-Fi networks using the 
-                <a href="https://pl.lanberg.eu/produkt/bezprzewodowa-karta-sieciowa-wifi-lanberg-nc-0300-wie-usb-2-0-n300-1-wewnetrzna-1-zewnetrzna-antena" target="_blank">
-                Lanberg NC-0300-WIE wireless card</a> with a Realtek chipset. 
-                The tests are performed to identify vulnerabilities in personal Wi-Fi networks and improve their security.
-            </p>
-            <p>
-                For testing purposes, the wireless card must support specific chipsets and be capable of entering monitor mode. 
-                All captured traffic during the tests is analyzed and observed using Wireshark, a powerful network protocol analyzer.
-            </p>
-            <p>
-                It is fascinating (and slightly ironic) that a card costing around 35 PLN (~8-9 dollars/euros) offers the capability to analyze and even attempt to hack various Wi-Fi networks.
-            </p>
-            <p>
-                WPA2 and WPA3 are the most common encryption protocols used to secure Wi-Fi networks:
-            </p>
-            <ul>
-                <li><strong>WPA2:</strong> Based on the AES encryption standard, WPA2 provides strong security but is vulnerable to brute-force attacks, especially if weak passwords are used.</li>
-                <li><strong>WPA3:</strong> Introduces Simultaneous Authentication of Equals (SAE), which protects against offline password attacks, and offers improved encryption for open networks (e.g., public Wi-Fi).</li>
-            </ul>
-            <p>
-                The primary difference between WPA2 and WPA3 lies in enhanced security measures. WPA3 uses SAE for secure key exchanges and improves resistance against dictionary attacks. 
-                Moreover, it supports 192-bit encryption in enterprise mode, compared to WPA2's 128-bit encryption.
-            </p>
-            <p>
-                Securing Wi-Fi networks with these protocols and using strong, unique passwords is crucial to prevent unauthorized access and data breaches.
-            </p>
-        </section>
+	<section class="content-section">
+		<h2>About Wi-Fi Security Testing</h2>
+		<p>
+			This page focuses on testing the security of Wi-Fi networks using the 
+			<a href="https://pl.lanberg.eu/produkt/bezprzewodowa-karta-sieciowa-wifi-lanberg-nc-0300-wie-usb-2-0-n300-1-wewnetrzna-1-zewnetrzna-antena" target="_blank">
+			Lanberg NC-0300-WIE wireless card</a> with a Realtek chipset. 
+			The tests aim to identify vulnerabilities in personal Wi-Fi networks and propose measures to improve their security.
+		</p>
+		<p>
+			These tests require a wireless card that supports specific chipsets and can enter monitor mode. 
+			Captured traffic during the tests is analyzed using Wireshark, a powerful network protocol analyzer.
+		</p>
+		<p>
+			It is fascinating (and slightly ironic) that a card costing around 35 PLN (~8-9 dollars/euros) 
+			can offer the capability to analyze and potentially hack various Wi-Fi networks. 
+			This highlights the importance of understanding Wi-Fi encryption protocols and their vulnerabilities.
+		</p>
+		<p>
+			During scanning, it is still possible to find networks that reveal the type of router in use, such as Orange FunBox or TP-Link routers. 
+			These routers often use default passwords that are predictable, such as numeric strings of specific lengths. 
+			For example, Orange FunBox routers have passwords of a fixed length, making them easier to guess.
+		</p>
+		<p>
+			Wi-Fi networks are commonly secured using WPA2 or WPA3 encryption protocols:
+		</p>
+		<ul>
+			<li><strong>WPA2:</strong> This protocol, based on the AES encryption standard, provides strong security but is vulnerable to brute-force attacks, particularly if weak passwords are used.</li>
+			<li><strong>WPA3:</strong> The successor to WPA2, WPA3 introduces Simultaneous Authentication of Equals (SAE) to protect against offline password attacks and offers improved encryption for open networks.</li>
+		</ul>
+		<p>
+			The primary difference between WPA2 and WPA3 lies in the enhanced security measures of WPA3. 
+			By utilizing SAE for secure key exchanges, WPA3 strengthens resistance against dictionary attacks. 
+			Additionally, it supports 192-bit encryption in enterprise mode, compared to WPA2's 128-bit encryption.
+		</p>
+		<p>
+			To enhance Wi-Fi security, it is crucial to use these protocols along with strong, unique passwords. 
+			Implementing additional measures such as changing default passwords, increasing password length, and renaming networks to avoid indicating the router type can further reduce vulnerabilities. 
+			These practices help prevent unauthorized access and data breaches, safeguarding personal networks effectively.
+		</p>
+	</section>
+
 		
 		<!-- Command Explanation Section -->
 		<section class="content-section">

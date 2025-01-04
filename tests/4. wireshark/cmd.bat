@@ -4,5 +4,3 @@ tshark.exe -r "C:\Users\c50-AfricanFalls3\UNODC-GPC-001-003-JohnDoe-NetworkCaptu
 
 tshark.exe -i Wi-Fi -Y "ip.src == 192.168.1.00 or ip.src == 192.168.1.00 or ip.dst == 192.168.1.00 or ip.dst == 192.168.1.00"
 
-tshark.exe -i 5 -Y "ip.src == 192.168.1.00 or ip.src == 192.168.1.00 or ip.dst == 192.168.1.00 or ip.dst == 192.168.1.00"
-
