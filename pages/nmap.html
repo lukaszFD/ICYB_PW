@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nmap Network Scan</title>
+    <link rel="stylesheet" href="../css/nmap_style.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>Nmap Network Scan</h1>
+    </header>
+    <main>
+	
+	    <section class="content-section">
+            <h2>What is nmap?</h2>
+            <p>
+                <strong>nmap</strong> is a powerful and versatile open-source network scanning tool used for network discovery and security auditing. It enables users to identify live hosts, open ports, running services, and their versions, as well as operating systems on a network. Network administrators and penetration testers commonly use nmap to assess network security, detect vulnerabilities, and map network structures. By using various scanning techniques, nmap provides valuable insights into the status and configuration of networked devices.
+            </p>
+		</section>
+		
+        <section class="content-section">
+            <h2>Python API</h2>
+            <p>Here are the APIs I used for testing purposes. You can find more details and test them by visiting the link below.</p>
+            <a href="python_api.html" target="_blank">View Python API</a>
+            <p>For these tests, I used virtual machines running Kali Linux and the API available at the provided link.</p>
+        </section>
+	
+        <section class="content-section">
+            <h2>Command: <code>sudo nmap 192.168.56.101</code></h2>
+            <p>This command scans the host <code>192.168.56.101</code> for open TCP ports. Below is the output:</p>
+            <pre>
+                <code>
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-05 15:52 GMT
+Nmap scan report for 192.168.56.101
+Host is up (0.00092s latency).
+Not shown: 995 filtered tcp ports (no-response)
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+80/tcp   open  http
+443/tcp  open  https
+8080/tcp open  http-proxy
+
+Nmap done: 1 IP address (1 host up) scanned in 4.92 seconds
+                </code>
+            </pre>
+            <p>Findings:</p>
+            <ul>
+                <li>Ports <code>21 (FTP)</code>, <code>22 (SSH)</code>, <code>80 (HTTP)</code>, <code>443 (HTTPS)</code>, and <code>8080 (HTTP-Proxy)</code> are open.</li>
+                <li>This information can be used to identify running services and potential vulnerabilities.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>sudo nmap -iL /home/lukasz/Documents/nmap/ip.txt -oN /home/lukasz/Documents/nmap/output.txt</code></h2>
+            <p>This command scans multiple IPs listed in a file and outputs the result to a file. Below is the example:</p>
+            <pre>
+                <code>
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-05 16:30 GMT
+Nmap scan report for 192.168.56.101
+Host is up (0.0016s latency).
+Not shown: 995 filtered tcp ports (no-response)
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+80/tcp   open  http
+443/tcp  open  https
+8080/tcp open  http-proxy
+
+Nmap done: 1 IP address (1 host up) scanned in 5.10 seconds
+                </code>
+            </pre>
+            <p>Advantages:</p>
+            <ul>
+                <li>Scans multiple hosts efficiently.</li>
+                <li>Output is saved to <code>output.txt</code> for offline analysis.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>sudo nmap -p http,https 192.168.56.101</code></h2>
+            <p>This command focuses only on HTTP and HTTPS-related ports. Below is the output:</p>
+            <pre>
+                <code>
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-01-05 16:12 GMT
+Nmap scan report for 192.168.56.101
+Host is up (0.0014s latency).
+
+PORT     STATE    SERVICE
+80/tcp   open     http
+443/tcp  open     https
+8008/tcp filtered http
+
+Nmap done: 1 IP address (1 host up) scanned in 1.33 seconds
+                </code>
+            </pre>
+            <p>Findings:</p>
+            <ul>
+                <li>Ports <code>80</code> and <code>443</code> are open, while <code>8008</code> is filtered.</li>
+                <li>Filtering indicates potential firewalls or access control in place.</li>
+            </ul>
+        </section>
+
+               <section class="content-section">
+            <h2>sudo nmap -sP 192.168.1.0/24</h2>
+            <p>The <code>-sP</code> option in nmap is used for a ping scan, which identifies live hosts in a specified network range. This command scans the subnet <code>192.168.1.0/24</code> and returns a list of active devices.</p>
+            <pre><code>Example output:
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-05 17:00 GMT
+Nmap scan report for 192.168.1.1
+Host is up (0.0012s latency).
+Nmap scan report for 192.168.1.101
+Host is up (0.0021s latency).
+Nmap done: 256 IP addresses (2 hosts up) scanned in 2.35 seconds
+</code></pre>
+            <p>This command helps quickly identify which hosts are active within a network.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>sudo nmap -sP -iL /home/lukasz/Documents/nmap/ip.txt -oN /home/lukasz/Documents/nmap/output.txt</h2>
+            <p>This command performs a ping scan on IP addresses listed in the file <code>ip.txt</code> and saves the output to <code>output.txt</code>. The <code>-iL</code> option specifies an input list, and <code>-oN</code> writes the output in normal format.</p>
+            <pre><code>Example output:
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-05 17:10 GMT
+Nmap scan report for 192.168.1.1
+Host is up (0.0011s latency).
+Nmap scan report for 192.168.1.50
+Host is up (0.0030s latency).
+Nmap done: 10 IP addresses (2 hosts up) scanned in 1.25 seconds
+</code></pre>
+            <p>This approach is useful for scanning a predefined list of IP addresses and saving the results for further analysis.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>sudo nmap -O 192.168.1.35</h2>
+            <p>The <code>-O</code> option enables OS detection. This command attempts to identify the operating system running on the target host <code>192.168.1.35</code>.</p>
+            <pre><code>Example output:
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-05 17:20 GMT
+Nmap scan report for 192.168.1.35
+Host is up (0.00087s latency).
+Device type: general purpose
+Running: Linux 5.X
+OS CPE: cpe:/o:linux:linux_kernel:5
+OS details: Linux 5.4 - 5.8
+Nmap done: 1 IP address (1 host up) scanned in 2.15 seconds
+</code></pre>
+            <p>This command is useful for determining the operating system version and type of a device.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>sudo nmap -A 192.168.1.35</h2>
+            <p>The <code>-A</code> option enables aggressive scanning, including OS detection, version detection, script scanning, and traceroute.</p>
+            <pre><code>Example output:
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-05 17:30 GMT
+Nmap scan report for 192.168.1.35
+Host is up (0.0010s latency).
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.38 ((Debian))
+Device type: general purpose
+Running: Linux 5.X
+OS CPE: cpe:/o:linux:linux_kernel:5
+OS details: Linux 5.4 - 5.8
+Traceroute:
+1  192.168.1.1 (192.168.1.1)  0.502 ms
+2  192.168.1.35 (192.168.1.35)  0.671 ms
+Nmap done: 1 IP address (1 host up) scanned in 5.72 seconds
+</code></pre>
+            <p>This command provides a comprehensive analysis of the target host, including services, versions, and operating system information.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
