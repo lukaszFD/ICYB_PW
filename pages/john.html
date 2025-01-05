@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John the Ripper Hash Cracking</title>
+    <link rel="stylesheet" href="../css/john.css">
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>John the Ripper Hash Cracking</h1>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <h2>What is John the Ripper?</h2>
+            <p>
+                <strong>John the Ripper (JtR)</strong> is an open-source password cracking software tool designed to detect weak passwords. It supports various encryption algorithms and can crack password hashes using dictionary-based attacks, brute force, or hybrid methods. JtR is frequently used by security professionals and penetration testers to audit password security.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>echo -n "admin" | openssl dgst -sha1</code></h2>
+            <p>This command hashes the password <code>admin</code> using the SHA-1 algorithm. Below is the output:</p>
+            <pre><code>
+SHA1(stdin)= d033e22ae348aeb5660fc2140aec35850c4da997
+            </code></pre>
+            <p>The hash generated is <strong>d033e22ae348aeb5660fc2140aec35850c4da997</strong>.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>sudo gzip -d rockyou.txt.gz</code></h2>
+            <p>This command decompresses the <code>rockyou.txt.gz</code> file, which is a commonly used wordlist for password cracking.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>john --wordlist=/usr/share/wordlists/rockyou.txt /home/lukasz/Documents/john/hash.txt</code></h2>
+            <p>This command runs John the Ripper with a wordlist (rockyou.txt) to attempt to crack hashes stored in <code>hash.txt</code>. Below is the output:</p>
+            <pre><code>
+Created directory: /home/lukasz/.john
+Warning: detected hash type "Raw-SHA1", but the string is also recognized as "Raw-SHA1-AxCrypt"
+Warning: detected hash type "Raw-SHA1", but the string is also recognized as "Raw-SHA1-Linkedin"
+...
+admin            (?)
+1g 0:00:00:00 DONE (2025-01-05 19:02) 20.00g/s 396400p/s 396400c/s 396400C/s alcala..VINCENT
+Use the "--show --format=Raw-SHA1" options to display all of the cracked passwords reliably
+Session completed.
+            </code></pre>
+            <p>Findings:</p>
+            <ul>
+                <li>The password <code>admin</code> was successfully cracked.</li>
+                <li>This can indicate a weak password that should be avoided.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Command: <code>john --show /home/lukasz/Documents/john/hash.txt</code></h2>
+            <p>This command shows the cracked passwords from the <code>hash.txt</code> file:</p>
+            <pre><code>
+?:admin
+1 password hash cracked, 0 left
+            </code></pre>
+            <p>The password <code>admin</code> has been cracked and is shown in the output.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
