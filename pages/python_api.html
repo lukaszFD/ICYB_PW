@@ -40,29 +40,29 @@
 		<p>This section describes how to configure and manage a Flask API service on a Unix server using systemd.</p>
 		<pre>
 			<code>
-				# Create a systemd service file for your Flask API
-				sudo nano /etc/systemd/system/my_flask_api.service
+# Create a systemd service file for your Flask API
+sudo nano /etc/systemd/system/my_flask_api.service
 
-				[Unit]
-				Description=My Flask API Service
+[Unit]
+Description=My Flask API Service
 
-				[Service]
-				ExecStart=/usr/bin/python3 /home/kali/test_api/Py_80/http_api.py
-				WorkingDirectory=/home/kali/test_api/Py_80
-				User=kali
-				Group=kali
-				Restart=always
-				Access=Internet
+[Service]
+ExecStart=/usr/bin/python3 /home/kali/test_api/Py_80/http_api.py
+WorkingDirectory=/home/kali/test_api/Py_80
+User=kali
+Group=kali
+Restart=always
+Access=Internet
 
-				[Install]
-				WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
 
-				# Enable and start the service
-				sudo systemctl enable my_flask_api
-				sudo systemctl start my_flask_api
+# Enable and start the service
+sudo systemctl enable my_flask_api
+sudo systemctl start my_flask_api
 
-				# Check the status of the service
-				sudo systemctl status my_flask_api
+# Check the status of the service
+sudo systemctl status my_flask_api
 			</code>
 		</pre>
 			<p>These commands will allow you to manage your Flask API as a system service, enabling it to start automatically at boot and be controlled using systemd commands.</p>
@@ -99,42 +99,42 @@ curl -X GET "http://192.168.56.101:80/users" \
 			<p>This section describes how to configure a Flask API with HTTPS and SSL certificates on a Unix server using systemd.</p>
 			<pre>
 				<code>
-					# Create a systemd service file for your Flask HTTPS API
-					sudo nano /etc/systemd/system/my_https_flask_api.service
+# Create a systemd service file for your Flask HTTPS API
+sudo nano /etc/systemd/system/my_https_flask_api.service
 
-					[Unit]
-					Description=Flask HTTPS API
-					After=network.target
+[Unit]
+Description=Flask HTTPS API
+After=network.target
 
-					[Service]
-					ExecStart=/usr/bin/python3 /home/kali/test_api/Py_443/https_api.py
-					WorkingDirectory=/home/kali/test_api/Py_443
-					Environment="PYTHONPATH=/home/kali/test_api/Py_443"
-					SSLContext=/home/kali/test_api/Py_443/cert.pem:/home/kali/test_api/Py_443/key.pem
-					StandardOutput=journal
-					StandardError=journal
-					Restart=always
-					User=kali
-					Group=kali
+[Service]
+ExecStart=/usr/bin/python3 /home/kali/test_api/Py_443/https_api.py
+WorkingDirectory=/home/kali/test_api/Py_443
+Environment="PYTHONPATH=/home/kali/test_api/Py_443"
+SSLContext=/home/kali/test_api/Py_443/cert.pem:/home/kali/test_api/Py_443/key.pem
+StandardOutput=journal
+StandardError=journal
+Restart=always
+User=kali
+Group=kali
 
-					[Install]
-					WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
 
-					# Set permissions for SSL certificates
-					cd /home/kali/test_api/Py_443
-					sudo chmod 600 cert.pem key.pem
+# Set permissions for SSL certificates
+cd /home/kali/test_api/Py_443
+sudo chmod 600 cert.pem key.pem
 
-					# Test the certificate and key files
-					sudo openssl x509 -in cert.pem -text -noout
-					sudo openssl rsa -in key.pem -check
+# Test the certificate and key files
+sudo openssl x509 -in cert.pem -text -noout
+sudo openssl rsa -in key.pem -check
 
-					# Adjust the service file permissions
-					sudo chmod 644 /etc/systemd/system/my_https_flask_api.service
+# Adjust the service file permissions
+sudo chmod 644 /etc/systemd/system/my_https_flask_api.service
 
-					# Enable and start the service
-					sudo systemctl start my_https_flask_api.service
-					sudo systemctl status my_https_flask_api.service
-					sudo systemctl enable my_https_flask_api.service
+# Enable and start the service
+sudo systemctl start my_https_flask_api.service
+sudo systemctl status my_https_flask_api.service
+sudo systemctl enable my_https_flask_api.service
 				</code>
 			</pre>
 			<p>This configuration sets up your Flask API to use HTTPS with SSL certificates. The systemd service file specifies the paths to the certificate and key files, and ensures the API runs securely on your server.</p>
