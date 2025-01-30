@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Home in the Digital World</title>
     <link rel="stylesheet" href="../css/secure_home.css">
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
                 includedLanguages: 'pl',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
+                autoDisplay: false // Ustawienie, żeby pasek nie był wyświetlany
             }, 'google_translate_element');
         }
     </script>
-</head>
-<body>
-    <!-- Google Translate Button -->
-    <div id="google_translate_element"></div>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
     <header>
         <h1>Secure Home in the Digital World</h1>
@@ -48,7 +48,7 @@
             <h3>Benefits of Private DNS, Pi-hole, and Proxy</h3>
             <p>
                 Implementing a private DNS, Pi-hole, and a proxy server significantly enhances security and privacy. Pi-hole acts as a network-wide ad blocker, preventing advertisements and trackers from loading on any connected device. 
-				This reduces bandwidth usage and enhances the browsing experience. Integration with the CERT Polska list allows automatic blocking of phishing sites, further protecting against cyber threats. 
+				This reduces bandwidth usage and enhances the browsing experience. Integration with the <a href="https://cert.pl/lista-ostrzezen/" target="_blank">CERT Polska</a> list allows automatic blocking of phishing sites, further protecting against cyber threats. 
 				Additionally, blocklists from <a href="https://firebog.net/" target="_blank">Firebog</a> and <a href="https://adaway.org/hosts.txt" target="_blank">AdAway</a> add another layer of security by filtering out known malicious domains. 
 				By using a proxy, all outbound traffic can be inspected and filtered to prevent access to potentially harmful websites.
             </p>
