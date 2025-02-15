@@ -25,19 +25,33 @@
         <h1>Secure Home in the Digital World</h1>
     </header>
     <main>
+	<section class="content-section">
+	        <section id="recent-updates">
+            <h2>Recent Updates</h2>
+            <ul id="update-list">
+				<li>
+					<strong>Date:</strong> 15/02/2025 - 
+					<a href="raspberry.html">[Link]</a>: First phase - Raspberr PI 4B: Pi-hole, Pi-VPN and unbound.
+				</li>
+            </ul>
+            <button id="show-more-btn">Show More</button>
+        </section>
+	</section>
         <section class="content-section">
             <h3>Introduction</h3>
             <p>
                 In the modern digital age, online privacy and security are becoming more critical than ever. Cyber threats, data breaches, and intrusive advertisements are daily challenges for individuals and businesses alike. 
-				In the near future, anyone who wants to exist securely in the digital world will need a mini-computer like a Raspberry Pi or Dell OptiPlex. A private DNS, Pi-hole, proxy, and other network filtering services will become standard for securing home networks. 
+				In the near future, anyone who wants to exist securely in the digital world will need a mini-computer like a Raspberry Pi or Dell OptiPlex. A private DNS Pi-hole, Pi-VPN, proxy, and other network filtering services will become standard for securing home networks. 
 				With the right configuration, these tools can provide enhanced privacy, prevent unwanted tracking, and block malicious content before it reaches your devices.
             </p>
             <h3>Hardware Choice</h3>
             <p>
-                For this project, I chose Dell OptiPlex instead of Raspberry Pi due to its greater flexibility in terms of performance and cost. 
-				While Raspberry Pi is an excellent low-power device, Dell OptiPlex provides better processing power and upgrade options, making it a more sustainable long-term solution. 
-				My Dell OptiPlex comes with 16 GB RAM, a 500 GB NVMe drive, and an Intel Core i5-7500T processor. 
-				The additional RAM and processing power ensure that multiple services, including DNS filtering, network monitoring, and virtualization, run smoothly without performance degradation.
+                For the initial phase of this project, I used a Raspberry Pi 4B (1GB) due to its low cost and efficiency. Additionally, I plan to install PiVPN on the Raspberry Pi 4B to enhance the security and remote access capabilities of the network.
+				Raspberry Pi is an excellent low-power device that allows for an affordable and effective DNS filtering setup. 
+				In this phase, the DNS service will run on the Raspberry Pi 4B. However, for the second phase, I chose a Dell OptiPlex instead of Raspberry Pi due to its greater flexibility in terms of performance and cost. 
+				While Raspberry Pi is efficient, Dell OptiPlex provides better processing power and upgrade options, making it a more sustainable long-term solution. 
+				My Dell OptiPlex comes with 16 GB RAM, a 500 GB NVMe drive, and an Intel Core i5-7500T processor. The additional RAM and processing power ensure that multiple services, including DNS filtering, network monitoring, and virtualization, run smoothly without performance degradation. 
+				In this phase, the DNS service will be combined with a proxy and migrated to the Dell OptiPlex. 
             </p>
             <h3>Operating System</h3>
             <p>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi-hole on Raspberry Pi 4B</title>
+    <link rel="stylesheet" href="../css/raspberry.css">
+    <style>
+        .thumbnail {
+            width: 150px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .thumbnail:hover {
+            transform: scale(1.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Translate Button -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'pl',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <header>
+        <h1>Pi-hole and Pi-VPN on Raspberry Pi 4B</h1>
+    </header>
+
+		<section class="content-section">
+			<h2>Introduction</h2>
+			<p>This project involves installing and configuring Pi-hole, Unbound, and Pi-VPN on a Raspberry Pi 4B...</p>
+			<img src="../assets/raspberry4b.jpg" alt="Raspberry Pi 4B" class="thumbnail" onclick="openModal('../assets/raspberry4b.jpg')">
+		</section>
+
+        <section class="content-section">
+            <h2>Hardware</h2>
+            <p>For this project, I chose Raspberry Pi 4B with 1GB RAM, which is sufficient for the first phase. I was very positively surprised by the performance of Raspberry Pi OS Lite after installing Pi-hole, Pi-VPN, and Unbound. The entire setup uses no more than 250MB of RAM.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Installation</h2>
+            <p>To install Pi-hole, first set up Raspberry Pi OS Lite. Instructions can be found <a href="https://www.raspberrypi.com/software/operating-systems/" target="_blank">here</a>. Once configured, install Pi-hole using the command:</p>
+            <pre><code>
+curl -sSL https://install.pi-hole.net | bash
+            </code></pre>
+            <p>Follow the on-screen instructions. More details can be found in the <a href="http://docs.pi-hole.net/main/basic-install/" target="_blank">official documentation</a>.</p>
+        </section>
+		
+		<section class="content-section">
+            <h2>Enhancing Security</h2>
+            <p>The main goal was to block domains published by <a href="https://cert.pl/posts/2020/03/ostrzezenia_phishing/" target="_blank">CERT Polska</a>. The full list of blocked domains from CERT Polska can be found <a href="https://hole.cert.pl/domains/domains.txt" target="_blank">here</a>.</p>
+            <p>Additionally, I have included the following blocklists:</p>
+            <ul>
+                <li><strong>Suspicious Lists (Firebog):</strong>
+                    <ul>
+                        <li><a href="https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt" target="_blank">PolishFiltersTeam KADhosts</a></li>
+                        <li><a href="https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts" target="_blank">FadeMind Spam Hosts</a></li>
+                        <li><a href="https://v.firebog.net/hosts/static/w3kbl.txt" target="_blank">W3KBL Hosts</a></li>
+                    </ul>
+                </li>
+                <li><strong>Advertising Lists:</strong>
+                    <ul>
+                        <li><a href="https://adaway.org/hosts.txt" target="_blank">AdAway Hosts</a></li>
+                    </ul>
+                </li>
+                <li><strong>Tracking & Telemetry Lists:</strong>
+                    <ul>
+                        <li><a href="https://v.firebog.net/hosts/Easyprivacy.txt" target="_blank">EasyPrivacy</a></li>
+                        <li><a href="https://v.firebog.net/hosts/Prigent-Ads.txt" target="_blank">Prigent Ads</a></li>
+                        <li><a href="https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts" target="_blank">FadeMind 2o7Net</a></li>
+                        <li><a href="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" target="_blank">WindowsSpyBlocker</a></li>
+                        <li><a href="https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt" target="_blank">Frogeye First-Party Trackers</a></li>
+                        <li><a href="https://v.firebog.net/hosts/AdguardDNS.txt" target="_blank">AdGuard DNS</a></li>
+                        <li><a href="https://v.firebog.net/hosts/Admiral.txt" target="_blank">Admiral Hosts</a></li>
+                        <li><a href="https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt" target="_blank">AnudeepND Adservers</a></li>
+                        <li><a href="https://v.firebog.net/hosts/Easylist.txt" target="_blank">EasyList</a></li>
+                        <li><a href="https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext" target="_blank">YoYo Adservers</a></li>
+                        <li><a href="https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts" target="_blank">Unchecky Ads</a></li>
+                        <li><a href="https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts" target="_blank">Bigdargon HostsVN</a></li>
+                    </ul>
+                </li>
+                <li><strong>Malicious Lists:</strong>
+                    <ul>
+                        <li><a href="https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt" target="_blank">DandelionSprout Anti-Malware</a></li>
+                        <li><a href="https://v.firebog.net/hosts/Prigent-Crypto.txt" target="_blank">Prigent Crypto</a></li>
+                        <li><a href="https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts" target="_blank">FadeMind Risk</a></li>
+                        <li><a href="https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt" target="_blank">Mandiant APT1 Report</a></li>
+                        <li><a href="https://phishing.army/download/phishing_army_blocklist_extended.txt" target="_blank">Phishing Army</a></li>
+                        <li><a href="https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt" target="_blank">NoTrack Malware</a></li>
+                        <li><a href="https://v.firebog.net/hosts/RPiList-Malware.txt" target="_blank">RPiList Malware</a></li>
+                        <li><a href="https://v.firebog.net/hosts/RPiList-Phishing.txt" target="_blank">RPiList Phishing</a></li>
+                        <li><a href="https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt" target="_blank">Spam404 Blacklist</a></li>
+                        <li><a href="https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts" target="_blank">Stalkerware Indicators</a></li>
+                        <li><a href="https://urlhaus.abuse.ch/downloads/hostfile/" target="_blank">URLHaus</a></li>
+                        <li><a href="https://lists.cyberhost.uk/malware.txt" target="_blank">Cyberhost Malware</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <p>After adding all these lists, I now have a total of 1,597,610 blocked domains. However, the number of lists you import is entirely up to you. Be cautious—adding too many lists doesn’t always mean better protection. You might end up blocking access to many legitimate websites.</p>
+        </section>
+
+
+        <section class="content-section">
+            <h2>Automated Updates</h2>
+            <p>By default, Pi-hole updates blocklists every 7 days. I prefer updates every 6 hours, so I configured a cron job:</p>
+            <pre><code>
+crontab -e
+0 */6 * * * /usr/local/bin/pihole -g > /dev/null 2>&1
+            </code></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Using Unbound for Enhanced DNS Privacy</h2>
+            <p>Unbound is a powerful DNS resolver that adds an extra layer of privacy and security to your network. Unlike traditional DNS resolvers, Unbound is a validating, recursive, and caching DNS resolver. This means that it not only resolves DNS queries but also checks the integrity of the responses, ensuring they are legitimate and have not been tampered with. When combined with Pi-hole, Unbound allows for a completely self-hosted DNS solution, avoiding reliance on third-party DNS providers and further protecting your privacy.</p>
+
+            <h3>Why Use Unbound?</h3>
+            <ul>
+                <li><strong>Validation:</strong> Unbound performs DNSSEC (DNS Security Extensions) validation, ensuring that the DNS responses are authentic and haven't been modified in transit.</li>
+                <li><strong>Privacy:</strong> By using Unbound, you avoid sending DNS queries to third-party DNS servers (like Google or Cloudflare), which might log your queries. This enhances your privacy by preventing external entities from tracking your browsing history.</li>
+                <li><strong>Security:</strong> Unbound protects you against DNS poisoning and spoofing attacks, which are possible if DNS responses are tampered with.</li>
+                <li><strong>Performance:</strong> As a caching resolver, Unbound stores previously resolved DNS queries, reducing lookup times for repeated requests and improving overall network performance.</li>
+            </ul>
+
+            <h3>Installing and Configuring Unbound</h3>
+            <p>To set up Unbound on your Raspberry Pi, follow these steps:</p>
+
+            <h4>1. Install Unbound</h4>
+            <p>First, you need to install Unbound on your Raspberry Pi:</p>
+            <pre><code>
+sudo apt-get update
+sudo apt-get install unbound
+            </code></pre>
+
+            <h4>2. Configure Unbound with Pi-hole</h4>
+			<p>Once installed, you need to configure Unbound to work seamlessly with Pi-hole. To do this, you must create a configuration file for Pi-hole:</p>
+			<pre><code>
+sudo nano /etc/unbound/unbound.conf.d/pi-hole.conf
+			</code></pre>
+			<p>The configuration for Unbound can be found on the official Pi-hole documentation page:  
+			<a href="https://docs.pi-hole.net/guides/dns/unbound/" target="_blank">Pi-hole Unbound Guide</a>.  
+			Copy the configuration from this page and paste it into the file on your server.</p>
+
+            <h4>3. Restart Unbound</h4>
+            <p>After configuring the file, you need to restart Unbound for the changes to take effect:</p>
+            <pre><code>
+sudo service unbound restart
+            </code></pre>
+
+            <h4>4. Testing Unbound</h4>
+            <p>To ensure that Unbound is properly handling DNS queries, you can test it using the <code>dig</code> command. This will query Unbound directly on the Pi-hole's local address and port 5335:</p>
+            <pre><code>
+dig pi-hole.net @127.0.0.1 -p 5335
+            </code></pre>
+            <p>If everything is working correctly, you should receive a valid DNS response from Unbound. You can also check the Pi-hole's web interface to verify that it's using Unbound as the upstream DNS provider.</p>
+
+            <h3>Additional Configuration: DNS Caching and Filtering</h3>
+            <p>Unbound’s caching feature can significantly improve response times for DNS queries by storing recently resolved domains locally. You can adjust the caching settings in the Unbound configuration to optimize for your needs. For example, you can set the maximum time to cache a DNS response with the <code>cache-max-ttl</code> directive or reduce the time for less frequently accessed domains with the <code>cache-min-ttl</code> directive.</p>
+
+            <p>Another important feature is DNS filtering. By using Pi-hole with Unbound, you can ensure that all queries for malicious domains or ads are filtered at the DNS level before they ever reach your devices, thus improving both security and performance. You can extend Pi-hole’s blocklists with additional sources or custom domains you wish to block, which is a great way to ensure comprehensive protection.</p>
+
+            <h3>Monitoring and Logs</h3>
+            <p>Unbound logs detailed information about the queries it processes. You can monitor these logs to troubleshoot issues or understand more about the DNS traffic on your network. To view the Unbound logs, use the following command:</p>
+            <pre><code>
+sudo tail -f /var/log/unbound/unbound.log
+            </code></pre>
+
+            <h3>Conclusion</h3>
+            <p>Integrating Unbound with Pi-hole provides a robust, secure, and private DNS setup. By running Unbound on your local network, you eliminate the reliance on third-party DNS providers, ensuring that all DNS queries are validated and encrypted. With features like DNSSEC, caching, and advanced filtering, Unbound significantly enhances your network's privacy, security, and performance. It works hand-in-hand with Pi-hole to provide a comprehensive solution that blocks ads and malicious domains while optimizing DNS resolution speed.</p>
+
+            <p>For more information and advanced configurations, you can visit the <a href="https://docs.pi-hole.net/guides/dns/unbound/" target="_blank">official Pi-hole Unbound Guide</a>.</p>
+        </section>
+		
+		<section class="content-section">
+			<h2>Setting Up PiVPN for Secure Remote Access</h2>
+			<p>PiVPN is a lightweight VPN solution that allows you to create a secure connection to your home network from anywhere. By using PiVPN, you can encrypt your internet traffic, access devices within your local network remotely, and enhance your overall privacy. When combined with Pi-hole and Unbound, PiVPN ensures that all your traffic is securely tunneled while benefiting from ad-blocking and private DNS resolution.</p>
+
+			<h3>Why Use PiVPN?</h3>
+			<ul>
+				<li><strong>Secure Remote Access:</strong> Connect to your home network from anywhere while keeping your data encrypted.</li>
+				<li><strong>Privacy Protection:</strong> Hide your internet traffic from ISPs and third parties.</li>
+				<li><strong>Bypass Geo-Restrictions:</strong> Access your home services as if you were physically on your network.</li>
+				<li><strong>Integration with Pi-hole:</strong> Route all VPN traffic through Pi-hole for ad and tracker blocking.</li>
+			</ul>
+
+			<h3>Installing and Configuring PiVPN</h3>
+			<p>To install PiVPN on your Raspberry Pi, follow these steps:</p>
+
+			<h4>1. Install PiVPN</h4>
+			<p>Run the following command to start the installation process:</p>
+			<pre><code>
+curl -L https://install.pivpn.io | bash
+			</code></pre>
+			<p>Follow the interactive setup and choose your preferred VPN protocol (WireGuard or OpenVPN). WireGuard is recommended for its performance and efficiency.</p>
+
+			<h4>2. Configure PiVPN Clients</h4>
+			<p>After installation, create a VPN client profile:</p>
+			<pre><code>
+pivpn add
+			</code></pre>
+			<p>Download the generated configuration file and import it into your VPN client application (WireGuard or OpenVPN) on your device.</p>
+
+			<h4>3. Configure Router Port Forwarding</h4>
+			<p>For the VPN to function correctly, you need to allow external connections to your Raspberry Pi. This requires port forwarding on your router:</p>
+			<ul>
+				<li><strong>Port:</strong> 51820 (default for WireGuard)</li>
+				<li><strong>Protocol:</strong> UDP</li>
+				<li><strong>Device:</strong> Raspberry Pi (where PiVPN is installed)</li>
+			</ul>
+			<p>This configuration ensures that VPN connections from the internet are properly forwarded to your Raspberry Pi. Without this, external devices wouldn't be able to establish a secure connection.</p>
+
+			<h3>Testing the VPN</h3>
+			<p>To verify that your VPN is working correctly, connect to your home network using the VPN client and check your public IP address:</p>
+			<pre><code>
+curl ifconfig.me
+			</code></pre>
+			<p>If the output matches your home network's external IP, the VPN is correctly routing your traffic.</p>
+
+			<h3>Enhancing Security</h3>
+			<p>For additional security, consider these steps:</p>
+			<ul>
+				<li>Use a strong VPN client key and do not share it publicly.</li>
+				<li>Disable unused ports on your router to reduce attack vectors.</li>
+				<li>Regularly update PiVPN and WireGuard/OpenVPN to apply security patches.</li>
+			</ul>
+
+			<h3>Conclusion</h3>
+			<p>By setting up PiVPN with proper port forwarding, you ensure secure and private access to your home network from anywhere. When combined with Pi-hole and Unbound, this creates a robust security and privacy solution that encrypts traffic, blocks ads, and prevents DNS leaks. For more information, visit the <a href="https://www.pivpn.io/" target="_blank">official PiVPN website</a>.</p>
+		</section>
+
+		<section class="content-section">
+			<h2>Conclusion</h2>
+			<p>The results of this project have exceeded my expectations. Pi-hole, combined with PiVPN, has proven to be an incredibly effective solution for improving network security, privacy, and accessibility.</p>
+			
+			<p>By using PiVPN, I can securely access my home network from anywhere in the world, ensuring that my internet traffic remains encrypted and protected. This is especially useful when connecting from untrusted networks, such as public Wi-Fi hotspots, where security risks are high. Additionally, routing all VPN traffic through Pi-hole allows for network-wide ad blocking and protection against malicious domains, even when browsing remotely.</p>
+			
+			<p>Pi-hole’s easy-to-use web interface continues to provide seamless monitoring of DNS queries, giving me full control over which domains are being accessed on my network. The ability to block entire categories of unwanted content and integrate additional blocklists, such as those from CERT Polska, Firebog, and AdAway, significantly enhances protection against threats like phishing and malware.</p>
+			
+			<p>Another notable benefit is the reduction in bandwidth consumption, as ads and unnecessary content are blocked at the DNS level before they even load. This not only improves browsing speeds but also enhances privacy by ensuring that tracking domains are blocked in real-time, both locally and while using PiVPN remotely.</p>
+			
+			<p>With proper router configuration and port forwarding, PiVPN has seamlessly integrated into my network setup. The ability to securely tunnel my internet traffic, block unwanted content, and maintain full control over my DNS queries makes this combination an essential tool for anyone looking to enhance their network’s performance and security.</p>
+		
+			<img src="../assets/pihole.jpg" alt="Pi-hole Dashboard" class="thumbnail" onclick="openModal('../assets/pihole.jpg')">
+		</section>
+		
+		<script>
+            function openModal(imageSrc) {
+                let modal = document.createElement("div");
+                modal.classList.add("modal");
+                modal.style.display = "flex";
+                modal.style.position = "fixed";
+                modal.style.zIndex = "1000";
+                modal.style.left = "0";
+                modal.style.top = "0";
+                modal.style.width = "100%";
+                modal.style.height = "100%";
+                modal.style.backgroundColor = "rgba(0,0,0,0.8)";
+                modal.style.justifyContent = "center";
+                modal.style.alignItems = "center";
+
+                let img = document.createElement("img");
+                img.src = imageSrc;
+                img.style.maxWidth = "90%";
+                img.style.maxHeight = "90%";
+
+                modal.appendChild(img);
+                document.body.appendChild(modal);
+
+                modal.onclick = function () {
+                    document.body.removeChild(modal);
+                };
+            }
+        </script>
+    </main>
+
+    <footer>
+        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+    </footer>
+</body>
+</html>
