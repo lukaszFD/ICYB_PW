@@ -15,7 +15,7 @@
                 pageLanguage: 'en',
                 includedLanguages: 'pl',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false // Ustawienie, żeby pasek nie był wyświetlany
+                autoDisplay: false 
             }, 'google_translate_element');
         }
     </script>
@@ -25,68 +25,59 @@
         <h1>Secure Home in the Digital World</h1>
     </header>
     <main>
-	<section class="content-section">
-	        <section id="recent-updates">
-            <h2>Recent Updates</h2>
-            <ul id="update-list">
-				<li>
-					<strong>Date:</strong> 15/02/2025 - 
-					<a href="raspberry.html">[Link]</a>: First phase - Raspberry PI 4B: Pi-hole, Pi-VPN and unbound.
-				</li>
-            </ul>
-            <button id="show-more-btn">Show More</button>
+        <section class="content-section">
+            <section id="recent-updates">
+                <h2>Recent Updates</h2>
+                <ul id="update-list">
+                    <li>
+                        <strong>Date:</strong> 15/02/2025 - 
+                        <a href="raspberry.html">[Link]</a>: First phase - Raspberry PI 4B: Pi-hole, Pi-VPN, and Unbound.
+                    </li>
+                    <li>
+                        <strong>Date:</strong> 27/03/2025 - 
+                        <a href="raspberry_phase2.html">[Link]</a>: Second phase - Raspberry PI 5: Dockerized setup with Pi-hole, Unbound, Squid Proxy, MongoDB, Elasticsearch, Graylog, Portainer, Samba, Suricata, Prometheus, and Grafana.
+                    </li>
+                </ul>
+                <button id="show-more-btn">Show More</button>
+            </section>
         </section>
-	</section>
         <section class="content-section">
             <h3>Introduction</h3>
             <p>
                 In the modern digital age, online privacy and security are becoming more critical than ever. Cyber threats, data breaches, and intrusive advertisements are daily challenges for individuals and businesses alike. 
-				In the near future, anyone who wants to exist securely in the digital world will need a mini-computer like a Raspberry Pi or Dell OptiPlex. A private DNS Pi-hole, Pi-VPN, proxy, and other network filtering services will become standard for securing home networks. 
-				With the right configuration, these tools can provide enhanced privacy, prevent unwanted tracking, and block malicious content before it reaches your devices.
+                A secure home network requires solutions like Pi-hole, VPN, and monitoring tools to ensure privacy and security. 
+                By leveraging Raspberry Pi and Docker-based solutions, it is possible to create a highly functional security environment tailored to individual needs.
             </p>
             <h3>Hardware Choice</h3>
             <p>
-                For the initial phase of this project, I used a Raspberry Pi 4B (1GB) due to its low cost and efficiency. Additionally, I plan to install PiVPN on the Raspberry Pi 4B to enhance the security and remote access capabilities of the network.
-				Raspberry Pi is an excellent low-power device that allows for an affordable and effective DNS filtering setup. 
-				In this phase, the DNS service will run on the Raspberry Pi 4B. However, for the second phase, I chose a Dell OptiPlex instead of Raspberry Pi due to its greater flexibility in terms of performance and cost. 
-				While Raspberry Pi is efficient, Dell OptiPlex provides better processing power and upgrade options, making it a more sustainable long-term solution. 
-				My Dell OptiPlex comes with 16 GB RAM, a 500 GB NVMe drive, and an Intel Core i5-7500T processor. The additional RAM and processing power ensure that multiple services, including DNS filtering, network monitoring, and virtualization, run smoothly without performance degradation. 
-				In this phase, the DNS service will be combined with a proxy and migrated to the Dell OptiPlex. 
+                <strong>First Phase:</strong> I initially used a Raspberry Pi 4B (1GB) running Raspberry Pi OS Lite (Debian-based). This setup included Pi-hole, Unbound, and PiVPN to secure DNS queries and provide encrypted remote access. 
+            </p>
+            <p>
+                <strong>Second Phase:</strong> To enhance performance, I upgraded to a Raspberry Pi 5 (8GB) and switched to Docker instead of Proxmox. This allowed me to containerize various security and monitoring tools, including Pi-hole, Unbound, Squid Proxy, MongoDB, Elasticsearch, Graylog, Portainer, Samba, Suricata, Prometheus, and Grafana. 
+                The move to Docker provides better flexibility, scalability, and easier service management.
             </p>
             <h3>Operating System</h3>
             <p>
-                I selected a Debian distribution without a graphical interface, ensuring minimal resource consumption and reducing attack vectors. A command-line-based system enhances security by limiting the number of installed libraries and background processes. 
-				By running only the essential services, Debian provides a stable and efficient environment for network filtering and monitoring. 
-				Additionally, regular security updates and a strong open-source community make Debian one of the most reliable choices for securing a home network infrastructure.
+                Both phases utilize a lightweight, command-line-based Debian distribution (Raspberry Pi OS Lite) to ensure minimal resource consumption and maximum security. 
+                By using a headless setup, I reduce attack vectors while maintaining high performance and stability. 
             </p>
             <h3>Benefits of Private DNS, Pi-hole, and Proxy</h3>
             <p>
-                Implementing a private DNS, Pi-hole, and a proxy server significantly enhances security and privacy. Pi-hole acts as a network-wide ad blocker, preventing advertisements and trackers from loading on any connected device. 
-				This reduces bandwidth usage and enhances the browsing experience. Integration with the <a href="https://cert.pl/lista-ostrzezen/" target="_blank">CERT Polska</a> list allows automatic blocking of phishing sites, further protecting against cyber threats. 
-				Additionally, blocklists from <a href="https://firebog.net/" target="_blank">Firebog</a> and <a href="https://adaway.org/hosts.txt" target="_blank">AdAway</a> add another layer of security by filtering out known malicious domains. 
-				By using a proxy, all outbound traffic can be inspected and filtered to prevent access to potentially harmful websites.
+                Implementing a private DNS, Pi-hole, and a proxy server significantly enhances security and privacy. Pi-hole acts as a network-wide ad blocker, preventing advertisements and trackers from loading on any connected device. This reduces bandwidth usage and enhances the browsing experience. Integration with the CERT Polska list allows automatic blocking of phishing sites, further protecting against cyber threats. Additionally, blocklists from Firebog and AdAway add another layer of security by filtering out known malicious domains. By using a proxy, all outbound traffic can be inspected and filtered to prevent access to potentially harmful websites.
             </p>
             <h3>Network Monitoring and Protection</h3>
             <p>
-                Continuous network monitoring is crucial for identifying and mitigating potential threats. The system is equipped with services that analyze network traffic in real time, detect unusual behavior, and generate alerts for potential intrusions. 
-				By leveraging tools like Suricata or Snort, deep packet inspection can be performed to identify malicious traffic patterns. Additionally, logging mechanisms allow for historical analysis, helping to identify trends and potential vulnerabilities. 
-				This proactive approach significantly enhances the overall security posture of a home network.
+                Continuous network monitoring is crucial for identifying and mitigating potential threats. The system is equipped with services that analyze network traffic in real time, detect unusual behavior, and generate alerts for potential intrusions. By leveraging tools like Suricata or Snort, deep packet inspection can be performed to identify malicious traffic patterns. Additionally, logging mechanisms allow for historical analysis, helping to identify trends and potential vulnerabilities. This proactive approach significantly enhances the overall security posture of a home network.
             </p>
             <h3>Flexibility and Virtualization</h3>
             <p>
-                With Proxmox, I can easily test different solutions, deploy new services, and scale the system as needed. Virtualization allows me to run multiple isolated environments, ensuring that one service does not interfere with another. 
-				For example, a separate virtual machine can be dedicated to DNS filtering, another to network monitoring, and another to logging and analytics. 
-				This modular approach not only increases security by isolating services but also allows for easy recovery in case of misconfiguration or failure.
+                With Docker, I can easily test different solutions, deploy new services, and scale the system as needed. Virtualization allows me to run multiple isolated environments, ensuring that one service does not interfere with another. For example, a separate container can be dedicated to DNS filtering, another to network monitoring, and another to logging and analytics. This modular approach not only increases security by isolating services but also allows for easy recovery in case of misconfiguration or failure.
             </p>
             <h3>Open Project</h3>
             <p>
-                This <a href="https://github.com/lukaszFD/home-network-guardian" target="_blank">project</a> is an ongoing effort to develop an optimal home network security solution. After testing various configurations and services, I will refine the setup and share detailed guides with the community. 
-				The goal is to create a highly customizable and effective security system that can be adapted to different needs. All configurations, scripts, and step-by-step tutorials will be documented on this page and my GitHub repository to help others implement similar solutions in their own homes.
+                This project is an ongoing effort to develop an optimal home network security solution. After testing various configurations and services, I will refine the setup and share detailed guides with the community. The goal is to create a highly customizable and effective security system that can be adapted to different needs. All configurations, scripts, and step-by-step tutorials will be documented on this page and my GitHub repository to help others implement similar solutions in their own homes.
             </p>
         </section>
     </main>
-    <footer>
-        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
-    </footer>
 </body>
 </html>
