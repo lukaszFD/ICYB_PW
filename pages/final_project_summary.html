@@ -36,12 +36,26 @@
                 The entire process required a lot of commitment and many hours of research, configuration, and troubleshooting. Every line of code and every Docker container deployed was the result of real-world problem-solving and continuous improvement.
             </p>
         </section>
+		
+		<section class="content-section">
+			<h2>Security Context</h2>
+			<p>
+				This project represents a practical implementation of multiple cybersecurity disciplines typically found in professional environments:
+			</p>
+			<ul class="feature-list">
+				<li><strong>Blue Team:</strong> Focused on defensive security, the system includes threat detection (Suricata), DNS filtering (Pi-hole, Unbound), firewall rules, and monitoring tools. It protects the home network by identifying and mitigating suspicious activity.</li>
+				<li><strong>SOC (Security Operations Center) Functionality:</strong> Although operating on a small scale, this system behaves similarly to a SOC by centralizing logs via Graylog, enabling alerting, and providing visibility into network and system activities.</li>
+				<li><strong>DevSecOps:</strong> Leveraging Docker, Docker Compose, and Portainer, the project incorporates modern DevOps principles with security embedded into the deployment pipeline. 
+				<li><strong>Privacy & Compliance:</strong> The setup enhances privacy and enforces responsible internet access.</li>
+				</li>
+			</ul>
+		</section>
 
         <section class="content-section">
             <h2>What I Have Learned</h2>
             <ul>
                 <li>Advanced configuration and orchestration of <strong>Docker</strong> containers in real home network scenarios.</li>
-                <li>Deploying and integrating multiple security solutions: <strong>Pi-hole, Unbound, Squid Proxy, Suricata IDS, Graylog, Prometheus, Grafana</strong>, and more.</li>
+                <li>Deploying and integrating multiple security solutions: <strong>DNS, Proxy, IDS</strong>, and more.</li>
                 <li>Practical skills in monitoring, logging, and incident detection in a self-hosted environment.</li>
                 <li>Efficient network segmentation and firewall rules, with focus on both security and performance.</li>
                 <li>Container networking, persistent storage, automated log collection and real-time data visualization.</li>
@@ -59,25 +73,24 @@
             </p>
             <ul>
 			    <li>
-					<a href="https://lukaszfd.github.io/ICYB_PW/pages/raspberry_phase2.html" target="_blank">[Component Overview]</a>: Second phase – Raspberry Pi 5: Advanced Network Security
+					<a href="https://lukaszfd.github.io/ICYB_PW/pages/raspberry_phase2.html" target="_blank">[Component Overview]</a>: Home Network Guardian
 				</li>
-                <li>
-                    <a href="https://github.com/lukaszFD/ICYB_PW-FINAL_PROJECT" target="_blank">
-                        ICYB Final Project - Full Thesis (LaTeX)
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/lukaszFD/home-network-guardian" target="_blank">
-                        Home Network Guardian - Docker-based Security System
-                    </a>
-                </li>
+				<li>
+					<a href="https://github.com/lukaszFD/home-network-guardian" target="_blank">[Project configuration files]</a>:  Home Network Guardian - Docker-based Security System
+				</li>
+				<li>
+					<a href="https://github.com/lukaszFD/ICYB_PW-FINAL_PROJECT" target="_blank">[ICYB Final Project]</a>: Full Thesis (LaTeX and Html page)
+				</li>
+				<li>
+					<a href="https://gamma.app/docs/Kompleksowy-System-Bezpieczenstwa-Sieciowego-z-Konteneryzacja-lwtakt216pctb1r" target="_blank">[Presentation - PL]</a>: Final presentation (gamma.app)
+				</li>
             </ul>
         </section>
 
         <section class="content-section">
             <h2>Biggest Challenges</h2>
             <ul>
-                <li>Running enterprise-class tools (Graylog, Elasticsearch, Suricata, Prometheus) on limited hardware.</li>
+                <li>Running enterprise-class tools (Graylog, Grafan, Suricata, Prometheus, Mongo DB) on limited hardware.</li>
                 <li>Integrating logs and metrics from many sources into a single, clear dashboard.</li>
                 <li>Ensuring security without losing usability for the whole family (safe browsing, filtering, privacy).</li>
                 <li>Maintaining network stability during continuous changes and updates.</li>
@@ -87,7 +100,7 @@
         <section class="content-section">
             <h2>Personal Reflections</h2>
             <p>
-                Completing this project was a great journey. I devoted over one and a half months of focused work, countless evenings reading documentation, debugging, and designing the architecture.  
+                Completing this project was a great journey. I spent almost six months of focused work, countless evenings reading documentation, debugging and designing the architecture.  
                 I am proud of the result, but even more proud of the skills I gained and the knowledge I can now share.
             </p>
             <p>
