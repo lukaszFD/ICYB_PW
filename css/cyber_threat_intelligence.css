@@ -1,0 +1,90 @@
+/* General body and font styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header styles */
+header {
+    background: #0073e6;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Main content area */
+main {
+    padding: 20px;
+}
+
+/* Common section styles */
+.content-section {
+    background: white;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-section h3 {
+    margin-top: 0;
+}
+
+/* Styles for code blocks */
+pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 14px;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Specific styles for this page */
+.service-description {
+    margin-bottom: 25px;
+}
+
+.code-block {
+    background-color: #f4f4f4;
+    border-left: 5px solid #0073e6;
+    padding: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.back-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #0073e6;
+}

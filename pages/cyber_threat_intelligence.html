@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Threat Intelligence (CTI) & IoCs</title>
+    <link rel="stylesheet" href="../css/cyber_threat_intelligence.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .malicious {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .clean {
+            color: #5cb85c;
+            font-weight: bold;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .status-in-progress h3 {
+            color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'pl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<header>
+    <h1>Cyber Threat Intelligence (CTI) & Indicators of Compromise (IoCs)</h1>
+</header>
+
+<main>
+    <section class="content-section service-description">
+        <h2>Introduction: CTI and IoCs in My Home Lab</h2>
+        <p>
+            As part of my home projects, specifically  <a href="https://lukaszfd.github.io/ICYB_PW/pages/raspberry_phase2.html" target="_blank">Home Network Guardian</a> and <a href="https://lukaszfd.github.io/ICYB_PW/#" target="_blank">Łukasz's Cybersecurity Projects 2024/2025</a> I have implemented advanced network monitoring mechanisms based on the concepts of <strong>Cyber Threat Intelligence (CTI)</strong> and <strong>Indicators of Compromise (IoC)</strong>.
+        </p>
+        <p>
+            <strong>CTI</strong> is organized, analytical knowledge about threats that enables the proactive detection, prediction, and response to potential attacks. In turn, <strong>IoC</strong> are technical indicators, such as malicious domains, IP addresses, or file hashes, that point to the presence of a cyber threat.
+        </p>
+        <p>
+            My home lab, built on a Raspberry Pi 5, has been expanded with systems that automatically collect data on IoC from DNS traffic and analyze it using the VirusTotal platform.
+        </p>
+    </section>
+
+    <section class="content-section service-description">
+        <h2>System Logic and Workflow</h2>
+        <p>
+            The core of this solution is a three-stage, automated process designed to identify and flag potential threats within the home network's DNS traffic.
+        </p>
+
+        <h3>1. Passive DNS Monitoring (The "Listener")</h3>
+        <p>
+            The first component, the <strong>Passive DNS</strong> service, acts as a silent observer. It continuously monitors the network for DNS queries and their corresponding replies. By capturing and parsing the `dns.log` file in real time, it extracts crucial information like the queried domain, the source IP of the request, and the response IP. This data is then logged into a central MySQL database. This process allows for the creation of a comprehensive, historical record of all DNS activity on the network without actively interfering with traffic.
+        </p>
+        <h3>2. Domain Scanning (The "Hunter")</h3>
+        <p>
+            The second component is the <strong>DNS Scanner</strong>, a Python script that runs at regular intervals. It connects to the database and retrieves a list of all domains that have not yet been scanned. For each new domain, it initiates a scan request to the VirusTotal service via a dedicated API endpoint. This stage is crucial as it automates the process of checking for known malicious domains, turning raw network data into actionable intelligence.
+        </p>
+        <h3>3. Threat Analysis (The "Analyzer")</h3>
+        <p>
+            The third component is the <strong>VirusTotal API Service</strong>. This Flask-based service is responsible for handling the requests from the scanner. It receives a domain, communicates with the official VirusTotal API, and retrieves a detailed report. This report includes information about the domain's reputation and any known malicious associations. The service then stores this valuable threat intelligence in the database, linking it back to the original DNS query.
+        </p>
+        <p>
+            The subjects of analysis are exclusively DNS queries that have been marked as "reply." This means these domains successfully resolved the query and were not blocked at an earlier stage by standard blocklists (e.g., those maintained by CERT Polska, which can be found at this address: <a href="https://cert.pl/lista-ostrzezen/" target="_blank">https://cert.pl/lista-ostrzezen/</a>). The analysis of these queries allows for the detection of new, as yet unknown threats that might bypass existing defenses.
+        </p>
+        <p>
+            For example, a typical entry from the log file, which is then analyzed by the system, looks like this:
+        </p>
+        <pre><code>Sep  6 18:48:56 dnsmasq[1]: reply userlocation.googleapis.com is 142.250.180.106
+Sep  6 18:48:56 dnsmasq[1]: reply userlocation.googleapis.com is 142.251.143.74</code></pre>
+        <p>
+            This entire workflow creates a robust and scalable system for proactive threat detection, turning passive network logs into an active defense mechanism.
+        </p>
+
+        <h3 class="status-in-progress">4. Automated DNS Blocking with Pi-hole (Integration In Progress)</h3>
+        <p>
+            While <strong>Pi-hole</strong> is already active in my network as the primary DNS sinkhole for blocking ads and trackers, the next phase of this project is to integrate it with the VirusTotal data. This will allow for the automatic feeding of known malicious domains from the database directly into Pi-hole's blocklists. This step moves beyond static blocklists, creating a dynamic and responsive defense layer that automatically adapts to new threats identified by the scanner.
+        </p>
+
+        <h3 class="status-in-progress">5. Dynamic Analysis with Suricata (Integration In Progress)</h3>
+        <p>
+            Similarly, <strong>Suricata</strong> is a key component of my network's security posture, providing powerful Intrusion Detection (IDS) capabilities. The current work focuses on building an automated pipeline that will dynamically generate Suricata rules based on the `positives_total_scans` metric from the VirusTotal analysis. This orchestration will allow the system to forward low-risk but suspicious domains for deeper behavioral analysis, logging detailed alerts to a centralized platform like Graylog for further forensic investigation.
+        </p>
+
+    </section>
+
+    <section class="content-section">
+        <h2>System Architecture: Docker Components</h2>
+        <p>
+            The entire system is orchestrated using <strong>Docker Compose</strong>, which defines and manages a multi-container application. Below are the key services, their related files, and their functions:
+        </p>
+        <ul>
+            <li>
+                <strong>`mysqldb`</strong>: This container hosts the MySQL database. It serves as the central repository for storing all DNS query records captured by `dns_log_processor` and the detailed threat reports from VirusTotal.
+            </li>
+            <li>
+                <strong>`dns_log_processor`</strong>: Built using `Dockerfile.dns`, this container runs the `dns_log_processor.py` script. Its main task is to continuously monitor the `dns.log` file and parse DNS queries that have a "reply" status. It then inserts this data, including the domain, response IP, and source IP, into the `mysqldb` database.
+            </li>
+            <li>
+                <strong>`virustotal_scanner`</strong>: This is a custom Flask-based web service built with `Dockerfile.virustotal`. It runs the `virus_total.py` script which acts as an API. The service receives domains, queries the official VirusTotal API, and then stores the resulting analysis in the database.
+            </li>
+            <li>
+                <strong>`dns_scanner`</strong>: Built with `Dockerfile.scanner`, this container runs the `dns_scanner.py` script. Its purpose is to automate scanning. It periodically connects to the database, retrieves a list of new domains that have not yet been scanned, and sends them to the `virustotal_scanner` service for analysis.
+            </li>
+        </ul>
+        <p>
+            This modular, containerized approach ensures that each component can be managed independently, making the system robust, scalable, and easy to maintain.
+        </p>
+    </section>
+
+    <section class="content-section">
+        <h2>Threat Analysis in Practice: Example Query</h2>
+        <p>
+            To demonstrate the system's effectiveness, a simple SQL query can be run to retrieve a summary of the scanned domains. The query below selects information from a database view, providing an at-a-glance overview of which domains are clean and which have been flagged as malicious.
+        </p>
+        <pre><code>SELECT url, scan_date, positives_total_scans, permalink FROM v_scanned_domains;</code></pre>
+        <p>
+            The results clearly show how the system successfully identifies and logs both legitimate and potentially malicious domains. The `positives_total_scans` column indicates the number of security vendors that flagged the URL, while the `permalink` provides a direct link to the full VirusTotal report for a deep-dive analysis.
+        </p>
+        <p>
+            This example demonstrates that even URLs associated with legitimate services might be flagged if they are part of a larger chain of redirects or have been involved in past malicious activities, highlighting the importance of continuous monitoring.
+        </p>
+
+        <table>
+            <thead>
+            <tr>
+                <th>URL</th>
+                <th>Scan Date</th>
+                <th>Positives / Total Scans</th>
+                <th>Permalink</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>consent-pref.trustarc.com</td>
+                <td>2023-05-09T11:38:28</td>
+                <td>1 / 98</td>
+                <td><a href="https://www.virustotal.com/gui/url/c.../detection" target="_blank">Link to Report</a></td>
+            </tr>
+            <tr>
+                <td>google-http-relay-safebrowsing.fastly-edge.com</td>
+                <td>2023-05-09T17:32:02</td>
+                <td>2 / 98</td>
+                <td><a href="https://www.virustotal.com/gui/url/a.../detection" target="_blank">Link to Report</a></td>
+            </tr>
+            <tr>
+                <td>prod.detectportal.prod.cloudops.mozcp.net</td>
+                <td>2023-05-09T02:49:29</td>
+                <td>1 / 98</td>
+                <td><a href="https://www.virustotal.com/gui/url/2.../detection" target="_blank">Link to Report</a></td>
+            </tr>
+            <tr>
+                <td>jqv4-cizz-waw02-orangepl-isp.1.oca.nflixvideo.net</td>
+                <td>2023-05-09T11:47:28</td>
+                <td>1 / 98</td>
+                <td><a href="https://www.virustotal.com/gui/url/e.../detection" target="_blank">Link to Report</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="content-section">
+        <h2>Automated Threat Response: The Next Frontier</h2>
+        <p>
+            While the current system provides a robust platform for collecting and analyzing threat intelligence, the next logical step is to transition from a passive monitoring solution to a fully <strong>automated threat response</strong> mechanism. This evolution will introduce dynamic, rule-based logic to actively neutralize threats based on the CTI data collected.
+        </p>
+        <p>
+            This orchestrated defense strategy will be governed by a predefined threshold based on the VirusTotal analysis results. The <strong>`positives_total_scans`</strong> metric will serve as the key decision-making factor, creating a tiered response system:
+        </p>
+        <ul>
+            <li>
+                <strong>Tier 1: Deeper Analysis via Suricata</strong><br>
+                Domains that have not exceeded a low-risk threshold (e.g., fewer than 3 positives) will not be immediately blocked. Instead, they will be dynamically forwarded to <strong>Suricata</strong>—an advanced Intrusion Detection System (IDS). This will allow for <strong>deeper behavioral analysis</strong> within the network traffic. The data from Suricata, including detailed alert information, will be centralized in <strong>Graylog</strong> for comprehensive logging and analyst review. This approach enables the investigation of suspicious, but not yet confirmed, threats, preventing potential false positives while still providing valuable forensic data.
+            </li>
+            <li>
+                <strong>Tier 2: Immediate DNS-Level Blocking</strong><br>
+                Domains that meet or exceed a critical threat threshold (e.g., 3 or more positives) will be automatically and immediately blocked at the <strong>DNS level</strong>. This is a high-impact countermeasure designed to prevent any further communication with a known malicious host. By integrating this action directly with the DNS resolver, the system proactively protects all devices on the network, preventing data exfiltration, malware downloads, or other malicious activities from reaching their target.
+            </li>
+        </ul>
+        <p>
+            This automated, two-tiered response pipeline represents a significant leap forward, transforming the home network into an intelligent, self-defending system. It automates the correlation of threat intelligence with active countermeasures, minimizing response time and significantly enhancing the network's overall resilience against sophisticated cyber threats.
+        </p>
+    </section>
+
+    <section class="content-section">
+        <h2>Configuration and Source Files</h2>
+        <p>
+            All configuration files, including the `docker-compose.yml` that orchestrates the entire system, can be found in the dedicated GitHub repository.
+        </p>
+        <p>
+            <a href="https://github.com/lukaszfd/home-network-guardian/tree/main/etc-virust_total" target="_blank">View all configuration files on GitHub</a>
+        </p>
+    </section>
+</main>
+
+<footer>
+    <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+</footer>
+</body>
+</html>
