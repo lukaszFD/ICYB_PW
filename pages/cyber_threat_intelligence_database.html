@@ -153,6 +153,42 @@ WHERE
 GROUP BY
     us.id, us.url, us.scan_date, us.positives;</code></pre>
 
+        <h4>`v_malicious_url_detailed_scans`</h4>
+        <p>
+            This view is an advanced analytical tool that provides a detailed breakdown of each malicious scan. Unlike the aggregated view, this one creates a separate row for every antivirus engine that flagged a URL as malicious. It uses advanced MySQL features like a **Common Table Expression (CTE)** with the **<code>WITH</code>** clause and the **<code>JSON_TABLE</code>** and **<code>JSON_KEYS</code>** functions to parse the raw JSON result from VirusTotal. This allows you to precisely see which specific engine (e.g., Avast, Sophos) detected a threat, what its category was, and what the scan result returned. It is crucial for in-depth threat analysis.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_malicious_url_detailed_scans AS
+WITH all_detections AS (
+    SELECT
+        us.id AS scan_id,
+        us.url,
+        us.scan_date,
+        us.positives,
+        jt.engine_name,
+        JSON_EXTRACT(us.scan_result, CONCAT('$.data.attributes.results."', jt.engine_name, '"')) AS engine_data
+    FROM
+        virus_total.url_scans AS us
+    JOIN
+        JSON_TABLE(
+            JSON_KEYS(JSON_EXTRACT(us.scan_result, '$.data.attributes.results')),
+            '$[*]' COLUMNS(engine_name VARCHAR(255) PATH '$')
+        ) AS jt
+    WHERE
+        us.positives > 0
+)
+SELECT
+    scan_id,
+    url,
+    scan_date,
+    positives,
+    engine_name,
+    JSON_UNQUOTE(JSON_EXTRACT(engine_data, '$.category')) AS category,
+    JSON_UNQUOTE(JSON_EXTRACT(engine_data, '$.result')) AS result
+FROM
+    all_detections
+WHERE
+    JSON_UNQUOTE(JSON_EXTRACT(engine_data, '$.category')) = 'malicious';</code></pre>
+
         <h4>`v_non_ipv4_response_ips`</h4>
         <p>
             This view is designed to identify anomalies in DNS traffic. It displays all DNS queries where the response IP address does not match the standard IPv4 format. This could indicate attempts to resolve to IPv6 addresses or other non-standard values, which may be an indicator of suspicious activity or misconfiguration.
