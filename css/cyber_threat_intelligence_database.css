@@ -1,0 +1,129 @@
+/* General body and font styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header styles */
+header {
+    background: #0073e6;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Main content area */
+main {
+    padding: 20px;
+}
+
+/* Common section styles */
+.content-section {
+    background: white;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-section h3 {
+    margin-top: 0;
+}
+
+/* Styles for code blocks */
+pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Specific styles for this page */
+.service-description {
+    margin-bottom: 25px;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.back-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #005bb5;
+}
+
+/* New additions for code highlighting */
+.language-sql {
+    color: #f8f8f2;
+}
+
+.language-sql .keyword {
+    color: #c75662;
+    font-weight: bold;
+}
+
+.language-python {
+    color: #f8f8f2;
+}
+
+.language-python .comment {
+    color: #75715e;
+}
+
+.language-python .string {
+    color: #e6db74;
+}
+
+.language-python .keyword {
+    color: #f92672;
+}
+
+.language-python .function {
+    color: #a6e22e;
+}
+
+.language-bash {
+    color: #f8f8f2;
+}
+
+.language-bash .comment {
+    color: #75715e;
+}
+
+.language-bash .string {
+    color: #e6db74;
+}
+
+.language-bash .keyword {
+    color: #f92672;
+}

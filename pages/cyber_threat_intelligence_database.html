@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Architecture & Analysis for CTI</title>
+    <link rel="stylesheet" href="../css/cyber_threat_intelligence_database.css">
+</head>
+<body>
+
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'pl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<header>
+    <h1>Database Architecture & Data Analysis</h1>
+</header>
+
+<main>
+    <section class="content-section">
+        <h2>Configuration and Source Files</h2>
+        <p>
+            All configuration files can be found in the dedicated GitHub repository.
+        </p>
+        <p>
+            <a href="https://github.com/lukaszFD/home-network-guardian/tree/main/etc-mysql" target="_blank">View all configuration files on GitHub</a>
+        </p>
+    </section>
+
+    <section class="content-section">
+        <h2>Database Schema for Threat Intelligence</h2>
+        <p>
+            The core of the system is a centralized MySQL database that stores all collected network data and threat intelligence reports from VirusTotal. The schema is designed to efficiently capture, link, and analyze Indicators of Compromise (IoCs).
+        </p>
+
+        <h3>1. Storing DNS Queries (`dns_queries`)</h3>
+        <p>
+            This table is the foundation of our data collection. It holds the raw log of every DNS query observed on the network.
+        </p>
+        <pre><code class="language-sql">CREATE TABLE virus_total.dns_queries (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `timestamp` DATETIME NOT NULL,
+  `query_type` VARCHAR(10) NOT NULL,
+  `domain` VARCHAR(255) NOT NULL,
+  `source_ip` VARCHAR(45) NOT NULL,
+  `response_ip` VARCHAR(45),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_dns_entry` (`domain`)
+);</code></pre>
+        <ul>
+            <li><strong>`domain`</strong>: This is the key field that is used to connect network activity with threat intelligence.</li>
+            <li><strong>`source_ip`</strong>: Identifies the device on the network that initiated the query.</li>
+            <li><strong>`response_ip`</strong>: The IP address the domain resolved to, which is another crucial IoC.</li>
+        </ul>
+
+        <h3>2. Storing URL & File Scans (`url_scans`, `file_scans`)</h3>
+        <p>
+            These tables store the detailed analysis reports retrieved from the VirusTotal API. They are linked to the DNS data via the URL/domain field. The JSON column is a key feature for storing the full, unparsed API response, ensuring no data is lost.
+        </p>
+        <pre><code class="language-sql">CREATE TABLE IF NOT EXISTS virus_total.url_scans (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(2048) NOT NULL,
+    scan_date DATETIME NOT NULL,
+    positives INT,
+    total_scans INT,
+    permalink VARCHAR(2048),
+    scan_result JSON,
+    UNIQUE KEY (url(255))
+);</code></pre>
+        <pre><code class="language-sql">CREATE TABLE IF NOT EXISTS virus_total.file_scans (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sha256 VARCHAR(64) NOT NULL,
+    scan_date DATETIME NOT NULL,
+    positives INT,
+    total_scans INT,
+    permalink VARCHAR(2048),
+    yara_rules JSON,
+    scan_result JSON,
+    UNIQUE KEY (sha256)
+);</code></pre>
+
+        <h3>3. Views for Simplified Analysis</h3>
+        <p>
+            Views act as virtual tables, pre-joining data and applying filters to provide a clear, aggregated view of the threat landscape without complex queries.
+        </p>
+
+        <h4>`v_dns_queries`</h4>
+        <p>
+            This view is crucial for Python scripts that automate the scanning process. It uses a <strong><code>LEFT JOIN</code></strong> to link the <code>dns_queries</code> table with <code>url_scans</code>. It displays only those records for which there is no match in the scans table, meaning these domains have not yet been scanned by VirusTotal. This allows the scanning script to efficiently retrieve a list of only new domains to process. Additionally, the view filters records to include only valid IPv4 addresses, which helps eliminate non-IP data.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_dns_queries AS
+SELECT
+    dq.id, dq.timestamp, dq.query_type, dq.domain, dq.source_ip, dq.response_ip
+FROM virus_total.dns_queries dq
+LEFT JOIN virus_total.url_scans us ON dq.domain = us.url
+WHERE
+    us.url IS NULL
+    AND dq.response_ip REGEXP '^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$';</code></pre>
+
+        <h4>`v_malicious_url_scans`</h4>
+        <p>
+            This is a simple but highly useful view. Its main purpose is to instantly show all URLs that have been flagged as malicious. This view retrieves all records from the <code>url_scans</code> table where the value in the <strong><code>positives</code></strong> column is greater than zero. This allows for quick data filtering for analysis and makes it easy to generate reports or alerts for potential threats.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_malicious_url_scans AS
+SELECT
+    id, url, scan_date, positives, total_scans, permalink, scan_result
+FROM virus_total.url_scans
+WHERE positives > 0;</code></pre>
+
+        <h4>`v_malicious_url_aggregated_scans`</h4>
+        <p>
+            This more advanced view goes a step further in analysis. It uses the MySQL <strong><code>JSON_TABLE</code></strong> function to parse the <code>scan_result</code> column, which stores the full JSON response from VirusTotal. This view aggregates data on malicious scans, grouping them and creating a single, concatenated string (using <code>GROUP_CONCAT</code>) that summarizes which specific antivirus engines detected the threat, its category, and the result. This is an ideal tool for in-depth analysis and creating detailed reports.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_malicious_url_aggregated_scans AS
+SELECT
+    us.id AS scan_id,
+    us.url,
+    us.scan_date,
+    us.positives,
+    GROUP_CONCAT(
+        CONCAT(
+            jt.engine_name,
+            ' - ',
+            JSON_UNQUOTE(JSON_EXTRACT(jt.details, '$.category')),
+            ' - ',
+            JSON_UNQUOTE(JSON_EXTRACT(jt.details, '$.result'))
+        )
+        SEPARATOR '; '
+    ) AS aggregated_detections
+FROM
+    virus_total.url_scans AS us
+JOIN
+    JSON_TABLE(
+        JSON_EXTRACT(us.scan_result, '$.data.attributes.results'),
+        '$' COLUMNS (
+            engine_name VARCHAR(255) PATH '$.engine_name',
+            details JSON PATH '$'
+        )
+    ) AS jt
+WHERE
+    us.positives > 1
+    AND JSON_UNQUOTE(JSON_EXTRACT(jt.details, '$.category')) = 'malicious'
+GROUP BY
+    us.id, us.url, us.scan_date, us.positives;</code></pre>
+
+        <h4>`v_non_ipv4_response_ips`</h4>
+        <p>
+            This view is designed to identify anomalies in DNS traffic. It displays all DNS queries where the response IP address does not match the standard IPv4 format. This could indicate attempts to resolve to IPv6 addresses or other non-standard values, which may be an indicator of suspicious activity or misconfiguration.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_non_ipv4_response_ips AS
+SELECT
+    id, timestamp, query_type, domain, source_ip, response_ip
+FROM virus_total.dns_queries
+WHERE
+    response_ip IS NOT NULL
+    AND response_ip NOT REGEXP '^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$';</code></pre>
+
+        <h4>`v_yara_matches_summary`</h4>
+        <p>
+            This view is intended for summarizing YARA detection results. It counts (using <strong><code>COUNT</code></strong>) the number of matches for each YARA rule, grouping the results by rule name, ruleset name, and description. This is an ideal solution for generating reports that show which rules are triggered most often, which can help in fine-tuning rules or identifying recurring threat types.
+        </p>
+        <pre><code class="language-sql">CREATE OR REPLACE VIEW virus_total.v_yara_matches_summary AS
+SELECT
+    yd.rule_name,
+    yd.ruleset_name,
+    yd.description,
+    COUNT(yd.id) AS match_count
+FROM
+    virus_total.yara_detections yd
+GROUP BY
+    yd.rule_name,
+    yd.ruleset_name,
+    yd.description
+ORDER BY
+    match_count DESC;</code></pre>
+    </section>
+
+    <section class="content-section">
+        <h2>Database Maintenance and Deployment</h2>
+        <p>
+            Effective management of the database is crucial for a CTI system, ensuring data freshness and a smooth deployment process.
+        </p>
+
+        <h3>1. Automated Data Cleanup (`clean_old_data.sql`)</h3>
+        <p>
+            This stored procedure is a key component for automated database maintenance. It helps manage the size of the database by automatically deleting old records from the core tables. This prevents the database from growing indefinitely and keeps the most relevant, recent data readily available for analysis.
+        </p>
+        <pre><code class="language-sql">-- Stored procedure for automated data cleanup
+CREATE PROCEDURE virus_total.clean_old_data(IN days_to_keep INT)
+BEGIN
+    DELETE FROM dns_queries WHERE timestamp < NOW() - INTERVAL days_to_keep DAY;
+    DELETE FROM url_scans WHERE scan_date < NOW() - INTERVAL days_to_keep DAY;
+    DELETE FROM file_scans WHERE scan_date < NOW() - INTERVAL days_to_keep DAY;
+    -- Consider cascading deletes for yara_detections if needed
+END;</code></pre>
+
+        <h3>2. Database Deployment (`deploy_db.sh`)</h3>
+        <p>
+            The `deploy_db.sh` shell script is a great example of an operational best practice. It automates the entire process of deploying the database schema by concatenating all the necessary SQL files—tables, indexes, views, and procedures—into a single, executable deployment script. This ensures consistency and simplifies the setup process on new environments.
+        </p>
+        <pre><code class="language-bash">#!/bin/bash
+
+# Define output file with current date
+CURRENT_DATE=$(date +%Y_%m_%d)
+OUTPUT_FILE="deployment_script_${CURRENT_DATE}.sql"
+
+# Clear previous deployment script if it exists
+if [ -f "$OUTPUT_FILE" ]; then
+    rm "$OUTPUT_FILE"
+    echo "Previous deployment script removed."
+fi
+
+echo "Creating the database deployment script: $OUTPUT_FILE"
+
+# 1. Append the database creation script
+echo "-- Database creation script" >> $OUTPUT_FILE
+if [ -f "CREATE_DATABASE.sql" ]; then
+    cat "CREATE_DATABASE.sql" >> $OUTPUT_FILE
+    echo -e "\n" >> $OUTPUT_FILE
+    echo "Database creation script appended."
+else
+    echo "Error: CREATE_DATABASE.sql not found." >> $OUTPUT_FILE
+fi
+
+# 2. Append table creation scripts
+echo -e "\n-- Table creation scripts" >> $OUTPUT_FILE
+for file in TABLE/*.sql; do
+    if [ -f "$file" ]; then
+        echo "Processing table script: $file"
+        cat "$file" >> $OUTPUT_FILE
+        echo -e "\n" >> $OUTPUT_FILE
+    fi
+done
+echo "All table scripts appended."
+
+# 3. Append index creation scripts
+echo -e "\n-- Index creation scripts" >> $OUTPUT_FILE
+for file in INDEXES/*.sql; do
+    if [ -f "$file" ]; then
+        echo "Processing index script: $file"
+        cat "$file" >> $OUTPUT_FILE
+        echo -e "\n" >> $OUTPUT_FILE
+    fi
+done
+echo "All index scripts appended."
+
+# 4. Append view creation scripts
+echo -e "\n-- View creation scripts" >> $OUTPUT_FILE
+for file in VIEWS/*.sql; do
+    if [ -f "$file" ]; then
+        echo "Processing view script: $file"
+        cat "$file" >> $OUTPUT_FILE
+        echo -e "\n" >> $OUTPUT_FILE
+    fi
+done
+echo "All view scripts appended."
+
+# 5. Append procedure creation scripts
+echo -e "\n-- Procedure creation scripts" >> $OUTPUT_FILE
+for file in PROCEDURES/*.sql; do
+    if [ -f "$file" ]; then
+        echo "Processing procedure script: $file"
+        cat "$file" >> $OUTPUT_FILE
+        echo -e "\n" >> $OUTPUT_FILE
+    fi
+done
+echo "All procedure scripts appended."
+
+echo "Deployment script created successfully. Run it with: "
+echo "mysql -u [user] -p [password] < $OUTPUT_FILE"</code></pre>
+    </section>
+
+    <section class="content-section">
+        <h2>Conclusion: Turning Data into Intelligence</h2>
+        <p>
+            The integration of Python with the MySQL database transforms raw network data into actionable threat intelligence. By using a well-defined database schema and leveraging advanced features like `JSON` columns and `VIEWS`, the project can not only collect data but also analyze it effectively to identify and respond to potential threats. The entire process, from passive monitoring to automated scanning and data enrichment, creates a robust foundation for a self-defending network.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+</footer>
+
+</body>
+</html>
