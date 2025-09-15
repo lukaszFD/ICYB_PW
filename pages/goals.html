@@ -7,58 +7,58 @@
     <link rel="stylesheet" href="../css/goals.css">
 </head>
 <body>
-    <!-- Google Translate Button -->
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'pl',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false // Disable automatic display
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'pl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false // Disable automatic display
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <header>
-        <h1>Project Goals</h1>
-    </header>
-    <main>
-        <section class="content-section">
-            <h3>Learning Cybersecurity Through Practice</h3>
-            <p>
-                In the rapidly evolving field of cybersecurity, I firmly believe that practical experience is the cornerstone of effective learning. Theory can provide a solid foundation, but it is only through hands-on experimentation, testing, and real-world application that one truly begins to grasp the complexities of securing systems and identifying vulnerabilities. With this in mind, I embarked on a journey to deepen my knowledge and skills by creating this project —> a repository of my cybersecurity tests and experiments.
-            </p>
-            <h3>Why Practice-Based Learning?</h3>
-            <p>
-                Cybersecurity is not static. Threats evolve, technologies advance, and attackers constantly find new ways to exploit systems. Relying solely on theoretical knowledge often leaves gaps that only practical exposure can fill. By experimenting with real scenarios, I aim to simulate the challenges faced by cybersecurity professionals and hone my ability to tackle them effectively.
-            </p>
-            <h3>Project Goals</h3>
-            <ul>
-                <li><strong>Hands-On Experience:</strong> I strive to gain as much hands-on experience as possible, focusing on tools, vulnerabilities, and mitigation strategies. This includes experimenting with penetration testing tools like Hydra, hping3, and nikto, as well as configuring firewalls and intrusion detection systems.</li>
-                <li><strong>Understanding Systems in Depth:</strong> Security cannot be achieved without understanding the systems being protected. To this end, I’ve dedicated time to exploring various Linux distributions (e.g., Kali Linux, Alpine Linux, and Debian) and Windows environments.</li>
-                <li><strong>Documenting and Sharing Knowledge:</strong> This repository is a way to document my learning journey, share insights with others, and demonstrate my progression as a cybersecurity practitioner.</li>
-            </ul>
-            <h3>Virtualization as a Learning Platform</h3>
-            <p>
-                To test and validate my knowledge, I rely heavily on virtualization. VirtualBox has been an invaluable tool in this process, allowing me to create and manage isolated environments for testing without risking my primary systems.
-            </p>
-            <h3>Key Lessons Learned</h3>
-            <ul>
-                <li>Isolation is Essential: Testing in isolated environments ensures that experiments don’t inadvertently impact other systems. VirtualBox provides a safe and flexible platform for this.</li>
-                <li>Documentation Matters: Keeping detailed notes and logs of every test has been crucial. It not only helps track progress but also serves as a reference for future experiments.</li>
-                <li>Embracing Failure: Not every test yields the desired results, but every failure is a learning opportunity. Debugging and troubleshooting are as valuable as successfully executing a test.</li>
-                <li>System Diversity: Working with different operating systems has highlighted the unique challenges each presents. For example, securing a lightweight Linux distribution requires different considerations than hardening a Windows server.</li>
-            </ul>
-            <h3>Conclusion</h3>
-            <p>
-                Cybersecurity is a journey, not a destination. By committing to a practice-based learning approach, I’ve been able to gain valuable insights and skills that go beyond theoretical understanding. This project is a reflection of that commitment, showcasing my experiments, tests, and the lessons I’ve learned along the way. Whether you’re a seasoned professional or a beginner in the field, I hope this repository serves as a source of inspiration and knowledge. Let’s continue to learn, share, and build a safer digital world together.
-            </p>
-        </section>
-    </main>
-    <footer>
-        <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
-    </footer>
+<header>
+    <h1>Project Goals</h1>
+</header>
+<main>
+    <section class="content-section">
+        <h3>Learning Cybersecurity Through Practice</h3>
+        <p>
+            In the rapidly evolving field of cybersecurity, I firmly believe that practical experience is the cornerstone of effective learning. Theory can provide a solid foundation, but it is only through hands-on experimentation, testing, and real-world application that one truly begins to grasp the complexities of securing systems and identifying vulnerabilities. With this in mind, I embarked on a journey to deepen my knowledge and skills by creating this project — a repository of my cybersecurity tests and experiments. This project goes beyond traditional virtualization, including the use of physical hardware like a <strong>Raspberry Pi 5</strong> and a <strong>Dell OptiPlex 7050 mini server</strong> to simulate a real-world home network environment. This allows for a deeper understanding of network-level threats and countermeasures on a variety of actual devices and architectures.
+        </p>
+        <h3>Why Practice-Based Learning?</h3>
+        <p>
+            Cybersecurity is not static. Threats evolve, technologies advance, and attackers constantly find new ways to exploit systems. Relying solely on theoretical knowledge often leaves gaps that only practical exposure can fill. By experimenting with real scenarios, I aim to simulate the challenges faced by cybersecurity professionals and hone my ability to tackle them effectively.
+        </p>
+        <h3>Project Goals</h3>
+        <ul>
+            <li><strong>Hands-On Experience:</strong> I strive to gain as much hands-on experience as possible, focusing on tools, vulnerabilities, and mitigation strategies. This includes experimenting with penetration testing tools like Hydra, hping3, and nikto, as well as configuring firewalls and intrusion detection systems.</li>
+            <li><strong>Understanding Systems in Depth:</strong> Security cannot be achieved without understanding the systems being protected. To this end, I’ve dedicated time to exploring various Linux distributions (e.g., Kali Linux, Alpine Linux, and Debian) and Windows environments on multiple platforms/servers.</li>
+            <li><strong>Cross-Platform Deployment:</strong> A key goal is to ensure the project’s services are portable and can run on different architectures, specifically by creating <strong>ARM64 Docker containers</strong> to deploy them on the Raspberry Pi 5.</li>
+            <li><strong>Documenting and Sharing Knowledge:</strong> This repository is a way to document my learning journey, share insights with others, and demonstrate my progression as a cybersecurity practitioner.</li>
+        </ul>
+        <h3>Virtualization as a Learning Platform</h3>
+        <p>
+            To test and validate my knowledge, I rely heavily on virtualization. VirtualBox has been an invaluable tool in this process, allowing me to create and manage isolated environments for testing without risking my primary systems.
+        </p>
+        <h3>Key Lessons Learned</h3>
+        <ul>
+            <li>Isolation is Essential: Testing in isolated environments ensures that experiments don’t inadvertently impact other systems. VirtualBox provides a safe and flexible platform for this.</li>
+            <li>Documentation Matters: Keeping detailed notes and logs of every test has been crucial. It not only helps track progress but also serves as a reference for future experiments.</li>
+            <li>Embracing Failure: Not every test yields the desired results, but every failure is a learning opportunity. Debugging and troubleshooting are as valuable as successfully executing a test.</li>
+            <li>System Diversity: Working with different operating systems and hardware platforms (like the Raspberry Pi and Dell server) has highlighted the unique challenges each presents. For example, securing a lightweight Linux distribution requires different considerations than hardening a Windows server.</li>
+        </ul>
+        <h3>Conclusion</h3>
+        <p>
+            Cybersecurity is a journey, not a destination. By committing to a practice-based learning approach, I’ve been able to gain valuable insights and skills that go beyond theoretical understanding. This project is a reflection of that commitment, showcasing my experiments, tests, and the lessons I’ve learned along the way. Whether you’re a seasoned professional or a beginner in the field, I hope this repository serves as a source of inspiration and knowledge. Let’s continue to learn, share, and build a safer digital world together.
+        </p>
+    </section>
+</main>
+<footer>
+    <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+</footer>
 </body>
 </html>
