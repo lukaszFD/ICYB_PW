@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirusTotal IOC DNS Rules</title>
+    <link rel="stylesheet" href="../css/virustota_ioc_rules.css">
+</head>
+<body>
+
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'pl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<header>
+    <h1>Cyber Threat Intelligence</h1>
+    <p>VirusTotal IOC DNS Rules</p>
+</header>
+
+<main class="content-section">
+    <h2>Understanding the `virustota-ioc.rules`</h2>
+    <p>
+        The `virustota-ioc.rules` file is a core component of your network's defense, allowing you to actively protect against known threats. This is a practical application of <STRONG>Cyber Threat Intelligence (CTI)</STRONG>, which involves gathering and analyzing information about potential or current threats to improve an organization's security posture.
+        The complete ruleset is available on GitHub: <a href="https://github.com/lukaszFD/home-network-guardian/blob/main/etc-suricata/rules/virustotal-ioc.rules" target="_blank">View Rules on GitHub</a>.
+    </p>
+
+    <h3>What Are the Rules and What Do They Achieve?</h3>
+    <p>
+        Each rule in the file acts as an <STRONG>Indicator of Compromise (IoC)</STRONG>, a forensic artifact that indicates a network intrusion has occurred. By integrating these rules into Suricata, your system can automatically detect and alert on attempts to communicate with known malicious domains.
+    </p>
+
+    <h4>Examples from the ruleset:</h4>
+    <ul class="rule-list">
+        <li>
+            <STRONG>Rule for '303.consent-pref.trustarc.com'</STRONG><br>
+            This rule alerts on a DNS query for a domain that has been flagged as suspicious on VirusTotal. The goal is to detect potential malicious traffic from a host on your network to this specific domain.
+        </li>
+        <li>
+            <STRONG>Rule for 'storage.googleapis.com'</STRONG><br>
+            This rule specifically flags a query to a Google-owned domain often abused for malware hosting. This helps in identifying a host that might be attempting to download malicious content from a compromised legitimate service.
+        </li>
+        <li>
+            <STRONG>Rule for 'botnet-control-3.org'</STRONG><br>
+            This rule is a direct IoC for a known botnet C&C (Command & Control) server. The objective is to detect a compromised machine on your network attempting to communicate with its botmaster for instructions.
+        </li>
+        <li>
+            <STRONG>Rule for 'malware-cdn.xyz'</STRONG><br>
+            This rule targets a domain used for distributing malware. Detecting this DNS query helps in identifying a host attempting to download malicious files and preventing the download from happening in the first place.
+        </li>
+        <li>
+            <STRONG>Rule for 'ransomware-server.ru'</STRONG><br>
+            This rule alerts on a DNS query to a server associated with ransomware. The goal is to detect a machine that might be trying to connect to a C&C server to either get a decryption key or upload encrypted files.
+        </li>
+    </ul>
+    <p>
+        My main objective is to use this system to transform a basic home network into a <STRONG>self-defending environment</STRONG>. By leveraging public CTI sources, my project can proactively identify and alert on threats that might otherwise go unnoticed. This not only enhances security but also provides valuable insights into the network's traffic and host behavior.
+    </p>
+</main>
+
+<section class="content-section">
+    <h2>Example DNS Queries from Our Database</h2>
+    <p class="service-description">
+        The data in this table is an example of DNS queries logged by the system. The threat levels are derived from automated checks against the VirusTotal API, and the results are stored in a centralized MySQL database. This process allows for real-time threat intelligence analysis directly from the collected network data.
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>URL</th>
+            <th>Scan Date</th>
+            <th>Positives / Total Scans</th>
+            <th>Permalink</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>consent-pref.trustarc.com</td>
+            <td>2025-09-05T11:38:28</td>
+            <td class="malicious">1 / 92</td>
+            <td><a href="#" target="_blank">Link to Report</a></td>
+        </tr>
+        <tr>
+            <td>google-ohttp-relay-safebrowsing.fastly-edge.com</td>
+            <td>2025-09-05T17:32:01</td>
+            <td class="malicious">2 / 92</td>
+            <td><a href="#" target="_blank">Link to Report</a></td>
+        </tr>
+        <tr>
+            <td>prod.detectportal.prod.cloudops.mozgcp.net</td>
+            <td>2025-09-06T02:49:29</td>
+            <td class="malicious">1 / 92</td>
+            <td><a href="#" target="_blank">Link to Report</a></td>
+        </tr>
+        <tr>
+            <td>storage.googleapis.com</td>
+            <td>2025-09-06T10:28:14</td>
+            <td class="malicious">1 / 92</td>
+            <td><a href="#" target="_blank">Link to Report</a></td>
+        </tr>
+        <tr>
+            <td>ipv4-c021-waw002-orangepl-isp.1.oca.nflxvideo.net</td>
+            <td>2025-09-07T11:47:28</td>
+            <td class="malicious">1 / 92</td>
+            <td><a href="#" target="_blank">Link to Report</a></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <a href="https://lukaszfd.github.io/ICYB_PW/" class="back-button">Back to Main Page</a>
+</footer>
+
+</body>
+</html>
