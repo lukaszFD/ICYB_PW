@@ -1,0 +1,112 @@
+/* General styles - Adapted to Dark Theme from main.css */
+body {
+    font-family: 'Consolas', monospace; /* Technical font */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #e0e0e0; /* Light text color */
+    background-color: #121212; /* Dark background */
+}
+
+/* Define a primary accent color */
+:root {
+    --primary-color: #00FFC0; /* Neon Cyan/Green from main.css */
+    --background-dark: #1e1e1e;
+    --background-darker: #000000;
+}
+
+/* Header styling */
+header {
+    background: var(--background-darker); /* Black background */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color); /* Neon accent line */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(0, 255, 192, 0.7); /* Neon glow */
+}
+
+main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+/* Content Section Styles - Main article container */
+.content-section {
+    background: var(--background-dark);
+    margin-bottom: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 192, 0.2);
+    border: 1px solid rgba(0, 255, 192, 0.2);
+}
+
+.content-section h3 {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* Link Styling */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Image Styling for the dashboard screenshot */
+.dashboard-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 25px auto; /* Centrowanie i odstęp */
+    border: 3px solid var(--primary-color); /* Neonowa ramka */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 192, 0.5); /* Mocniejszy cień */
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: var(--background-darker);
+    color: #888;
+    width: 100%;
+    margin-top: 30px;
+    border-top: 1px solid rgba(0, 255, 192, 0.2);
+}
+
+/* Back to Main Page Button */
+.back-button {
+    display: inline-block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 12px 25px;
+    background: var(--primary-color);
+    color: #121212;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 255, 192, 0.5);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.back-button:hover {
+    background: #00E0A0;
+    box-shadow: 0 0 15px rgba(0, 255, 192, 0.8);
+}

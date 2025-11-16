@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafana & VirusTotal - CTI Visualization</title>
+    <link rel="stylesheet" href="../css/grafana_virus_total.css">
+</head>
+<body>
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'pl',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<header>
+    <h1>CTI Visualization: Grafana and VirusTotal</h1>
+</header>
+
+<main>
+    <section class="content-section">
+        <h3>Integrating VirusTotal IoCs into the Home Network Guardian</h3>
+        <p>
+            As part of the <a href="pages/raspberry_phase2.html"><strong>Home Network Guardian</strong></a> project, a key element for elevating security is the integration of Indicators of Compromise (IoC) data from external sources like VirusTotal. This allows for proactive monitoring and rapid response to potential threats before they reach critical assets on the home network.
+        </p>
+        <p>
+            Data from the VirusTotal API is automatically collected and stored in a <a href="cyber_threat_intelligence_database.html">central MySQL database</a>. This storage enables historical analysis and advanced visualization within Grafana.
+        </p>
+    </section>
+
+    <section class="content-section">
+        <h3>What is Analyzed? CTI Data Architecture</h3>
+        <p>
+            The Grafana dashboard (defined in <a href="https://github.com/lukaszFD/home-network-guardian/blob/main/grafana/virus_total.json" target="_blank">virus_total.json</a>) transforms raw VirusTotal scan results into clear CTI indicators, analyzing data points such as:
+        </p>
+        <ul>
+            <li><strong>Domain and IP Reputation:</strong> Monitoring the Detection Ratio (malicious detections / total scanners) for domains and IP addresses observed in network traffic. Ratios above a defined threshold are immediately flagged as potential threats.</li>
+            <li><strong>Scan Statistics:</strong> Tracking the number of scans performed in VirusTotal over a given period, which helps assess monitoring activity and data freshness.</li>
+            <li><strong>Last Analysis Status:</strong> The time elapsed since the last analysis of a specific IoC, ensuring the system operates on the most current reputation data.</li>
+            <li><strong>Attack Vector Visualization:</strong> Utilizing data segmentation in MySQL to visualize which types of IoCs (e.g., malicious domains, C2 infrastructure) are most prevalent during a specific timeframe.</li>
+        </ul>
+
+        <img src="../assets/grafana_virus_total.png" alt="Grafana Dashboard showing VirusTotal analysis" class="dashboard-image">
+        <p style="text-align: center; font-style: italic;">Visualizing VirusTotal IoC data in Grafana for proactive threat hunting.</p>
+
+    </section>
+
+    <section class="content-section">
+        <h3>Benefits and Added Value for Security</h3>
+        <p>
+            Visualizing VirusTotal data in Grafana goes beyond simple reporting—it actively supports Threat Hunting efforts:
+        </p>
+        <ul>
+            <li><strong>Rapid Threat Identification:</strong> Grafana immediately signals anomalies (e.g., a domain with a high Detection Ratio), enabling prompt action to block it at the Pi-hole or firewall level.</li>
+            <li><strong>Data-Driven Security:</strong> Security decisions are based on hard reputation data from one of the world's largest CTI sources.</li>
+            <li><strong>Visual Cohesion:</strong> Integrating reputation indicators with general network metrics (e.g., Pi-hole load, Suricata alerts) provides a comprehensive, unified view of the security posture.</li>
+            <li><strong>Proactive Defense:</strong> This setup shifts the defense strategy from reactive blocking of known threats to proactive monitoring of indicators that may suggest new or emerging attack campaigns.</li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <a href="../index.html" class="back-button">Back to Main Page</a>
+</footer>
+</body>
+</html>
