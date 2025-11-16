@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <style>
+        /* Simple styling for the application */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #qrcode {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            min-height: 200px; /* Ensures space is always reserved */
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔗 Simple QR Code Generator</h1>
+
+    <label for="urlInput">Enter URL:</label>
+    <input type="url" id="urlInput" placeholder="e.g., https://lukaszfd.github.io/ICYB_PW/index.html">
+
+    <button onclick="generateQRCode()">Generate QR Code</button>
+
+    <div id="qrcode">
+    </div>
+
+    <p class="error-message" id="errorMessage"></p>
+</div>
+
+<script>
+    // Global variable to hold the qrcode object instance
+    let qr = null;
+
+    function generateQRCode() {
+        // Get the URL from the input field
+        const url = document.getElementById('urlInput').value.trim();
+        const qrCodeDiv = document.getElementById('qrcode');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Clear previous error message
+        errorMessage.textContent = '';
+
+        if (!url) {
+            errorMessage.textContent = 'Please enter a valid URL.';
+
+            // Clear the previous QR code if the input is empty
+            qrCodeDiv.innerHTML = '';
+            qr = null;
+            return;
+        }
+
+        // If a QR code instance already exists, clear the content
+        if (qr) {
+            qrCodeDiv.innerHTML = '';
+            qr = null;
+        }
+
+        // Re-initialize the QR code object and generate the new code
+        try {
+            // Initialize the QR code generator with settings
+            qr = new QRCode(qrCodeDiv, {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H // High error correction level
+            });
+
+        } catch (error) {
+            // Handle potential errors (e.g., invalid input format if not caught by the browser)
+            errorMessage.textContent = 'An error occurred while generating the QR code. Check the URL format.';
+            console.error("QR Code Generation Error:", error);
+        }
+    }
+</script>
+
+</body>
+</html>
