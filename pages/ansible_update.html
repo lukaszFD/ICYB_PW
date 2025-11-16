@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ansible Project Update</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<div id="markdown-content">
+    Loading README.md...
+</div>
+
+<script>
+    // 1. Define the URL for the RAW Markdown file
+    const RAW_MD_URL = 'https://raw.githubusercontent.com/lukaszFD/home-network-guardian/main/README.md';
+
+    // 2. Fetch the content
+    fetch(RAW_MD_URL)
+        .then(response => {
+            // Check if the request was successful (status 200)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(markdownText => {
+            // 3. Convert Markdown to HTML using marked.js
+            const htmlContent = marked.parse(markdownText);
+
+            // 4. Inject the HTML into the container
+            document.getElementById('markdown-content').innerHTML = htmlContent;
+        })
+        .catch(error => {
+            console.error('There was a problem fetching the Markdown:', error);
+            document.getElementById('markdown-content').innerHTML = '<h2>Error loading content.</h2>';
+        });
+</script>
+
+</body>
+</html>
