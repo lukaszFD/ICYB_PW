@@ -1,114 +1,144 @@
-/* General body styles */
+/* General styles - Dark Theme from main.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Consolas', monospace; /* More technical font */
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    color: #333;
-    background: #f4f4f4;
+    color: #e0e0e0; /* Light text */
+    background: #121212; /* Dark background */
+}
+
+/* Define a primary accent color */
+:root {
+    --primary-color: #00FFC0; /* Neon Cyan/Green */
+    --background-dark: #1e1e1e;
+    --background-darker: #000000;
 }
 
 /* Header styling */
 header {
-    background: #0078D7;
+    background: var(--background-darker); /* Darker background */
     color: white;
     text-align: center;
     padding: 20px 0;
+    border-bottom: 2px solid var(--primary-color);
 }
 
 header h1 {
     margin: 0;
-    font-size: 2.0em;
+    font-size: 2.5em;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(0, 255, 192, 0.7); /* Neon glow */
 }
 
 /* Profile section */
 .profile {
     max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
+    margin: 40px auto; /* Większy margines */
+    background: var(--background-dark); /* Lżejszy ciemny odcień */
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 192, 0.2); /* Neonowy cień */
     text-align: center;
+    border: 1px solid rgba(0, 255, 192, 0.2);
+}
+
+.profile h2 { /* Nowy styl dla sekcji edukacji */
+    color: white;
+    border-bottom: 1px dashed var(--primary-color);
+    padding-bottom: 10px;
+    margin-top: 25px;
+    font-size: 1.6em;
 }
 
 .profile-photo {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 25px;
+    border: 3px solid var(--primary-color); /* Neonowa ramka */
+    box-shadow: 0 0 15px var(--primary-color);
 }
 
-.linkedin-link {
+.linkedin-link, .github-link {
     display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #0078D7;
-    color: white;
+    margin: 15px 10px 10px; /* Zwiększone odstępy między przyciskami */
+    padding: 12px 25px;
+    background: var(--primary-color);
+    color: #121212; /* Ciemny tekst na jasnym przycisku */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 192, 0.5);
+    transition: background 0.3s, box-shadow 0.3s;
 }
 
-.github-link {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #0078D7;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
-}
-
-.linkedin-link:hover {
-    background: #005bb5;
-}
-
-.github-link:hover {
-    background: #005bb5;
+.linkedin-link:hover, .github-link:hover {
+    background: #00E0A0; /* Nieco ciemniejszy neon przy najechaniu */
+    box-shadow: 0 0 20px rgba(0, 255, 192, 0.8);
 }
 
 .back-button {
-    display: inline-block;
-    margin: 20px auto;
+    display: block; /* Ustawienie na całą szerokość dla lepszej widoczności */
+    max-width: 300px;
+    margin: 30px auto;
     text-align: center;
-    padding: 10px 20px;
+    padding: 12px 25px;
     background: #333;
-    color: white;
+    color: var(--primary-color); /* Neonowy tekst */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s, color 0.3s;
+    border: 1px solid #333;
 }
 
 .back-button:hover {
     background: #555;
+    color: white;
 }
 
+.profile p a { /* Styl linków w tekście */
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.profile p a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Footer (optional, based on your index.html style) */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: var(--background-darker);
+    color: #888;
+    width: 100%;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(0, 255, 192, 0.2);
+}
+
+/* Google Translate - Adjust for dark theme */
 #google_translate_element {
-    position: fixed;    /* Stała pozycja */
-    top: 10px;          /* Odstęp od góry */
-    right: 10px;        /* Odstęp od prawej */
-    z-index: 1000;      /* Wysoki priorytet wyświetlania */
-    background: rgba(255, 255, 255, 0.8); /* Delikatne tło */
-    padding: 5px 10px;  /* Dodatkowe przestrzenie wokół przycisku */
-    border-radius: 5px; /* Zaokrąglone rogi */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cień wokół przycisku */
-    font-size: 12px;    /* Mniejsza czcionka */
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: rgba(30, 30, 30, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
 }
 
 #google_translate_element select {
-    background-color: #fff; /* Kolor tła rozwijanego menu */
-    color: #333;            /* Kolor tekstu */
-    border: 1px solid #ccc; /* Obramowanie */
-    padding: 3px;           /* Mniejsze przestrzenie */
-    border-radius: 5px;     /* Zaokrąglone rogi */
-    font-size: 12px;        /* Mniejsza czcionka */
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid var(--primary-color);
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
 }
