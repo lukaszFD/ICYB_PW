@@ -1,60 +1,106 @@
-/* General body styles */
+/* General styles - Adapted to Dark Theme from main.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Consolas', monospace; /* Technical font */
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    color: #333;
-    background: #f4f4f4;
+    color: #e0e0e0; /* Light text color */
+    background: #121212; /* Dark background */
+}
+
+/* Define a primary accent color */
+:root {
+    --primary-color: #00FFC0; /* Neon Cyan/Green from main.css */
+    --background-dark: #1e1e1e;
+    --background-darker: #000000;
 }
 
 /* Header styling */
 header {
-    background: #0078D7;
+    background: var(--background-darker); /* Black background */
     color: white;
     text-align: center;
     padding: 20px 0;
+    border-bottom: 2px solid var(--primary-color); /* Neon accent line */
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
     font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(0, 255, 192, 0.7); /* Neon glow */
 }
 
-/* Content Section Styles */
+/* Content Section Styles - Main content container for test categories */
 .content-section {
-    background: white;
+    background: var(--background-dark); /* Slightly lighter dark background */
     margin: 20px auto;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 192, 0.2); /* Neon shadow */
     max-width: 800px;
+    border: 1px solid rgba(0, 255, 192, 0.2); /* Subtle border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dodanie delikatnego efektu hover na sekcjach */
+.content-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 255, 192, 0.4);
 }
 
 .content-section h3 {
     font-size: 1.5em;
-    color: #0078D7;
+    color: white; /* Biały tekst, żeby się wyróżniał na ciemnym tle sekcji */
     margin-bottom: 15px;
+    border-bottom: 1px dashed var(--primary-color); /* Neonowy separator */
+    padding-bottom: 5px;
 }
 
 .content-section ul {
-    list-style: none;
+    list-style: none; /* Usunięcie domyślnych kropek */
     padding-left: 0;
 }
 
 .content-section li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    /* Neonowa kropka / punktor */
+    position: relative;
+    padding-left: 15px;
 }
+
+.content-section li::before {
+    content: "»"; /* Użycie własnego symbolu jako punktora */
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2em;
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+
 
 .content-section a {
     text-decoration: none;
-    color: #0078D7;
+    color: var(--primary-color);
     transition: color 0.3s ease;
 }
 
 .content-section a:hover {
-    color: #005bb5;
+    color: white;
+    text-decoration: underline;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: var(--background-darker);
+    color: #888;
+    width: 100%;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(0, 255, 192, 0.2);
 }
 
 /* Back to Main Page Button */
@@ -62,37 +108,38 @@ header h1 {
     display: inline-block;
     margin: 20px auto;
     text-align: center;
-    padding: 10px 20px;
-    background: #333;
-    color: white;
+    padding: 12px 25px;
+    background: var(--primary-color);
+    color: #121212; /* Dark text on bright button */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 192, 0.5);
+    transition: background 0.3s, box-shadow 0.3s;
 }
 
 .back-button:hover {
-    background: #555;
+    background: #00E0A0;
+    box-shadow: 0 0 15px rgba(0, 255, 192, 0.8);
 }
 
-/* Google Translate Styling */
+/* Google Translate Styling - Adapted for dark theme */
 #google_translate_element {
     position: fixed;
     top: 10px;
     right: 10px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(30, 30, 30, 0.8);
     padding: 5px 10px;
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     font-size: 12px;
 }
 
 #google_translate_element select {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid var(--primary-color);
     padding: 3px;
     border-radius: 5px;
     font-size: 12px;

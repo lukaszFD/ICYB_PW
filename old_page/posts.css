@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #0078D7;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+main {
+    padding: 1rem;
+    max-width: 800px;
+    margin: auto;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+a {
+    display: flex;
+    align-items: flex-start;
+    color: #333;
+    text-decoration: none;
+    width: 100%;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.text {
+    display: inline-block;
+    word-wrap: break-word; /* Łamie długie słowa */
+    max-width: calc(100% - 110px); /* Unika nachodzenia na obrazek */
+    white-space: pre-wrap; /* Pozwala na przejście do nowej linii */
+    line-height: 1.5;
+}
+
+footer {
+    text-align: center; /* Wycentrowanie przycisku w stopce */
+    padding: 1rem;
+    background-color: #f1f1f1;
+    margin-top: 2rem;
+}
+
+/* Back to Main Page Button */
+.back-button {
+    display: inline-block;
+    margin: 20px 0; /* Wyśrodkowanie przycisku w stopce */
+    text-align: center;
+    padding: 10px 20px;
+    background: #333; /* Ciemnoszare tło */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Cień wokół przycisku */
+    transition: background 0.3s; /* Płynne przejście dla tła */
+    width: 150px; 
+}
+
+.back-button:hover {
+    background: #555; /* Ciemniejszy odcień przycisku na hover */
+}

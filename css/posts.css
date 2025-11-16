@@ -1,16 +1,35 @@
+/* General styles - Adapted to Dark Theme from main.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Consolas', monospace; /* Technical font */
+    line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    color: #e0e0e0; /* Light text color */
+    background-color: #121212; /* Dark background */
 }
 
+/* Define a primary accent color */
+:root {
+    --primary-color: #00FFC0; /* Neon Cyan/Green from main.css */
+    --background-dark: #1e1e1e;
+    --background-darker: #000000;
+}
+
+/* Header styling */
 header {
-    background-color: #0078D7;
-    color: #fff;
+    background: var(--background-darker); /* Black background */
+    color: white;
     padding: 1rem;
     text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(0, 255, 192, 0.7); /* Neon glow */
+    margin: 0;
 }
 
 main {
@@ -24,22 +43,29 @@ ul {
     padding: 0;
 }
 
+/* List Item (Post Container) Styling */
 li {
     display: flex;
     align-items: flex-start;
     margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(0, 255, 192, 0.2); /* Neon border */
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    background-color: var(--background-dark); /* Dark container background */
+    box-shadow: 0 0 15px rgba(0, 255, 192, 0.1); /* Subtle neon shadow */
+    padding: 15px; /* Zwiększone wewnętrzne marginesy */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+li:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 192, 0.4); /* Wzmocnienie cienia na hover */
+    transform: translateY(-3px);
 }
 
 a {
     display: flex;
     align-items: flex-start;
-    color: #333;
+    color: #e0e0e0; /* Jasny tekst dla linku */
     text-decoration: none;
     width: 100%;
 }
@@ -48,41 +74,69 @@ img {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    margin-right: 10px;
+    margin-right: 15px; /* Zwiększony odstęp od tekstu */
     border-radius: 5px;
+    border: 1px solid var(--primary-color); /* Neonowa ramka */
 }
 
 .text {
     display: inline-block;
-    word-wrap: break-word; /* Łamie długie słowa */
-    max-width: calc(100% - 110px); /* Unika nachodzenia na obrazek */
-    white-space: pre-wrap; /* Pozwala na przejście do nowej linii */
+    word-wrap: break-word;
+    max-width: calc(100% - 115px);
+    white-space: pre-wrap;
     line-height: 1.5;
+    font-size: 1.1em;
 }
 
+.text:hover {
+    color: var(--primary-color); /* Neonowy akcent tekstu na hover */
+}
+
+/* Footer styling */
 footer {
-    text-align: center; /* Wycentrowanie przycisku w stopce */
+    text-align: center;
     padding: 1rem;
-    background-color: #f1f1f1;
+    background: var(--background-darker);
+    color: #888;
+    width: 100%;
     margin-top: 2rem;
+    border-top: 1px solid rgba(0, 255, 192, 0.2);
 }
 
-/* Back to Main Page Button */
+/* Back to Main Page Button (assuming there is one in the footer) */
 .back-button {
     display: inline-block;
-    margin: 20px 0; /* Wyśrodkowanie przycisku w stopce */
+    margin: 20px auto;
     text-align: center;
-    padding: 10px 20px;
-    background: #333; /* Ciemnoszare tło */
-    color: white;
+    padding: 12px 25px;
+    background: var(--primary-color);
+    color: #121212;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Cień wokół przycisku */
-    transition: background 0.3s; /* Płynne przejście dla tła */
-    width: 150px; 
+    box-shadow: 0 0 10px rgba(0, 255, 192, 0.5);
+    transition: background 0.3s;
 }
 
 .back-button:hover {
-    background: #555; /* Ciemniejszy odcień przycisku na hover */
+    background: #00E0A0;
+    box-shadow: 0 0 15px rgba(0, 255, 192, 0.8);
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 600px) {
+    li {
+        flex-direction: column; /* Ułożenie w pionie na małych ekranach */
+        align-items: center;
+        padding: 10px;
+    }
+    img {
+        width: 90%;
+        height: auto;
+        margin: 0 0 10px 0;
+    }
+    .text {
+        max-width: 100%;
+        text-align: center;
+    }
 }

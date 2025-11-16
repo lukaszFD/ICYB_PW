@@ -1,0 +1,99 @@
+/* General body styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background: #f4f4f4;
+}
+
+/* Header styling */
+header {
+    background: #0078D7;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+/* Content Section Styles */
+.content-section {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+.content-section h3 {
+    font-size: 1.5em;
+    color: #0078D7;
+    margin-bottom: 15px;
+}
+
+.content-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.content-section li {
+    margin-bottom: 10px;
+}
+
+.content-section a {
+    text-decoration: none;
+    color: #0078D7;
+    transition: color 0.3s ease;
+}
+
+.content-section a:hover {
+    color: #005bb5;
+}
+
+/* Back to Main Page Button */
+.back-button {
+    display: inline-block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+.back-button:hover {
+    background: #555;
+}
+
+/* Google Translate Styling */
+#google_translate_element {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+}
+
+#google_translate_element select {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+}
