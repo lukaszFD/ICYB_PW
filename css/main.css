@@ -204,3 +204,75 @@ footer {
     border-radius: 5px;
     font-size: 12px;
 }
+
+/* --- RESPONSIVE DESIGN (Media Queries) --- */
+@media (max-width: 768px) {
+    /* General styles for smaller screens */
+    body {
+        font-size: 14px; /* Slightly smaller base font for mobile readability */
+    }
+
+    /* Header adjustments */
+    header {
+        height: 25vh; /* Reduce header height on mobile */
+    }
+
+    header h1 {
+        font-size: 2rem; /* Reduce main title font size */
+        padding: 0 10px; /* Add some padding to prevent text overflow */
+    }
+
+    header p {
+        font-size: 1rem; /* Reduce subtitle font size */
+    }
+
+    /* Navigation Bar adjustment */
+    nav {
+        /* Change from flex (row) to a column layout */
+        flex-direction: column;
+        align-items: center; /* Center links in the column */
+        padding: 0.5rem 0;
+    }
+
+    nav a {
+        /* Make links take full width and add vertical padding */
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separator line between links */
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+
+    /* Remove the last border for cleaner look */
+    nav a:last-child {
+        border-bottom: none;
+    }
+
+    /* Main content padding adjustment */
+    main {
+        padding: 1rem;
+    }
+
+    /* Section headings font size */
+    main h2 {
+        font-size: 1.8rem;
+    }
+
+    main h3 {
+        font-size: 1.4rem;
+    }
+
+    /* Updates section list items */
+    #update-list li {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+
+    /* Google Translate adjustment */
+    #google_translate_element {
+        top: 5px;
+        right: 5px;
+        transform: scale(0.85); /* Slightly shrink the widget to save space */
+        padding: 3px 5px;
+    }
+}
